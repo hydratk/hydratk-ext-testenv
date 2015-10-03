@@ -13,6 +13,17 @@ import lxml.etree
 import jsonlib2
 
 class Customer:
+    """Customer entity class
+        
+        Args:
+           name - string, mandatory
+           status - string, mandatory
+           segment - int, mandatory           
+           birth_no - string, optional
+           reg_no - string, optional
+           tax_no - string, optional              
+                
+    """     
     
     def __init__(self, id, name, status, segment, birth_no=None, reg_no=None, tax_no=None):
         
@@ -83,6 +94,16 @@ class Customer:
         return jsonlib2.write(root);           
     
 class Payer:
+    """Payer entity class
+        
+        Args:
+           name - string, mandatory
+           status - string, mandatory
+           billcycle - int, mandatory
+           bank_account - string, optional
+           customer - int, mandatory       
+                
+    """     
     
     def __init__(self, id, name, status, billcycle, customer, bank_account=None):
         
@@ -139,7 +160,7 @@ class Payer:
             root['status'] = self.status;
         if (self.billcycle != None):
             root['billcycle'] = self.billcycle;
-        if (self.bankAccount != None):
+        if (self.bank_account != None):
             root['bank_account'] = self.bank_account;
         if (self.customer != None):
             root['customer'] = self.customer;
@@ -147,6 +168,18 @@ class Payer:
         return jsonlib2.write(root);            
             
 class Subscriber:
+    """Subscriber entity class
+        
+        Args:
+           name - string, mandatory
+           msisdn - string, mandatory
+           status - string, mandatory
+           market - int, mandatory
+           tariff - int, mandatory
+           customer - int, mandatory
+           payer - int, mandatory       
+                
+    """        
     
     def __init__(self, id, name, msisdn, status, market, tariff, customer, payer):
         
@@ -223,8 +256,17 @@ class Subscriber:
         return jsonlib2.write(root);    
             
 class Contact:
+    """Contact entity class
+        
+        Args:
+           name - string, mandatory
+           phone - string, optional
+           email - string, optional
+           roles - list of ContactRole, optional     
+                
+    """        
     
-    def __init__(self, id, name, phone=None, email=None, roles={}):
+    def __init__(self, id, name, phone=None, email=None, roles=[]):
         
         self.id = id;
         self.name = name;
@@ -276,11 +318,32 @@ class Contact:
         if (self.phone != None):
             root['phone'] = self.phone;
         if (self.email != None):
-            root['email'] = self.email;       
+            root['email'] = self.email; 
+                      
+        if (len(self.roles) > 0): 
+            el_roles = [];
+                                               
+            for role in self.roles:  
+                el_role = {'id': role.id, 'title': role.title,
+                           'customer': role.customer, 'payer': role.payer,
+                           'subscriber': role.subscriber};
+                el_roles.append(el_role);           
+  
+            root['roles'] = {'role' : el_roles};              
 
         return jsonlib2.write(root);      
         
 class ContactRole:
+    """ContactRole entity class
+        
+        Args:
+           id - int, mandatory
+           title - string, mandatory
+           customer - int, optional
+           payer - int, optional
+           subscriber - int, optional     
+                
+    """        
     
     def __init__(self, id, title, customer=None, payer=None, subscriber=None):
         
@@ -339,6 +402,16 @@ class ContactRole:
         return jsonlib2.write(root);               
         
 class Address:
+    """Address entity class
+        
+        Args:
+           street - string, mandatory
+           street_no - string, mandatory
+           city - string, mandatory
+           zip - int, mandatory
+           roles - list of AddressRole, optional      
+                
+    """        
     
     def __init__(self, id, street, street_no, city, zip, roles={}):
         
@@ -394,16 +467,38 @@ class Address:
             root['id'] = self.id;
         if (self.street != None):
             root['street'] = self.street;
-        if (self.streetNo != None):
+        if (self.street_no != None):
             root['street_no'] = self.street_no;
         if (self.city != None):
             root['city'] = self.city;
         if (self.zip != None):
-            root['zip'] = self.zip;            
+            root['zip'] = self.zip;      
+            
+        if (len(self.roles) > 0): 
+            el_roles = [];
+                                               
+            for role in self.roles:  
+                el_role = {'id': role.id, 'title': role.title,
+                           'contact': role.contact, 'customer': role.customer, 
+                           'payer': role.payer, 'subscriber': role.subscriber};
+                el_roles.append(el_role);                
+  
+            root['roles'] = {'role' : el_roles};                   
 
         return jsonlib2.write(root);     
             
 class AddressRole:
+    """AddressRole entity class
+        
+        Args:
+           id - int, mandatory
+           title - string, mandatory
+           contact - int, optional
+           customer - int, optional
+           payer - int, optional
+           subscriber - int, optional     
+                
+    """        
     
     def __init__(self, id, title, contact=None, customer=None, payer=None, subscriber=None):
         
@@ -468,6 +563,15 @@ class AddressRole:
         return jsonlib2.write(root);         
     
 class Service:
+    """Service entity class
+        
+        Args:
+           id - int, mandatory
+           name - string, mandatory
+           status - string, mandatory
+           params - dictionary key:value, optional      
+                
+    """        
     
     def __init__(self, id, name, status, params={}):
         
@@ -487,21 +591,51 @@ class Service:
                 
         return s;
     
-class ServiceOperation:
-    
-    def __init__(self, customer, payer, subscriber, service, status, params):
+    def tojson(self):
         
+        root = {}
+        
+        root['id'] = self.id;
+        root['name'] = self.name;
+        root['status'] = self.status;
+                
+        el_params = [];             
+        for key, value in self.params.items():  
+            param = {}; 
+            param['key'] = key;
+            param['value'] = value;
+            el_params.append(param);           
+  
+        root['params'] = {'entry' : el_params}; 
+        
+        return jsonlib2.write(root);        
+    
+class ServiceOperation:
+    """ServiceOperation entity class
+        
+        Args:
+           service - int, mandatory
+           customer - int, optional
+           payer - int, optional
+           subscriber - int, optional
+           status - string, optional
+           params - dictionary key:value, optional      
+                
+    """        
+    
+    def __init__(self, service, customer=None, payer=None, subscriber=None, status=None, params={}):
+        
+        self.service = service;
         self.customer = customer;
         self.payer = payer;
-        self.subscriber = subscriber;
-        self.service = service;
+        self.subscriber = subscriber;        
         self.status = status;
         self.params = params;  
         
     def __str__(self):
         
-        s = u'customer:{0}|payer:{1}|subscriber:{2}'.format(self.customer, self.payer, self.subscriber) + \
-            u'|service:{0}|status:{1}|params#'.format(self.service, self.status);
+        s = u'service:{0}|customer:{1}|payer:{2}'.format(self.service, self.customer, self.payer) + \
+            u'|subscriber:{0}|status:{1}|params#'.format(self.subscriber, self.status);
         
         if (len(self.params) > 0):
             
@@ -559,13 +693,13 @@ class ServiceOperation:
         if (self.status != None):
             root['status'] = self.status;  
                 
-        elParams = [];             
+        el_params = [];             
         for key, value in self.params.items():  
             param = {}; 
             param['key'] = key;
             param['value'] = value;
-            elParams.append(param);           
+            el_params.append(param);           
   
-        root['params'] = {'entry' : elParams}; 
+        root['params'] = {'entry' : el_params}; 
         
         return jsonlib2.write(root);                                          

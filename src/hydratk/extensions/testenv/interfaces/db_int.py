@@ -18,7 +18,7 @@ class DB_INT():
     _db_file = None;
     _conn = None;
     
-    def __init__(self,_mh):
+    def __init__(self, _mh):
         
         self._mh = _mh;
         self._db_file = self._mh.cfg['Extensions']['TestEnv']['db_file'];
@@ -173,13 +173,20 @@ class DB_INT():
             msg = 'params - id:{0}, name:{1}, status:{2}, segment:{3}, birth_no:{4}, reg_no:{5}, tax_no:{6}';
             self._mh.dmsg('htk_on_debug_info', msg.format(id, name, status, segment, birth_no, reg_no, tax_no), self._mh.fromhere());
                         
-            query = 'UPDATE customer SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';
+            query = 'SELECT COUNT(*) FROM customer WHERE id = ?;';
+            cur = self._conn.cursor();
+            cur.execute(query, (id, ));
+            row = cur.fetchone();
+            if (row[0] == 0):
+                self._mh.dmsg('htk_on_debug_info', 'customer {0} not found'.format(id), self._mh.fromhere());
+                return False;         
+                        
+            query = 'UPDATE customer SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';                    
             
             if (name != None):
                 self._conn.execute(query.format('name = ?'), (name, id));
             if (status != None):
-                query2 = 'SELECT id FROM lov_status WHERE title = ?;';
-                cur = self._conn.cursor();
+                query2 = 'SELECT id FROM lov_status WHERE title = ?;';                
                 cur.execute(query2, (status, ));
                 row = cur.fetchone();
                 status_id = row[0] if (row != None) else None;             
@@ -314,6 +321,14 @@ class DB_INT():
             
             msg = 'params - id:{0}, name:{1}, status:{2}, billcycle:{3}, bank_account:{4}, customer:{5}';
             self._mh.dmsg('htk_on_debug_info', msg.format(id, name, status, billcycle, bank_account, customer), self._mh.fromhere());
+              
+            query = 'SELECT COUNT(*) FROM payer WHERE id = ?;';
+            cur = self._conn.cursor();
+            cur.execute(query, (id, ));
+            row = cur.fetchone();
+            if (row[0] == 0):
+                self._mh.dmsg('htk_on_debug_info', 'payer {0} not found'.format(id), self._mh.fromhere());
+                return False;               
                                        
             query = 'UPDATE payer SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';
             
@@ -321,7 +336,6 @@ class DB_INT():
                 self._conn.execute(query.format('name = ?'), (name, id));
             if (status != None):
                 query2 = 'SELECT id FROM lov_status WHERE title = ?;';
-                cur = self._conn.cursor();
                 cur.execute(query2, (status, ));
                 row = cur.fetchone();
                 status_id = row[0] if (row != None) else None;              
@@ -458,6 +472,14 @@ class DB_INT():
             
             msg = 'params - id:{0}, name:{1}, msisdn:{2}, status:{3}, market:{4}, tariff:{5}, customer:{6}, payer:{7}';
             self._mh.dmsg('htk_on_debug_info', msg.format(id, name, msisdn, status, market, tariff, customer, payer), self._mh.fromhere());
+              
+            query = 'SELECT COUNT(*) FROM subscriber WHERE id = ?;';
+            cur = self._conn.cursor();
+            cur.execute(query, (id, ));
+            row = cur.fetchone();
+            if (row[0] == 0):
+                self._mh.dmsg('htk_on_debug_info', 'subscriber {0} not found'.format(id), self._mh.fromhere());
+                return False;               
                                       
             query = 'UPDATE subscriber SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';
             
@@ -467,7 +489,6 @@ class DB_INT():
                 self._conn.execute(query.format('msisdn = ?'), (msisdn, id));                
             if (status != None):
                 query2 = 'SELECT id FROM lov_status WHERE title = ?;';
-                cur = self._conn.cursor();
                 cur.execute(query2, (status, ));
                 row = cur.fetchone();
                 status_id = row[0] if (row != None) else None;              
@@ -514,9 +535,9 @@ class DB_INT():
             self._mh.dmsg('htk_on_debug_info', 'params - id:{0}'.format(id), self._mh.fromhere());            
             query = 'SELECT a.id, a.name, a.phone, a.email, ' + \
                     'c.title, b.customer, b.payer, b.subscriber ' + \
-                    'FROM contact a, contact_role b, lov_contact_role c ' + \
-                    'WHERE a.id = ? AND a.id = b.contact ' + \
-                    'AND b.contact_role = c.id;';
+                    'FROM contact a LEFT JOIN contact_role b ON a.id = b.contact ' + \
+                    'LEFT JOIN lov_contact_role c ON b.contact_role = c.id ' + \
+                    'WHERE a.id = ?';
                     
             self._conn.row_factory = db.Row; 
             cur = self._conn.cursor();
@@ -535,7 +556,7 @@ class DB_INT():
             roles = [];
             
             for row in rows:
-                
+                           
                 if (first):
                     
                     id = row['id'];
@@ -544,9 +565,9 @@ class DB_INT():
                     email = row['email'];
                     first = False; 
                     
-                else:          
+                if (row['title'] != None):
                     roles.append(crm.ContactRole(row['id'], row['title'], row['customer'],
-                                                 row['payer'], row['subscriber']))
+                                                 row['payer'], row['subscriber']));   
 
             contact = crm.Contact(id, name, phone, email, roles);
             self._mh.dmsg('htk_on_debug_info', 'contact - {0}'.format(contact), self._mh.fromhere());                       
@@ -615,6 +636,14 @@ class DB_INT():
             
             msg = 'params - id:{0}, name:{1}, phone:{2}, email:{3}';
             self._mh.dmsg('htk_on_debug_info', msg.format(id, name, phone, email), self._mh.fromhere());            
+            
+            query = 'SELECT COUNT(*) FROM contact WHERE id = ?;';
+            cur = self._conn.cursor();
+            cur.execute(query, (id, ));
+            row = cur.fetchone();
+            if (row[0] == 0):
+                self._mh.dmsg('htk_on_debug_info', 'contact {0} not found'.format(id), self._mh.fromhere());
+                return False;             
             
             query = 'UPDATE contact SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';
             
@@ -766,9 +795,9 @@ class DB_INT():
             self._mh.dmsg('htk_on_debug_info', 'params - id:{0}'.format(id), self._mh.fromhere());            
             query = 'SELECT a.id, a.street, a.street_no, a.city, a.zip, ' + \
                     'c.title, b.contact, b.customer, b.payer, b.subscriber ' + \
-                    'FROM address a, address_role b, lov_address_role c ' + \
-                    'WHERE a.id = ? AND a.id = b.address ' + \
-                    'AND b.address_role = c.id;';
+                    'FROM address a LEFT JOIN address_role b ON a.id = b.address ' + \
+                    'LEFT JOIN lov_address_role c ON b.address_role = c.id ' + \
+                    'WHERE a.id = ?;';
                     
             self._conn.row_factory = db.Row; 
             cur = self._conn.cursor();
@@ -798,9 +827,9 @@ class DB_INT():
                     zip = row['zip'];
                     first = False; 
                     
-                else:          
-                    roles.append(crm.AddressRole(row['id'], row['title'], row['contact'], row['customer'],
-                                                 row['payer'], row['subscriber']))
+                if (row['title'] != None):
+                    roles.append(crm.AddressRole(row['id'], row['title'], row['contact'], 
+                                                 row['customer'], row['payer'], row['subscriber']));
 
             address = crm.Address(id, street, street_no, city, zip, roles);
             self._mh.dmsg('htk_on_debug_info', 'address - {0}'.format(address), self._mh.fromhere()); 
@@ -872,6 +901,14 @@ class DB_INT():
             
             msg = 'params - id:{0}, street:{1}, street_no:{2}, city:{3}, zip:{4}';
             self._mh.dmsg('htk_on_debug_info', msg.format(id, street, street_no, city, zip), self._mh.fromhere());              
+            
+            query = 'SELECT COUNT(*) FROM address WHERE id = ?;';
+            cur = self._conn.cursor();
+            cur.execute(query, (id, ));
+            row = cur.fetchone();
+            if (row[0] == 0):
+                self._mh.dmsg('htk_on_debug_info', 'address {0} not found'.format(id), self._mh.fromhere());
+                return False;             
             
             query = 'UPDATE address SET {0}, modify_date = CURRENT_TIMESTAMP WHERE id = ?;';
             

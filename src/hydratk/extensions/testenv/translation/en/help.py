@@ -15,8 +15,9 @@ language = {
 
 ''' TestEnv Commands '''
 help_cmd = {
-    'install-db' : 'install database',
-    'run-bist' : 'run builtin self test'
+    'testenv-install-db' : 'install database',
+    'testenv-start-server' : 'start web server',
+    'testenv-run-bist' : 'run builtin self test'
 }
 
 ''' TestEnv Options '''

@@ -27,6 +27,13 @@ classifiers = [
 packages=[
           'hydratk.extensions.testenv', 
          ];
+         
+requires = [
+            'web.py',
+            'httplib2',
+            'lxml',
+            'jsonlib2'
+           ];           
                 
 setup(name='Hydratk-TestEnv',
       version='0.1.0',

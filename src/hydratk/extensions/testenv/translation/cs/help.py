@@ -15,8 +15,9 @@ language = {
 
 ''' TestEnv Commands '''
 help_cmd = {
-    'install-db' : 'instalovat databázi',
-    'run-bist' : 'spustit zabudovaný test'
+    'testenv-install-db' : 'instalovat databázi',
+    'testenv-start-server' : 'spustit web server',
+    'testenv-run-bist' : 'spustit zabudovaný test'
 }
 
 ''' TestEnv Options '''
