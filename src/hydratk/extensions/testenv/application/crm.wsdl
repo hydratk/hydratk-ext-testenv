@@ -1,0 +1,526 @@
+<definitions targetNamespace="http://hydratk.org/" name="crm" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://hydratk.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+   <types>
+      <xsd:schema>
+         <xsd:import namespace="http://hydratk.org/" schemaLocation="http://0.0.0.0:8888/ws/crm?xsd"/>
+      </xsd:schema>
+   </types> 
+   <message name="SoapFault">
+      <part name="fault" element="tns:SoapFault"/>
+   </message>    
+   <message name="read_customer">
+      <part name="parameters" element="tns:read_customer"/>
+   </message>
+   <message name="read_customer_response">
+      <part name="parameters" element="tns:read_customer_response"/>
+   </message>   
+   <message name="create_customer">
+      <part name="parameters" element="tns:create_customer"/>
+   </message>
+   <message name="create_customer_response">
+      <part name="parameters" element="tns:create_customer_response"/>
+   </message>   
+   <message name="change_customer">
+      <part name="parameters" element="tns:change_customer"/>
+   </message>
+   <message name="change_customer_response">
+      <part name="parameters" element="tns:change_customer_response"/>
+   </message>     
+   <message name="read_payer">
+      <part name="parameters" element="tns:read_payer"/>
+   </message>
+   <message name="read_payer_response">
+      <part name="parameters" element="tns:read_payer_response"/>
+   </message>   
+   <message name="create_payer">
+      <part name="parameters" element="tns:create_payer"/>
+   </message>
+   <message name="create_payer_response">
+      <part name="parameters" element="tns:create_payer_response"/>
+   </message>
+   <message name="change_payer">
+      <part name="parameters" element="tns:change_payer"/>
+   </message>
+   <message name="change_payer_response">
+      <part name="parameters" element="tns:change_payer_response"/>
+   </message>   
+   <message name="read_subscriber">
+      <part name="parameters" element="tns:read_subscriber"/>
+   </message>
+   <message name="read_subscriber_response">
+      <part name="parameters" element="tns:read_subscriber_response"/>
+   </message>   
+   <message name="create_subscriber">
+      <part name="parameters" element="tns:create_subscriber"/>
+   </message>
+   <message name="create_subscriber_response">
+      <part name="parameters" element="tns:create_subscriber_response"/>
+   </message>   
+   <message name="change_subscriber">
+      <part name="parameters" element="tns:change_subscriber"/>
+   </message>
+   <message name="change_subscriber_response">
+      <part name="parameters" element="tns:change_subscriber_response"/>
+   </message>   
+   <message name="read_contact">
+      <part name="parameters" element="tns:read_contact"/>
+   </message>
+   <message name="read_contact_response">
+      <part name="parameters" element="tns:read_contact_response"/>
+   </message>   
+   <message name="create_contact">
+      <part name="parameters" element="tns:create_contact"/>
+   </message>
+   <message name="create_contact_response">
+      <part name="parameters" element="tns:create_contact_response"/>
+   </message>   
+   <message name="change_contact">
+      <part name="parameters" element="tns:change_contact"/>
+   </message>
+   <message name="change_contact_response">
+      <part name="parameters" element="tns:change_contact_response"/>
+   </message>   
+   <message name="assign_contact_role">
+      <part name="parameters" element="tns:assign_contact_role"/>
+   </message>
+   <message name="assign_contact_role_response">
+      <part name="parameters" element="tns:assign_contact_role_response"/>
+   </message>   
+   <message name="revoke_contact_role">
+      <part name="parameters" element="tns:revoke_contact_role"/>
+   </message>
+   <message name="revoke_contact_role_response">
+      <part name="parameters" element="tns:revoke_contact_role_response"/>
+   </message>
+   <message name="read_address">
+      <part name="parameters" element="tns:read_address"/>
+   </message>
+   <message name="read_address_response">
+      <part name="parameters" element="tns:read_address_response"/>
+   </message>   
+   <message name="create_address">
+      <part name="parameters" element="tns:create_address"/>
+   </message>
+   <message name="create_address_response">
+      <part name="parameters" element="tns:create_address_response"/>
+   </message>   
+   <message name="change_address">
+      <part name="parameters" element="tns:change_address"/>
+   </message>
+   <message name="change_address_response">
+      <part name="parameters" element="tns:change_address_response"/>
+   </message>   
+   <message name="assign_address_role">
+      <part name="parameters" element="tns:assign_address_role"/>
+   </message>
+   <message name="assign_address_role_response">
+      <part name="parameters" element="tns:assign_address_role_response"/>
+   </message>
+   <message name="revoke_address_role">
+      <part name="parameters" element="tns:revoke_address_role"/>
+   </message>
+   <message name="revoke_address_role_response">
+      <part name="parameters" element="tns:revoke_address_role_response"/>
+   </message>
+   <message name="read_services">
+      <part name="parameters" element="tns:read_services"/>
+   </message>
+   <message name="read_services_response">
+      <part name="parameters" element="tns:read_services_response"/>
+   </message>   
+   <message name="create_service">
+      <part name="parameters" element="tns:create_service"/>
+   </message>
+   <message name="create_service_response">
+      <part name="parameters" element="tns:create_service_response"/>
+   </message>      
+   <message name="change_service">
+      <part name="parameters" element="tns:change_service"/>
+   </message>
+   <message name="change_service_response">
+      <part name="parameters" element="tns:change_service_response"/>
+   </message>
+   <portType name="crm">
+      <operation name="read_customer">
+         <input wsam:Action="read_customer" message="tns:read_customer"/>
+         <output wsam:Action="read_customer_response" message="tns:read_customer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_customer/Fault/SoapFault"/>
+      </operation>
+      <operation name="create_customer">
+         <input wsam:Action="create_customer" message="tns:create_customer"/>
+         <output wsam:Action="create_customer_response" message="tns:create_customer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_customer/Fault/SoapFault"/>
+      </operation>
+      <operation name="change_customer">
+         <input wsam:Action="change_customer" message="tns:change_customer"/>
+         <output wsam:Action="change_customer_response" message="tns:change_customer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_customer/Fault/SoapFault"/>
+      </operation>  
+      <operation name="read_payer">
+         <input wsam:Action="read_payer" message="tns:read_payer"/>
+         <output wsam:Action="read_payer_response" message="tns:read_payer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_payer/Fault/SoapFault"/>
+      </operation>      
+      <operation name="create_payer">
+         <input wsam:Action="create_payer" message="tns:create_payer"/>
+         <output wsam:Action="create_payer_response" message="tns:create_payer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_payer/Fault/SoapFault"/>
+      </operation>      
+      <operation name="change_payer">
+         <input wsam:Action="change_payer" message="tns:change_payer"/>
+         <output wsam:Action="change_payer_response" message="tns:change_payer_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_payer/Fault/SoapFault"/>
+      </operation>      
+      <operation name="read_subscriber">
+         <input wsam:Action="read_subscriber" message="tns:read_subscriber"/>
+         <output wsam:Action="read_subscriber_response" message="tns:read_subscriber_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_subscriber/Fault/SoapFault"/>
+      </operation>      
+      <operation name="create_subscriber">
+         <input wsam:Action="create_subscriber" message="tns:create_subscriber"/>
+         <output wsam:Action="create_subscriber_response" message="tns:create_subscriber_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_subscriber/Fault/SoapFault"/>
+      </operation>
+      <operation name="change_subscriber">
+         <input wsam:Action="change_subscriber" message="tns:change_subscriber"/>
+         <output wsam:Action="change_subscriber_response" message="tns:change_subscriber_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_subscriber/Fault/SoapFault"/>
+      </operation>     
+      <operation name="read_contact">
+         <input wsam:Action="read_contact" message="tns:read_contact"/>
+         <output wsam:Action="read_contact_response" message="tns:read_contact_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_contact/Fault/SoapFault"/>
+      </operation>        
+      <operation name="create_contact">
+         <input wsam:Action="create_contact" message="tns:create_contact"/>
+         <output wsam:Action="create_contact_response" message="tns:create_contact_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_contact/Fault/SoapFault"/>
+      </operation> 
+      <operation name="change_contact">
+         <input wsam:Action="change_contact" message="tns:change_contact"/>
+         <output wsam:Action="change_contact_response" message="tns:change_contact_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_contact/Fault/SoapFault"/>
+      </operation>      
+      <operation name="assign_contact_role">
+         <input wsam:Action="assign_contact_role" message="tns:assign_contact_role"/>
+         <output wsam:Action="assign_contact_role_response" message="tns:assign_contact_role_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="assign_contact_role/Fault/SoapFault"/>
+      </operation>    
+      <operation name="revoke_contact_role">
+         <input wsam:Action="revoke_contact_role" message="tns:revoke_contact_role"/>
+         <output wsam:Action="revoke_contact_role_response" message="tns:revoke_contact_role_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="revoke_contact_role/Fault/SoapFault"/>
+      </operation>        
+      <operation name="read_address">
+         <input wsam:Action="read_address" message="tns:read_address"/>
+         <output wsam:Action="read_address_response" message="tns:read_address_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_address/Fault/SoapFault"/>
+      </operation>
+      <operation name="create_address">
+         <input wsam:Action="create_address" message="tns:create_address"/>
+         <output wsam:Action="create_address_response" message="tns:create_address_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_address/Fault/SoapFault"/>
+      </operation>           
+      <operation name="change_address">
+         <input wsam:Action="change_address" message="tns:change_address"/>
+         <output wsam:Action="change_address_response" message="tns:change_address_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_address/Fault/SoapFault"/>
+      </operation>    
+      <operation name="assign_address_role">
+         <input wsam:Action="assign_address_role" message="tns:assign_address_role"/>
+         <output wsam:Action="assign_address_role_response" message="tns:assign_address_role_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="assign_address_role/Fault/SoapFault"/>
+      </operation>      
+      <operation name="revoke_address_role">
+         <input wsam:Action="revoke_address_role" message="tns:revoke_address_role"/>
+         <output wsam:Action="revoke_address_role_response" message="tns:revoke_address_role_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="revoke_address_role/Fault/SoapFault"/>
+      </operation>       
+      <operation name="read_services">
+         <input wsam:Action="read_services" message="tns:read_services"/>
+         <output wsam:Action="read_services_response" message="tns:read_services_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="read_services/Fault/SoapFault"/>
+      </operation>      
+      <operation name="create_service">
+         <input wsam:Action="create_service" message="tns:create_service"/>
+         <output wsam:Action="create_service_response" message="tns:create_service_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="create_service/Fault/SoapFault"/>
+      </operation>       
+      <operation name="change_service">
+         <input wsam:Action="change_service" message="tns:change_service"/>
+         <output wsam:Action="change_service_response" message="tns:change_service_response"/>
+         <fault message="tns:SoapFault" name="SoapFault" wsam:Action="change_service/Fault/SoapFault"/>
+      </operation>               
+   </portType>
+   <binding name="crmPortBinding" type="tns:crm">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <operation name="read_customer">
+         <soap:operation soapAction="read_customer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>         
+      </operation>
+      <operation name="create_customer">
+         <soap:operation soapAction="create_customer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>
+      <operation name="change_customer">
+         <soap:operation soapAction="change_customer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>  
+      <operation name="read_payer">
+         <soap:operation soapAction="read_payer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="create_payer">
+         <soap:operation soapAction="create_payer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="change_payer">
+         <soap:operation soapAction="change_payer"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>
+      <operation name="read_subscriber">
+         <soap:operation soapAction="read_subscriber"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="create_subscriber">
+         <soap:operation soapAction="create_subscriber"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>   
+      <operation name="change_subscriber">
+         <soap:operation soapAction="change_subscriber"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>
+      <operation name="read_contact">
+         <soap:operation soapAction="read_contact"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="create_contact">
+         <soap:operation soapAction="create_contact"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>  
+      <operation name="change_contact">
+         <soap:operation soapAction="change_contact"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>  
+      <operation name="assign_contact_role">
+         <soap:operation soapAction="assign_contact_role"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>   
+      <operation name="revoke_contact_role">
+         <soap:operation soapAction="revoke_contact_role"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>         
+      <operation name="read_address">
+         <soap:operation soapAction="read_address"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>
+      <operation name="create_address">
+         <soap:operation soapAction="create_address"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>              
+      <operation name="change_address">
+         <soap:operation soapAction="change_address"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>
+      <operation name="assign_address_role">
+         <soap:operation soapAction="assign_address_role"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="revoke_address_role">
+         <soap:operation soapAction="revoke_address_role"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>      
+      <operation name="read_services">
+         <soap:operation soapAction="read_services"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>   
+      <operation name="create_service">
+         <soap:operation soapAction="create_service"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>         
+      <operation name="change_service">
+         <soap:operation soapAction="change_service"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+         <fault name="SoapFault">
+            <soap:fault name="SoapFault" use="literal"/>
+         </fault>          
+      </operation>             
+   </binding>
+   <service name="crm">
+      <port name="crmPort" binding="tns:crmPortBinding">
+         <soap:address location="http://0.0.0.0:8888/ws/crm"/>
+      </port>
+   </service>
+</definitions>

@@ -42,7 +42,7 @@ class DB_INT():
             return True;
         
         except db.Error, ex:
-            print ex;
+            self._mh.dmsg('htk_on_extension_error', 'database error: {0}'.format(ex), self._mh.fromhere());
             return False;        
 
     def disconnect(self):
@@ -63,7 +63,7 @@ class DB_INT():
             return True;
         
         except db.Error, ex:
-            print ex;
+            self._mh.dmsg('htk_on_extension_error', 'database error: {0}'.format(ex), self._mh.fromhere());
             return False;        
         
     def read_customer(self, id):

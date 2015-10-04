@@ -16,15 +16,18 @@ import jsonlib2;
 
 class REST_INT():
     
-    _mh = None;    
+    _mh = None; 
+    _ip = None;
+    _url = None;
+    _client = None;   
     
     def __init__(self, _mh):
         
         self._mh = _mh; 
-        self.ip = self._mh.cfg['Extensions']['TestEnv']['server_ip'];
-        self.port = self._mh.cfg['Extensions']['TestEnv']['server_port'];  
-        self.url = 'http://{0}:{1}/rs/'.format(self.ip, self.port);
-        self.client = httplib2.Http();            
+        ip = self._mh.cfg['Extensions']['TestEnv']['server_ip'];
+        port = self._mh.cfg['Extensions']['TestEnv']['server_port'];  
+        self._url = 'http://{0}:{1}/rs/'.format(ip, port);
+        self._client = httplib2.Http();            
         
     def read_customer(self, id):
         """Method reads customer
@@ -41,9 +44,9 @@ class REST_INT():
         
         path = 'customer';
         params = {'id' : id};
-        url = self.url + path + '?' + urllib.urlencode(params);
+        url = self._url + path + '?' + urllib.urlencode(params);
         headers = {'Accept' : 'application/json'};
-        response, content = self.client.request(url, method='GET', headers=headers);
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -78,11 +81,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(name, status, segment, birth_no, reg_no, tax_no), self._mh.fromhere());        
         
         path = 'customer';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};        
         customer = crm.Customer(None, name, status, segment, birth_no, reg_no, tax_no);                        
         body = customer.tojson();         
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'customer {0} created'.format(content), self._mh.fromhere());
@@ -112,11 +115,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, name, status, segment, birth_no, reg_no, tax_no), self._mh.fromhere());         
                
         path = 'customer';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'}        
         customer = crm.Customer(id, name, status, segment, birth_no, reg_no, tax_no);
         body = customer.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'customer changed', self._mh.fromhere());
@@ -140,9 +143,9 @@ class REST_INT():
         
         path = 'payer';
         params = {'id' : id};
-        url = self.url + path + '?' + urllib.urlencode(params);
+        url = self._url + path + '?' + urllib.urlencode(params);
         headers = {'Accept' : 'application/json'};
-        response, content = self.client.request(url, method='GET', headers=headers);
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -176,11 +179,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(name, status, billcycle, bank_account, customer), self._mh.fromhere());                
         
         path = 'payer';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         payer = crm.Payer(None, name, status, billcycle, customer, bank_account);
         body = payer.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'payer {0} created'.format(content), self._mh.fromhere());
@@ -209,11 +212,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, name, status, billcycle, bank_account, customer), self._mh.fromhere());                
         
         path = 'payer';
-        url = self.url + path;        
+        url = self._url + path;        
         headers = {'Content-Type' : 'application/json'};
         payer = crm.Payer(id, name, status, billcycle, customer, bank_account);
         body = payer.tojson();        
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'payer changed', self._mh.fromhere());
@@ -237,9 +240,9 @@ class REST_INT():
         
         path = 'subscriber';
         params = {'id' : id};
-        url = self.url + path + '?' + urllib.urlencode(params);
+        url = self._url + path + '?' + urllib.urlencode(params);
         headers = {'Accept' : 'application/json'};
-        response, content = self.client.request(url, method='GET', headers=headers);
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -275,11 +278,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(name, msisdn, status, market, tariff, customer, payer), self._mh.fromhere());              
         
         path = 'subscriber';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         subscriber = crm.Subscriber(None, name, msisdn, status, market, tariff, customer, payer);
         body = subscriber.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'subscriber {0} created'.format(content), self._mh.fromhere());
@@ -310,11 +313,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, name, msisdn, status, market, tariff, customer, payer), self._mh.fromhere());                   
         
         path = 'subscriber';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         subscriber = crm.Subscriber(id, name, msisdn, status, market, tariff, customer, payer);
         body = subscriber.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'subscriber changed', self._mh.fromhere());
@@ -338,9 +341,9 @@ class REST_INT():
         
         path = 'contact';
         params = {'id' : id};
-        url = self.url + path + '?' + urllib.urlencode(params);
+        url = self._url + path + '?' + urllib.urlencode(params);
         headers = {'Accept' : 'application/json'};
-        response, content = self.client.request(url, method='GET', headers=headers);
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -377,11 +380,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(name, phone, email), self._mh.fromhere());                  
         
         path = 'contact';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         contact = crm.Contact(None, name, phone, email);
         body = contact.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'contact {0} created'.format(content), self._mh.fromhere());
@@ -408,11 +411,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, name, phone, email), self._mh.fromhere());                     
         
         path = 'contact';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         contact = crm.Contact(id, name, phone, email);
         body = contact.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'contact changed', self._mh.fromhere());
@@ -440,11 +443,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, role, customer, payer, subscriber), self._mh.fromhere());                    
         
         path = 'contact/role';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         contact_role = crm.ContactRole(id, role, customer, payer, subscriber);
         body = contact_role.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'contact role assigned', self._mh.fromhere()); 
@@ -472,11 +475,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, role, customer, payer, subscriber), self._mh.fromhere());                 
         
         path = 'contact/role';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         contact_role = crm.ContactRole(id, role, customer, payer, subscriber);
         body = contact_role.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'contact role revoked', self._mh.fromhere()); 
@@ -500,9 +503,9 @@ class REST_INT():
         
         path = 'address';
         params = {'id' : id};
-        url = self.url + path + '?' + urllib.urlencode(params);
+        url = self._url + path + '?' + urllib.urlencode(params);
         headers = {'Accept' : 'application/json'};
-        response, content = self.client.request(url, method='GET', headers=headers);
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -541,11 +544,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(street, street_no, city, zip), self._mh.fromhere());                     
         
         path = 'address';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         address = crm.Address(None, street, street_no, city, zip);
         body = address.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'address {0} created'.format(content), self._mh.fromhere());
@@ -573,11 +576,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, street, street_no, city, zip), self._mh.fromhere());                     
         
         path = 'address';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         address = crm.Address(id, street, street_no, city, zip);
         body = address.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'address changed', self._mh.fromhere());
@@ -606,11 +609,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, role, contact, customer, payer, subscriber), self._mh.fromhere());                     
         
         path = 'address/role';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         address_role = crm.AddressRole(id, role, contact, customer, payer, subscriber);
         body = address_role.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'address role assigned', self._mh.fromhere()); 
@@ -639,11 +642,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(id, role, contact, customer, payer, subscriber), self._mh.fromhere());                 
         
         path = 'address/role';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         address_role = crm.AddressRole(id, role, contact, customer, payer, subscriber);
         body = address_role.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'address role revoked', self._mh.fromhere()); 
@@ -681,8 +684,8 @@ class REST_INT():
         if (service != None):
             params['service'] = service;                                    
         
-        url = self.url + path + '?' + urllib.urlencode(params); 
-        response, content = self.client.request(url, method='GET', headers=headers);
+        url = self._url + path + '?' + urllib.urlencode(params); 
+        response, content = self._client.request(url, method='GET', headers=headers);
 
         if (response.status == 200):
             
@@ -726,11 +729,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(service, customer, payer, subscriber, status, params), self._mh.fromhere());                
         
         path = 'service';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         service_operation = crm.ServiceOperation(service, customer, payer, subscriber, status, params)
         body = service_operation.tojson();
-        response, content = self.client.request(url, method='POST', headers=headers, body=body);              
+        response, content = self._client.request(url, method='POST', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'service created', self._mh.fromhere());
@@ -759,11 +762,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', msg.format(service, customer, payer, subscriber, status, params), self._mh.fromhere());                 
         
         path = 'service';
-        url = self.url + path;
+        url = self._url + path;
         headers = {'Content-Type' : 'application/json'};
         service_operation = crm.ServiceOperation(service, customer, payer, subscriber, status, params);
         body = service_operation.tojson();
-        response, content = self.client.request(url, method='PUT', headers=headers, body=body);              
+        response, content = self._client.request(url, method='PUT', headers=headers, body=body);              
 
         if (response.status == 200):
             self._mh.dmsg('htk_on_debug_info', 'service changed', self._mh.fromhere());

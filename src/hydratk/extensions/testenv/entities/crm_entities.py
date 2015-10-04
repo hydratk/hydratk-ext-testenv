@@ -9,13 +9,14 @@
 
 """
 
-import lxml.etree
+import lxml.etree as e;
 import jsonlib2
 
 class Customer:
     """Customer entity class
         
         Args:
+           id - int, mandatory
            name - string, mandatory
            status - string, mandatory
            segment - int, mandatory           
@@ -41,49 +42,31 @@ class Customer:
             u'|birth_no:{0}|reg_no:{1}|tax_no:{2}'.format(self.birth_no, self.reg_no, self.tax_no);
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('customer');
+        root = e.Element('customer');
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.name != None):
-            elem = lxml.etree.SubElement(root, 'name');
-            elem.text = self.name;
-        if (self.status != None):
-            elem = lxml.etree.SubElement(root, 'status');
-            elem.text = self.status;
-        if (self.segment != None):
-            elem = lxml.etree.SubElement(root, 'segment');
-            elem.text = str(self.segment);
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'name').text = self.name;
+        e.SubElement(root, 'status').text = self.status;
+        e.SubElement(root, 'segment').text = str(self.segment);
         if (self.birth_no != None):
-            elem = lxml.etree.SubElement(root, 'birth_no');
-            elem.text = self.birth_no;
+            e.SubElement(root, 'birth_no').text = self.birth_no;
         if (self.reg_no != None):
-            elem = lxml.etree.SubElement(root, 'reg_no');
-            elem.text = self.reg_no;
+            e.SubElement(root, 'reg_no').text = self.reg_no;
         if (self.tax_no != None):
-            elem = lxml.etree.SubElement(root, 'tax_no');
-            elem.text = self.tax_no;   
+            e.SubElement(root, 'tax_no').text = self.tax_no;   
         
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True); 
-        else:
-            return lxml.etree.tostring(root);
+        return root;
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.name != None):
-            root['name'] = self.name;
-        if (self.status != None):
-            root['status'] = self.status;
-        if (self.segment != None):
-            root['segment'] = self.segment;
+        root['id'] = self.id;
+        root['name'] = self.name;
+        root['status'] = self.status;
+        root['segment'] = self.segment;
         if (self.birth_no != None):
             root['birth_no'] = self.birth_no;
         if (self.reg_no != None):
@@ -97,6 +80,7 @@ class Payer:
     """Payer entity class
         
         Args:
+           id - int, mandatory
            name - string, mandatory
            status - string, mandatory
            billcycle - int, mandatory
@@ -120,50 +104,31 @@ class Payer:
             u'|bank_account:{0}|customer:{1}'.format(self.bank_account, self.customer);  
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('payer');
+        root = e.Element('payer');
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.name != None):
-            elem = lxml.etree.SubElement(root, 'name');
-            elem.text = self.name;
-        if (self.status != None):
-            elem = lxml.etree.SubElement(root, 'status');
-            elem.text = self.status;
-        if (self.billcycle != None):
-            elem = lxml.etree.SubElement(root, 'billcycle');
-            elem.text = str(self.billcycle);
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'name').text = self.name;
+        e.SubElement(root, 'status').text = self.status;
+        e.SubElement(root, 'billcycle').text = str(self.billcycle);
         if (self.bank_account != None):
-            elem = lxml.etree.SubElement(root, 'bank_account');
-            elem.text = self.bank_account;
-        if (self.customer != None):
-            elem = lxml.etree.SubElement(root, 'customer');
-            elem.text = str(self.customer);
+            e.SubElement(root, 'bank_account').text = self.bank_account;
+        e.SubElement(root, 'customer').text = str(self.customer);
         
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True); 
-        else:
-            return lxml.etree.tostring(root); 
+        return root;
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.name != None):
-            root['name'] = self.name;
-        if (self.status != None):
-            root['status'] = self.status;
-        if (self.billcycle != None):
-            root['billcycle'] = self.billcycle;
+        root['id'] = self.id;
+        root['name'] = self.name;
+        root['status'] = self.status;
+        root['billcycle'] = self.billcycle;
         if (self.bank_account != None):
             root['bank_account'] = self.bank_account;
-        if (self.customer != None):
-            root['customer'] = self.customer;
+        root['customer'] = self.customer;
 
         return jsonlib2.write(root);            
             
@@ -171,6 +136,7 @@ class Subscriber:
     """Subscriber entity class
         
         Args:
+           id - int, mandatory
            name - string, mandatory
            msisdn - string, mandatory
            status - string, mandatory
@@ -198,60 +164,33 @@ class Subscriber:
             u'|market:{0}|tariff:{1}|customer:{2}|payer:{3}'.format(self.market, self.tariff, self.customer, self.payer);
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('subscriber')
+        root = e.Element('subscriber')
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.name != None):
-            elem = lxml.etree.SubElement(root, 'name');
-            elem.text = self.name;
-        if (self.msisdn != None):
-            elem = lxml.etree.SubElement(root, 'msisdn');
-            elem.text = self.msisdn;
-        if (self.status != None):
-            elem = lxml.etree.SubElement(root, 'status');
-            elem.text = self.status;
-        if (self.market != None):
-            elem = lxml.etree.SubElement(root, 'market');
-            elem.text = str(self.market);
-        if (self.tariff != None):
-            elem = lxml.etree.SubElement(root, 'tariff');
-            elem.text = str(self.tariff);
-        if (self.customer != None):
-            elem = lxml.etree.SubElement(root, 'customer');
-            elem.text = str(self.customer);
-        if (self.payer != None):
-            elem = lxml.etree.SubElement(root, 'payer');
-            elem.text = str(self.payer);
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'name').text = self.name;
+        e.SubElement(root, 'msisdn').text = self.msisdn;
+        e.SubElement(root, 'status').text = self.status;
+        e.SubElement(root, 'market').text = str(self.market);
+        e.SubElement(root, 'tariff').text = str(self.tariff);
+        e.SubElement(root, 'customer').text = str(self.customer);
+        e.SubElement(root, 'payer').text = str(self.payer);
         
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True);
-        else:
-            return lxml.etree.tostring(root);
+        return root;
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.name != None):
-            root['name'] = self.name;
-        if (self.msisdn != None):
-            root['msisdn'] = self.msisdn;           
-        if (self.status != None):
-            root['status'] = self.status;
-        if (self.market != None):
-            root['market'] = self.market;
-        if (self.tariff != None):
-            root['tariff'] = self.tariff;
-        if (self.customer != None):
-            root['customer'] = self.customer;
-        if (self.payer != None):
-            root['payer'] = self.payer;
+        root['id'] = self.id;
+        root['name'] = self.name;
+        root['msisdn'] = self.msisdn;           
+        root['status'] = self.status;
+        root['market'] = self.market;
+        root['tariff'] = self.tariff;
+        root['customer'] = self.customer;
+        root['payer'] = self.payer;
 
         return jsonlib2.write(root);    
             
@@ -259,6 +198,7 @@ class Contact:
     """Contact entity class
         
         Args:
+           id - int, mandatory
            name - string, mandatory
            phone - string, optional
            email - string, optional
@@ -285,36 +225,31 @@ class Contact:
         
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('contact')
+        root = e.Element('contact')
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.name != None):
-            elem = lxml.etree.SubElement(root, 'name');
-            elem.text = self.name;
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'name').text = self.name;
         if (self.phone != None):
-            elem = lxml.etree.SubElement(root, 'phone');
-            elem.text = self.phone;
+            e.SubElement(root, 'phone').text = self.phone;
         if (self.email != None):
-            elem = lxml.etree.SubElement(root, 'email');
-            elem.text = self.email;
+            e.SubElement(root, 'email').text = self.email;
+            
+        if (len(self.roles) > 0):
+            elem = e.SubElement(root, 'roles');
+            
+            for role in self.roles:
+                elem.append(role.toxml());
                                   
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True);
-        else:
-            return lxml.etree.tostring(root); 
+        return root; 
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.name != None):
-            root['name'] = self.name;
+        root['id'] = self.id;
+        root['name'] = self.name;
         if (self.phone != None):
             root['phone'] = self.phone;
         if (self.email != None):
@@ -359,39 +294,27 @@ class ContactRole:
             u'|subscriber:{0}'.format(self.subscriber);
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('role');
+        root = e.Element('role');
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.title != None):
-            elem = lxml.etree.SubElement(root, 'title');
-            elem.text = self.title;
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'title').text = self.title;
         if (self.customer != None):
-            elem = lxml.etree.SubElement(root, 'customer');
-            elem.text = str(self.customer);
+            e.SubElement(root, 'customer').text = str(self.customer);
         if (self.payer != None):
-            elem = lxml.etree.SubElement(root, 'payer');
-            elem.text = str(self.payer);
+            e.SubElement(root, 'payer').text = str(self.payer);
         if (self.subscriber != None):
-            elem = lxml.etree.SubElement(root, 'subscriber');
-            elem.text = str(self.subscriber);
+            e.SubElement(root, 'subscriber').text = str(self.subscriber);
         
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True); 
-        else:
-            return lxml.etree.tostring(root); 
+        return root;
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.title != None):
-            root['title'] = self.title;
+        root['id'] = self.id;
+        root['title'] = self.title;
         if (self.customer != None):
             root['customer'] = self.customer;
         if (self.payer != None):
@@ -405,6 +328,7 @@ class Address:
     """Address entity class
         
         Args:
+           id - int, mandatory
            street - string, mandatory
            street_no - string, mandatory
            city - string, mandatory
@@ -434,45 +358,33 @@ class Address:
             
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('address')
+        root = e.Element('address')
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.street != None):
-            elem = lxml.etree.SubElement(root, 'street');
-            elem.text = self.street;
-        if (self.street_no != None):
-            elem = lxml.etree.SubElement(root, 'street_no');
-            elem.text = self.street_no;
-        if (self.city != None):
-            elem = lxml.etree.SubElement(root, 'city');
-            elem.text = self.city;
-        if (self.zip != None):
-            elem = lxml.etree.SubElement(root, 'zip');
-            elem.text = str(self.zip);           
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'street').text = self.street;
+        e.SubElement(root, 'street_no').text = self.street_no;
+        e.SubElement(root, 'city').text = self.city;
+        e.SubElement(root, 'zip').text = str(self.zip); 
+        
+        if (len(self.roles) > 0):
+            elem = e.SubElement(root, 'roles');
+            
+            for role in self.roles:
+                elem.append(role.toxml());                 
                                   
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True); 
-        else:
-            return lxml.etree.tostring(root); 
+        return root;
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.street != None):
-            root['street'] = self.street;
-        if (self.street_no != None):
-            root['street_no'] = self.street_no;
-        if (self.city != None):
-            root['city'] = self.city;
-        if (self.zip != None):
-            root['zip'] = self.zip;      
+        root['id'] = self.id;
+        root['street'] = self.street;
+        root['street_no'] = self.street_no;
+        root['city'] = self.city;
+        root['zip'] = self.zip;      
             
         if (len(self.roles) > 0): 
             el_roles = [];
@@ -515,42 +427,29 @@ class AddressRole:
             u'|payer:{0}|subscriber:{1}'.format(self.payer, self.subscriber);
         return s;
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('role')
+        root = e.Element('role')
         
-        if (self.id != None):
-            elem = lxml.etree.SubElement(root, 'id');
-            elem.text = str(self.id);
-        if (self.title != None):
-            elem = lxml.etree.SubElement(root, 'title');
-            elem.text = self.title;
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'title').text = self.title;
         if (self.contact != None):
-            elem = lxml.etree.SubElement(root, 'contact');
-            elem.text = str(self.contact);
+            e.SubElement(root, 'contact').text = str(self.contact);
         if (self.customer != None):
-            elem = lxml.etree.SubElement(root, 'customer');
-            elem.text = str(self.customer);
+            e.SubElement(root, 'customer').text = str(self.customer);
         if (self.payer != None):
-            elem = lxml.etree.SubElement(root, 'payer');
-            elem.text = str(self.payer);
+            e.SubElement(root, 'payer').text = str(self.payer);
         if (self.subscriber != None):
-            elem = lxml.etree.SubElement(root, 'subscriber');
-            elem.text = str(self.subscriber);
+            e.SubElement(root, 'subscriber').text = str(self.subscriber);
         
-        if (declaration):    
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True); 
-        else:
-            return lxml.etree.tostring(root); 
+        return root; 
         
     def tojson(self):   
         
         root = {}
         
-        if (self.id != None):
-            root['id'] = self.id;
-        if (self.title != None):
-            root['title'] = self.title;
+        root['id'] = self.id;
+        root['title'] = self.title;
         if (self.contact != None):
             root['contact'] = self.contact;           
         if (self.customer != None):
@@ -590,6 +489,23 @@ class Service:
                 s += '{0}:{1}#'.format(key, value);
                 
         return s;
+    
+    def toxml(self):
+        
+        root = e.Element('service');
+        
+        e.SubElement(root, 'id').text = str(self.id);
+        e.SubElement(root, 'name').text = self.name;
+        e.SubElement(root, 'status').text = self.status;
+        
+        elem = e.SubElement(root, 'params');
+        for key, value in self.params.items():
+            el_param = e.Element('entry');
+            e.SubElement(el_param, 'key').text = str(key);
+            e.SubElement(el_param, 'value').text = value;
+            elem.append(el_param);
+        
+        return root;
     
     def tojson(self):
         
@@ -644,52 +560,42 @@ class ServiceOperation:
                 
         return s; 
     
-    def toxml(self, declaration=False):
+    def toxml(self):
         
-        root = lxml.etree.Element('operation');
+        root = e.Element('operation');
         
+        e.SubElement(root, 'service').text = str(self.service);
         if (self.customer != None):
-            elem = lxml.etree.SubElement(root, 'customer');
-            elem.text = str(self.customer);
+            e.SubElement(root, 'customer').text = str(self.customer);
         if (self.payer != None):
-            elem = lxml.etree.SubElement(root, 'payer');
-            elem.text = str(self.payer);
+            e.SubElement(root, 'payer').text = str(self.payer);
         if (self.subscriber != None):
-            elem = lxml.etree.SubElement(root, 'subscriber');
-            elem.text = str(self.subscriber);
-        if (self.service != None):
-            elem = lxml.etree.SubElement(root, 'service');
-            elem.text = str(self.service);
+            e.SubElement(root, 'subscriber').text = str(self.subscriber);
         if (self.status != None):
-            elem = lxml.etree.SubElement(root, 'status');
-            elem.text = self.status;  
+            e.SubElement(root, 'status').text = self.status;  
              
-        elParams = lxml.etree.SubElement(root, 'params');
+        elParams = e.SubElement(root, 'params');
             
         for key, value in self.params.items():
-            elParam = lxml.etree.SubElement(elParams, 'entry');
-            elem = lxml.etree.SubElement(elParam, 'key');
+            elParam = e.SubElement(elParams, 'entry');
+            elem = e.SubElement(elParam, 'key');
             elem.text = str(key);    
-            elem = lxml.etree.SubElement(elParam, 'value');
+            elem = e.SubElement(elParam, 'value');
             elem.text = str(value);  
             
-        if (declaration):
-            return lxml.etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True);    
-        else:
-            return lxml.etree.tostring(root);
+        return root;
         
     def tojson(self):
         
         root = {}
         
+        root['service'] = self.service;
         if (self.customer != None):
             root['customer'] = self.customer;
         if (self.payer != None):
             root['payer'] = self.payer;
         if (self.subscriber != None):
             root['subscriber'] = self.subscriber;
-        if (self.service != None):
-            root['service'] = self.service;
         if (self.status != None):
             root['status'] = self.status;  
                 

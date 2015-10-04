@@ -17,6 +17,7 @@ from hydratk.lib.compat import utils;
 import hydratk.extensions.testenv.application.web_server as web_server;
 import hydratk.extensions.testenv.interfaces.db_int as db_int;
 import hydratk.extensions.testenv.interfaces.rest_int as rest_int;
+import hydratk.extensions.testenv.interfaces.soap_int as soap_int;
 import sys;
 import os;
 import sqlite3 as db;
@@ -89,6 +90,7 @@ class Extension(extension.Extension):
         
         self.run_bist_db();
         self.run_bist_rest();
+        self.run_bist_soap();
         
         self.install_db_fc(False);
         
@@ -242,4 +244,77 @@ class Extension(extension.Extension):
         rest.change_service(service=619, subscriber=subs_id, status='active', params={122:'23001654321', 123:'88654321'});  
         rest.read_services(subscriber=subs_id)[0];  
         rest.read_services(subscriber=subs_id, service=619)[0];  
-                                                      
+                                                    
+    def run_bist_soap(self):
+        
+        self._mh.dmsg('htk_on_debug_info', 'running SOAP self tests', self._mh.fromhere());
+        soap = soap_int.SOAP_INT(self._mh);                     
+        
+        # customer operations
+        self._mh.dmsg('htk_on_debug_info', 'testing customer operations', self._mh.fromhere());
+        cust_id = soap.create_customer(name='Charlie Bowman', status='active', segment=2, birth_no='700101/0001', 
+                                       reg_no='123456', tax_no='CZ123456');
+        soap.read_customer(cust_id);
+        soap.change_customer(id=cust_id, name='Vince Neil', status='deactive', segment=3, birth_no='700101/0002',
+                             reg_no='654321', tax_no='CZ654321'); 
+        soap.read_customer(cust_id);   
+        
+        # payer operations
+        self._mh.dmsg('htk_on_debug_info', 'testing payer operations', self._mh.fromhere());
+        pay_id = soap.create_payer(name='Charlie Bowman', status='active', billcycle=1, bank_account='123456/0100', 
+                                   customer=cust_id);
+        soap.read_payer(pay_id);
+        soap.change_payer(id=pay_id, name='Vince Neil', status='deactive', billcycle=2, bank_account='123456/0800'); 
+        soap.read_payer(pay_id); 
+        
+        # subscriber operations
+        self._mh.dmsg('htk_on_debug_info', 'testing subscriber operations', self._mh.fromhere());
+        subs_id = soap.create_subscriber(name='Charlie Bowman', msisdn='123456', status='active', market=1, tariff=433, 
+                                         customer=cust_id, payer=pay_id);
+        soap.read_subscriber(subs_id);
+        soap.change_subscriber(id=subs_id, name='Vince Neil', msisdn='654321', status='deactive', market=2, tariff=434); 
+        soap.read_subscriber(subs_id);  
+        
+        # contact operations
+        self._mh.dmsg('htk_on_debug_info', 'testing contact operations', self._mh.fromhere());
+        con_id = soap.create_contact(name='Charlie Bowman', phone='123456', email='aaa@xxx.com');
+        soap.read_contact(con_id);
+        soap.change_contact(id=con_id, name='Vince Neil', phone='654321', email='bbb@xxx.com'); 
+        soap.read_contact(con_id);
+        soap.assign_contact_role(id=con_id, role='contract', customer=cust_id);
+        soap.assign_contact_role(id=con_id, role='invoicing', payer=pay_id);
+        soap.assign_contact_role(id=con_id, role='contact', subscriber=subs_id);  
+        soap.read_contact(con_id);
+        soap.revoke_contact_role(id=con_id, role='contract', customer=cust_id);
+        soap.revoke_contact_role(id=con_id, role='invoicing', payer=pay_id);
+        soap.revoke_contact_role(id=con_id, role='contact', subscriber=subs_id);  
+        soap.read_contact(con_id);        
+        
+        # address operations
+        self._mh.dmsg('htk_on_debug_info', 'testing address operations', self._mh.fromhere());
+        addr_id = soap.create_address(street='Tomickova', street_no='2144/1', city='Praha', zip=14800);
+        soap.read_address(addr_id);
+        soap.change_address(id=addr_id, street='Babakova', street_no='2152/6', city='Praha 4', zip=14900); 
+        soap.read_address(addr_id);     
+        soap.assign_address_role(id=addr_id, role='contract', customer=cust_id);
+        soap.assign_address_role(id=addr_id, role='invoicing', payer=pay_id);
+        soap.assign_address_role(id=addr_id, role='contact', subscriber=subs_id);  
+        soap.assign_address_role(id=addr_id, role='delivery', contact=con_id);
+        soap.read_address(con_id);
+        soap.revoke_address_role(id=addr_id, role='contract', customer=cust_id);
+        soap.revoke_address_role(id=addr_id, role='invoicing', payer=pay_id);
+        soap.revoke_address_role(id=addr_id, role='contact', subscriber=subs_id); 
+        soap.revoke_address_role(id=addr_id, role='delivery', contact=con_id); 
+        soap.read_address(con_id); 
+        
+        # service operations
+        self._mh.dmsg('htk_on_debug_info', 'testing service operations', self._mh.fromhere());
+        soap.create_service(service=615, subscriber=subs_id, status='active', params={121:'123456'});  
+        soap.create_service(service=619, subscriber=subs_id, status='active', params={122:'23001123456', 123:'88123456'}); 
+        soap.read_services(subscriber=subs_id)[0];    
+        soap.read_services(subscriber=subs_id)[1]; 
+        soap.read_services(subscriber=subs_id, service=615)[0];     
+        soap.change_service(service=615, subscriber=subs_id, status='active', params={121:'654321'});  
+        soap.change_service(service=619, subscriber=subs_id, status='active', params={122:'23001654321', 123:'88654321'});  
+        soap.read_services(subscriber=subs_id)[0];  
+        soap.read_services(subscriber=subs_id, service=619)[0];                                                       

@@ -31,6 +31,7 @@ packages=[
 requires = [
             'web.py',
             'httplib2',
+            'suds',
             'lxml',
             'jsonlib2'
            ];           

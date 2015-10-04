@@ -10,7 +10,9 @@
 """
 
 import hydratk.extensions.testenv.application.rest_handler as rest_handler;
+import hydratk.extensions.testenv.application.soap_handler as soap_handler;
 import web;
+import os;
 
 urls = (
          '/', 'Index',
@@ -21,7 +23,8 @@ urls = (
          '/rs/contact/role', 'ContactRole',
          '/rs/address', 'Address',
          '/rs/address/role', 'AddressRole',
-         '/rs/service', 'Service'
+         '/rs/service', 'Service',
+         '/ws/crm', 'SoapService'
         );
         
 mh = None;
@@ -56,7 +59,7 @@ class Customer():
     
     def __init__(self):
     
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
     
     def GET(self):
                 
@@ -78,7 +81,7 @@ class Payer():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
         
     def GET(self):
                 
@@ -100,7 +103,7 @@ class Subscriber():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
         
     def GET(self):
                 
@@ -122,7 +125,7 @@ class Contact():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
         
     def GET(self):
                 
@@ -144,7 +147,7 @@ class ContactRole():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
     
     def POST(self):
         
@@ -162,7 +165,7 @@ class Address():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
         
     def GET(self):
                 
@@ -184,7 +187,7 @@ class AddressRole():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
     
     def POST(self):
         
@@ -202,7 +205,7 @@ class Service():
     
     def __init__(self):
         
-        self.rest = rest_handler.REST_handler(mh);
+        self.rest = rest_handler.RestHandler(mh);
         
     def GET(self):
         
@@ -214,4 +217,36 @@ class Service():
     
     def PUT(self):
         
-        return self.rest.change_service(web.data());                    
+        return self.rest.change_service(web.data());           
+    
+class SoapService():
+    
+    soap = None;
+    
+    def __init__(self):
+        
+        self.soap = soap_handler.SoapHandler(mh);    
+        
+    def GET(self):
+        
+        key = web.input().keys()[0]
+        path = mh.cfg['System']['Extending']['extensions_dir'] + '/testenv/application/';
+        
+        if (key == 'wsdl'):
+            soap_file = path + 'crm.wsdl';
+        elif (key == 'xsd'):
+            soap_file = path + 'crm.xsd';
+        else:
+            return web.NotFound(); 
+        
+        if (os.path.exists(soap_file)):            
+            with open(soap_file, 'r') as file:
+                web.header('Content-Type', 'text/xml');
+                return file.read();
+        else:
+            self._mh.dmsg('htk_on_extension_error', 'file {0} not found'.format(file), self._mh.fromhere());
+            return web.NotFound();         
+        
+    def POST(self):
+        
+        return self.soap.dispatcher(web.ctx.env, web.data());      

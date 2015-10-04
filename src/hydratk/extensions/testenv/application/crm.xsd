@@ -1,0 +1,491 @@
+<xs:schema version="1.0" targetNamespace="http://hydratk.org/" xmlns:tns="http://hydratk.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="SoapFault" type="tns:SoapFault"/>
+   <xs:element name="customer" type="tns:customer"/>
+   <xs:element name="read_customer" type="tns:read_customer"/>
+   <xs:element name="read_customer_response" type="tns:read_customer_response"/>   
+   <xs:element name="create_customer" type="tns:create_customer"/>
+   <xs:element name="create_customer_response" type="tns:create_customer_response"/>
+   <xs:element name="change_customer" type="tns:change_customer"/>
+   <xs:element name="change_customer_response" type="tns:change_customer_response"/>
+   <xs:element name="payer" type="tns:payer"/> 
+   <xs:element name="read_payer" type="tns:read_payer"/>
+   <xs:element name="read_payer_response" type="tns:read_payer_response"/>     
+   <xs:element name="create_payer" type="tns:create_payer"/>
+   <xs:element name="create_payer_response" type="tns:create_payer_response"/>   
+   <xs:element name="change_payer" type="tns:change_payer"/>
+   <xs:element name="change_payer_response" type="tns:change_payer_response"/>
+   <xs:element name="subscriber" type="tns:subscriber"/>   
+   <xs:element name="read_subscriber" type="tns:read_subscriber"/>
+   <xs:element name="read_subscriber_response" type="tns:read_subscriber_response"/>   
+   <xs:element name="create_subscriber" type="tns:create_subscriber"/>
+   <xs:element name="create_subscriber_response" type="tns:create_subscriber_response"/>   
+   <xs:element name="change_subscriber" type="tns:change_subscriber"/>
+   <xs:element name="change_subscriber_response" type="tns:change_subscriber_response"/>
+   <xs:element name="contact" type="tns:contact"/>   
+   <xs:element name="role" nillable="true" type="xs:anyType"/>   
+   <xs:element name="read_contact" type="tns:read_contact"/>
+   <xs:element name="read_contact_response" type="tns:read_contact_response"/>   
+   <xs:element name="create_contact" type="tns:create_contact"/>
+   <xs:element name="create_contact_response" type="tns:create_contact_response"/>   
+   <xs:element name="change_contact" type="tns:change_contact"/>
+   <xs:element name="change_contact_response" type="tns:change_contact_response"/>      
+   <xs:element name="assign_contact_role" type="tns:assign_contact_role"/>
+   <xs:element name="assign_contact_role_response" type="tns:assign_contact_role_response"/>
+   <xs:element name="revoke_contact_role" type="tns:revoke_contact_role"/>
+   <xs:element name="revoke_contact_role_response" type="tns:revoke_contact_role_response"/>   
+   <xs:element name="address" type="tns:address"/>
+   <xs:element name="read_address" type="tns:read_address"/>
+   <xs:element name="read_address_response" type="tns:read_address_response"/>   
+   <xs:element name="create_address" type="tns:create_address"/>
+   <xs:element name="create_address_response" type="tns:create_address_response"/>   
+   <xs:element name="change_address" type="tns:change_address"/>
+   <xs:element name="change_address_response" type="tns:change_address_response"/>   
+   <xs:element name="assign_address_role" type="tns:assign_address_role"/>
+   <xs:element name="assign_address_role_response" type="tns:assign_address_role_response"/>
+   <xs:element name="revoke_address_role" type="tns:revoke_address_role"/>
+   <xs:element name="revoke_address_role_response" type="tns:revoke_address_role_response"/>
+   <xs:element name="service" type="tns:service"/>   
+   <xs:element name="read_services" type="tns:read_services"/>
+   <xs:element name="read_services_response" type="tns:read_services_response"/>   
+   <xs:element name="create_service" type="tns:create_service"/>
+   <xs:element name="create_service_response" type="tns:create_service_response"/>   
+   <xs:element name="change_service" type="tns:change_service"/>
+   <xs:element name="change_service_response" type="tns:change_service_response"/> 
+   <xs:complexType name="SoapFault">
+      <xs:sequence>
+         <xs:element name="message" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="customer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="status" type="xs:string"/>
+         <xs:element name="segment" type="xs:int"/>
+         <xs:element name="birth_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="reg_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="tax_no" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>     
+   <xs:complexType name="read_customer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_customer_response">
+      <xs:sequence>
+         <xs:element name="customer" type="tns:customer" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>  
+   <xs:complexType name="create_customer">
+      <xs:sequence>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="segment" type="xs:int"/>
+         <xs:element name="birth_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="reg_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="tax_no" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_customer_response">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_customer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string" minOccurs="0"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="segment" type="xs:int" minOccurs="0"/>
+         <xs:element name="birth_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="reg_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="tax_no" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_customer_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>       
+   <xs:complexType name="payer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="status" type="xs:string"/>
+         <xs:element name="billcycle" type="xs:int"/>
+         <xs:element name="bank_account" type="xs:string" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="read_payer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_payer_response">
+      <xs:sequence>
+         <xs:element name="payer" type="tns:payer" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="create_payer">
+      <xs:sequence>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="billcycle" type="xs:int"/>
+         <xs:element name="bank_account" type="xs:string" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_payer_response">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType> 
+   <xs:complexType name="change_payer">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string" minOccurs="0"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="billcycle" type="xs:int" minOccurs="0"/>
+         <xs:element name="bank_account" type="xs:string" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_payer_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="subscriber">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="msisdn" type="xs:string"/>
+         <xs:element name="status" type="xs:string"/>
+         <xs:element name="market" type="xs:int"/>
+         <xs:element name="tariff" type="xs:int"/>
+         <xs:element name="customer" type="xs:int"/>
+         <xs:element name="payer" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="read_subscriber">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_subscriber_response">
+      <xs:sequence>
+         <xs:element name="_subscriber" type="tns:subscriber" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>     
+   <xs:complexType name="create_subscriber">
+      <xs:sequence>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="msisdn" type="xs:string"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="market" type="xs:int"/>
+         <xs:element name="tariff" type="xs:int"/>
+         <xs:element name="customer" type="xs:int"/>
+         <xs:element name="payer" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_subscriber_response">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="change_subscriber">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string" minOccurs="0"/>
+         <xs:element name="msisdn" type="xs:string" minOccurs="0"/>
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="market" type="xs:int" minOccurs="0"/>
+         <xs:element name="tariff" type="xs:int" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_subscriber_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="contact">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="phone" type="xs:string" minOccurs="0"/>
+         <xs:element name="email" type="xs:string" minOccurs="0"/>
+         <xs:element name="roles" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="role" type="tns:contact_role" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="contact_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="read_contact">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_contact_response">
+      <xs:sequence>
+         <xs:element name="contact" type="tns:contact" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="create_contact">
+      <xs:sequence>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="phone" type="xs:string" minOccurs="0"/>
+         <xs:element name="email" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_contact_response">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="change_contact">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string" minOccurs="0"/>
+         <xs:element name="phone" type="xs:string" minOccurs="0"/>
+         <xs:element name="email" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_contact_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>  
+   <xs:complexType name="assign_contact_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="assign_contact_role_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>    
+   <xs:complexType name="revoke_contact_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="revoke_contact_role_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="address">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="street" type="xs:string"/>
+         <xs:element name="street_no" type="xs:string"/>
+         <xs:element name="city" type="xs:string"/>
+         <xs:element name="zip" type="xs:int"/>
+         <xs:element name="roles" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="role" type="tns:address_role" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="address_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="contact" type="xs:int" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="read_address">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_address_response">
+      <xs:sequence>
+         <xs:element name="address" type="tns:address" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="create_address">
+      <xs:sequence>
+         <xs:element name="street" type="xs:string"/>
+         <xs:element name="street_no" type="xs:string"/>
+         <xs:element name="city" type="xs:string"/>
+         <xs:element name="zip" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_address_response">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>    
+   <xs:complexType name="change_address">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="street" type="xs:string" minOccurs="0"/>
+         <xs:element name="street_no" type="xs:string" minOccurs="0"/>
+         <xs:element name="city" type="xs:string" minOccurs="0"/>
+         <xs:element name="zip" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_address_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="assign_address_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="contact" type="xs:int" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="assign_address_role_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>     
+   <xs:complexType name="revoke_address_role">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="contact" type="xs:int" minOccurs="0"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="revoke_address_role_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="service">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int"/>
+         <xs:element name="name" type="xs:string"/>
+         <xs:element name="status" type="xs:string"/>
+         <xs:element name="params">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="key" type="xs:int"/>
+                           <xs:element name="value" type="xs:string"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="read_services">
+      <xs:sequence>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>
+         <xs:element name="service" type="xs:int" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="read_services_response">
+      <xs:sequence>
+         <xs:element name="services">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="service" type="tns:service" minOccurs="1" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>  
+   <xs:complexType name="create_service">
+      <xs:sequence>
+         <xs:element name="service" type="xs:int"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>         
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="params">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="key" type="xs:int"/>
+                           <xs:element name="value" type="xs:string"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="create_service_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>    
+   <xs:complexType name="change_service">
+      <xs:sequence>
+         <xs:element name="service" type="xs:int"/>
+         <xs:element name="customer" type="xs:int" minOccurs="0"/>
+         <xs:element name="payer" type="xs:int" minOccurs="0"/>
+         <xs:element name="subscriber" type="xs:int" minOccurs="0"/>         
+         <xs:element name="status" type="xs:string" minOccurs="0"/>
+         <xs:element name="params">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="key" type="xs:int"/>
+                           <xs:element name="value" type="xs:string"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="change_service_response">
+      <xs:sequence>
+         <xs:element name="result" type="xs:boolean"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

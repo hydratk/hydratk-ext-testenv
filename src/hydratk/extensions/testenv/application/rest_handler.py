@@ -8,11 +8,12 @@
 .. moduleauthor:: Petr Rašek <pr@hydratk.org>
 
 """
+
 import hydratk.extensions.testenv.interfaces.db_int as db_int; 
 import web;
 import jsonlib2;
 
-class REST_handler:
+class RestHandler:
     
     _mh = None;
     
@@ -433,13 +434,6 @@ class REST_handler:
            
         Args:
            contact_role - crm_entities.ContactRole in JSON  
-           {
-             "id": 1,
-             "title": "contract",
-             "customer": 1,
-             "payer": 1,
-             "subscriber": 1
-           } 
              
         Returns:
            HTTP 200 when contact role revoked
@@ -593,14 +587,6 @@ class REST_handler:
            
         Args:
            address_role - crm_entities.AddressRole in JSON  
-           {
-             "id": 1,
-             "title": "contract",
-             "contact": 1,
-             "customer": 1,
-             "payer": 1,
-             "subscriber": 1
-           } 
              
         Returns:
            HTTP 200 when address role revoked
