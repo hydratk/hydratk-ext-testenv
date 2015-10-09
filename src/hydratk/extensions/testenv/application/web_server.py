@@ -5,10 +5,11 @@
 .. module:: hydratk.extensions.testenv.application.web_server
    :platform: Unix
    :synopsis: Web server
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
+from hydratk.core.masterhead import MasterHead;
 import hydratk.extensions.testenv.application.rest_handler as rest_handler;
 import hydratk.extensions.testenv.application.soap_handler as soap_handler;
 import web;
@@ -33,10 +34,10 @@ class Server:
         
     _server = None;
     
-    def __init__(self, _mh):
+    def __init__(self):
         
         global mh;
-        mh = _mh;                 
+        mh = MasterHead.get_head();               
         
     def _start(self):    
   
@@ -59,7 +60,7 @@ class Customer():
     
     def __init__(self):
     
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
     
     def GET(self):
                 
@@ -81,7 +82,7 @@ class Payer():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
         
     def GET(self):
                 
@@ -103,7 +104,7 @@ class Subscriber():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
         
     def GET(self):
                 
@@ -125,7 +126,7 @@ class Contact():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
         
     def GET(self):
                 
@@ -147,7 +148,7 @@ class ContactRole():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
     
     def POST(self):
         
@@ -165,7 +166,7 @@ class Address():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
         
     def GET(self):
                 
@@ -187,7 +188,7 @@ class AddressRole():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
     
     def POST(self):
         
@@ -205,7 +206,7 @@ class Service():
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler(mh);
+        self.rest = rest_handler.RestHandler();
         
     def GET(self):
         
@@ -225,7 +226,7 @@ class SoapService():
     
     def __init__(self):
         
-        self.soap = soap_handler.SoapHandler(mh);    
+        self.soap = soap_handler.SoapHandler();    
         
     def GET(self):
         

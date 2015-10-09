@@ -5,12 +5,13 @@
 .. module:: hydratk.extensions.testenv.interfaces.db_int
    :platform: Unix
    :synopsis: DB interface for testenv
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
-import sqlite3 as db;
+from hydratk.core.masterhead import MasterHead;
 import hydratk.extensions.testenv.entities.crm_entities as crm;
+import sqlite3 as db;
 
 class DB_INT():
     
@@ -18,9 +19,9 @@ class DB_INT():
     _db_file = None;
     _conn = None;
     
-    def __init__(self, _mh):
+    def __init__(self):
         
-        self._mh = _mh;
+        self._mh = MasterHead.get_head();
         self._db_file = self._mh.cfg['Extensions']['TestEnv']['db_file'];
         
     def connect(self):

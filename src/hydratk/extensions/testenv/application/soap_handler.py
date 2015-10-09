@@ -5,10 +5,11 @@
 .. module:: hydratk.extensions.testenv.application.soap_handler
    :platform: Unix
    :synopsis: Handles SOAP operations
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
+from hydratk.core.masterhead import MasterHead;
 import hydratk.extensions.testenv.interfaces.db_int as db_int; 
 import web;
 import lxml.etree as e;
@@ -21,9 +22,9 @@ class SoapHandler():
     ns0 = None;
     ns1 = None;
     
-    def __init__(self, _mh):
+    def __init__(self):
         
-        self._mh = _mh;
+        self._mh = MasterHead.get_head();
         self.nsmap = {'soapenv': 'http://www.w3.org/2003/05/soap-envelope/',
                       'ns0': 'http://hydratk.org/'};
         self.ns0 = '{%s}' % self.nsmap['soapenv'];
@@ -31,7 +32,7 @@ class SoapHandler():
 
     def _get_db(self):    
     
-        db = db_int.DB_INT(self._mh);
+        db = db_int.DB_INT();
         db.connect();
         return db;
     

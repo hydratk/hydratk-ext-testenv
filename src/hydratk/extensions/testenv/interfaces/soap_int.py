@@ -5,10 +5,11 @@
 .. module:: hydratk.extensions.testenv.interfaces.soap_int
    :platform: Unix
    :synopsis: SOAP interface for testenv
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
+from hydratk.core.masterhead import MasterHead;
 import hydratk.extensions.testenv.entities.crm_entities as crm;
 import suds;
 import logging;
@@ -20,9 +21,9 @@ class SOAP_INT():
     _mh = None;
     _wsdl = None;
     
-    def __init__(self, _mh):
+    def __init__(self):
         
-        self._mh = _mh;
+        self._mh = MasterHead.get_head();
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip'];
         port = self._mh.cfg['Extensions']['TestEnv']['server_port']; 
         self._wsdl = 'http://{0}:{1}/ws/crm?wsdl'.format(ip, port);      

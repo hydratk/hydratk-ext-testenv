@@ -5,7 +5,7 @@
 .. module:: hydratk.extensions.testenv.entities.crm_entities
    :platform: Unix
    :synopsis: CRM entities for testenv
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 

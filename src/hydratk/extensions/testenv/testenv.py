@@ -4,13 +4,13 @@
 .. module:: hydratk.extensions.testenv
    :platform: Unix
    :synopsis: TestEnv extension for test automation exercises
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
 from hydratk.core import extension;
 from hydratk.core import event;
-from hydratk.core.masterhead import PYTHON_MAJOR_VERSION
+from hydratk.core.masterhead import PYTHON_MAJOR_VERSION;
 from hydratk.lib.console.commandlinetool import CommandlineTool;
 from hydratk.lib.console.commandlinetool import rprint;
 from hydratk.lib.compat import utils;
@@ -80,7 +80,7 @@ class Extension(extension.Extension):
     def start_server_fc(self):
         
         self._mh.dmsg('htk_on_debug_info', 'received testenv-start-server command', self._mh.fromhere());  
-        server = web_server.Server(self._mh);
+        server = web_server.Server();
         server._start();                   
             
     def run_bist_fc(self):
@@ -97,7 +97,7 @@ class Extension(extension.Extension):
     def run_bist_db(self):
         
         self._mh.dmsg('htk_on_debug_info', 'running DB self tests', self._mh.fromhere());
-        db = db_int.DB_INT(self._mh);
+        db = db_int.DB_INT();
         db.connect();
         
         # customer operations
@@ -174,7 +174,7 @@ class Extension(extension.Extension):
     def run_bist_rest(self):
         
         self._mh.dmsg('htk_on_debug_info', 'running REST self tests', self._mh.fromhere());
-        rest = rest_int.REST_INT(self._mh);
+        rest = rest_int.REST_INT();
         
         # customer operations
         self._mh.dmsg('htk_on_debug_info', 'testing customer operations', self._mh.fromhere());
@@ -248,7 +248,7 @@ class Extension(extension.Extension):
     def run_bist_soap(self):
         
         self._mh.dmsg('htk_on_debug_info', 'running SOAP self tests', self._mh.fromhere());
-        soap = soap_int.SOAP_INT(self._mh);                     
+        soap = soap_int.SOAP_INT();                     
         
         # customer operations
         self._mh.dmsg('htk_on_debug_info', 'testing customer operations', self._mh.fromhere());

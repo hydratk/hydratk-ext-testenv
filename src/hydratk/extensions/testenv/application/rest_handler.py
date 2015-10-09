@@ -5,10 +5,11 @@
 .. module:: hydratk.extensions.testenv.application.rest_handler
    :platform: Unix
    :synopsis: Handles REST operations
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
+from hydratk.core.masterhead import MasterHead;
 import hydratk.extensions.testenv.interfaces.db_int as db_int; 
 import web;
 import jsonlib2;
@@ -17,13 +18,13 @@ class RestHandler:
     
     _mh = None;
     
-    def __init__(self, _mh):
+    def __init__(self):
         
-        self._mh = _mh;
+        self._mh = MasterHead.get_head();
 
     def _get_db(self):    
     
-        db = db_int.DB_INT(self._mh);
+        db = db_int.DB_INT();
         db.connect();
         return db;
 

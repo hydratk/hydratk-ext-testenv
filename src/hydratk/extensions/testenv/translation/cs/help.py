@@ -5,7 +5,7 @@
 .. module:: hydratk.extensions.testenv.translation.cs.help
    :platform: Unix
    :synopsis: Czech language translation for TestEnv extension help generator
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 language = {

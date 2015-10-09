@@ -5,7 +5,7 @@
 .. module:: hydratk.extensions.testenv.translation.en
    :platform: Unix
    :synopsis: English language translation for TestEnv extension
-.. moduleauthor:: Petr Rašek <pr@hydratk.org>
+.. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
