@@ -34,14 +34,18 @@ requires = [
             'suds',
             'lxml',
             'jsonlib2'
-           ];           
+           ];  
+           
+data_files=[
+            ('/etc/hydratk/conf.d', ['etc/hydratk/conf.d/hydratk-ext-testenv.conf'])
+           ]                    
                 
 setup(name='Hydratk-TestEnv',
       version='0.1.0',
-      description='Test environmanet for test automation exercises',
+      description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek',
-      author_email='pr@hydratk.org',
+      author_email='bowman@hydratk.org',
       url='http://www.hydratk.org',
       license='BSD',
       packages=packages,

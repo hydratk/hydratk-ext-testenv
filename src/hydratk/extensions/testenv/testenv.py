@@ -29,7 +29,7 @@ class Extension(extension.Extension):
         self._ext_id   = 'testenv';
         self._ext_name = 'TestEnv';
         self._ext_version = '0.1.0';
-        self._ext_author = 'Petr Rašek <pr@headz.cz>';
+        self._ext_author = 'Petr Rašek <bowman@headz.cz>';
         self._ext_year = '2015';  
         
     def _register_actions(self):
