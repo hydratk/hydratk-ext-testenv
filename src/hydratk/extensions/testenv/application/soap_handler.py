@@ -9,52 +9,52 @@
 
 """
 
-from hydratk.core.masterhead import MasterHead;
-import hydratk.extensions.testenv.interfaces.db_int as db_int; 
-import web;
-import lxml.etree as e;
-import lxml.objectify;
+from hydratk.core.masterhead import MasterHead
+import hydratk.extensions.testenv.interfaces.db_int as db_int 
+import web
+import lxml.etree as e
+import lxml.objectify
 
 class SoapHandler():
 
-    _mh = None;
-    nsmap = None;
-    ns0 = None;
-    ns1 = None;
+    _mh = None
+    nsmap = None
+    ns0 = None
+    ns1 = None
     
     def __init__(self):
         
-        self._mh = MasterHead.get_head();
+        self._mh = MasterHead.get_head()
         self.nsmap = {'soapenv': 'http://www.w3.org/2003/05/soap-envelope/',
-                      'ns0': 'http://hydratk.org/'};
-        self.ns0 = '{%s}' % self.nsmap['soapenv'];
-        self.ns1 = '{%s}' % self.nsmap['ns0'];        
+                      'ns0': 'http://hydratk.org/'}
+        self.ns0 = '{%s}' % self.nsmap['soapenv']
+        self.ns1 = '{%s}' % self.nsmap['ns0']        
 
     def _get_db(self):    
     
-        db = db_int.DB_INT();
-        db.connect();
-        return db;
+        db = db_int.DB_INT()
+        db.connect()
+        return db
     
     def fault(self, message):
         
-        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap);
+        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap)
         
-        e.SubElement(root, self.ns0+'Header');
-        body = e.SubElement(root, self.ns0+'Body');
-        fault = e.SubElement(body, self.ns0+'Fault');
-        e.SubElement(fault, self.ns1+'message').text = str(message);
+        e.SubElement(root, self.ns0+'Header')
+        body = e.SubElement(root, self.ns0+'Body')
+        fault = e.SubElement(body, self.ns0+'Fault')
+        e.SubElement(fault, self.ns1+'message').text = str(message)
         
         return e.tostring(root, pretty_print=True) 
     
     def response(self, method, content):        
         
-        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap);
+        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap)
         
-        e.SubElement(root, self.ns0+'Header');
-        body = e.SubElement(root, self.ns0+'Body');
-        response = e.SubElement(body, self.ns1+method+'_response');
-        response.append(content);
+        e.SubElement(root, self.ns0+'Header')
+        body = e.SubElement(root, self.ns0+'Body')
+        response = e.SubElement(body, self.ns1+method+'_response')
+        response.append(content)
         
         return e.tostring(root, pretty_print=True)         
     
@@ -62,62 +62,62 @@ class SoapHandler():
         
         try:
             
-            action = headers['HTTP_SOAPACTION'] if headers.has_key('HTTP_SOAPACTION') else None;
-            doc = lxml.objectify.fromstring(data);
-            el_action = self.ns1+action;
+            action = headers['HTTP_SOAPACTION'] if headers.has_key('HTTP_SOAPACTION') else None
+            doc = lxml.objectify.fromstring(data)
+            el_action = self.ns1+action
             
             if (action == None):
-                return self.fault('Missing SOAPAction');
+                return self.fault('Missing SOAPAction')
             elif (action == 'read_customer'):
-                return self.read_customer(doc.Body[el_action]);
+                return self.read_customer(doc.Body[el_action])
             elif (action == 'create_customer'):
-                return self.create_customer(doc.Body[el_action]);
+                return self.create_customer(doc.Body[el_action])
             elif (action == 'change_customer'):
-                return self.change_customer(doc.Body[el_action]);                        
+                return self.change_customer(doc.Body[el_action])                        
             elif (action == 'read_payer'):
-                return self.read_payer(doc.Body[el_action]);
+                return self.read_payer(doc.Body[el_action])
             elif (action == 'create_payer'):
-                return self.create_payer(doc.Body[el_action]);
+                return self.create_payer(doc.Body[el_action])
             elif (action == 'change_payer'):
-                return self.change_payer(doc.Body[el_action]); 
+                return self.change_payer(doc.Body[el_action]) 
             elif (action == 'read_subscriber'):
-                return self.read_subscriber(doc.Body[el_action]);
+                return self.read_subscriber(doc.Body[el_action])
             elif (action == 'create_subscriber'):
-                return self.create_subscriber(doc.Body[el_action]);
+                return self.create_subscriber(doc.Body[el_action])
             elif (action == 'change_subscriber'):
-                return self.change_subscriber(doc.Body[el_action]); 
+                return self.change_subscriber(doc.Body[el_action]) 
             elif (action == 'read_contact'):
-                return self.read_contact(doc.Body[el_action]);
+                return self.read_contact(doc.Body[el_action])
             elif (action == 'create_contact'):
-                return self.create_contact(doc.Body[el_action]);
+                return self.create_contact(doc.Body[el_action])
             elif (action == 'change_contact'):
-                return self.change_contact(doc.Body[el_action]);
+                return self.change_contact(doc.Body[el_action])
             elif (action == 'assign_contact_role'):
-                return self.assign_contact_role(doc.Body[el_action]); 
+                return self.assign_contact_role(doc.Body[el_action]) 
             elif (action == 'revoke_contact_role'):
-                return self.revoke_contact_role(doc.Body[el_action]);             
+                return self.revoke_contact_role(doc.Body[el_action])             
             elif (action == 'read_address'):
-                return self.read_address(doc.Body[el_action]);
+                return self.read_address(doc.Body[el_action])
             elif (action == 'create_address'):
-                return self.create_address(doc.Body[el_action]);
+                return self.create_address(doc.Body[el_action])
             elif (action == 'change_address'):
-                return self.change_address(doc.Body[el_action]); 
+                return self.change_address(doc.Body[el_action]) 
             elif (action == 'assign_address_role'):
-                return self.assign_address_role(doc.Body[el_action]); 
+                return self.assign_address_role(doc.Body[el_action]) 
             elif (action == 'revoke_address_role'):
-                return self.revoke_address_role(doc.Body[el_action]);             
+                return self.revoke_address_role(doc.Body[el_action])             
             elif (action == 'read_services'):
-                return self.read_services(doc.Body[el_action]);
+                return self.read_services(doc.Body[el_action])
             elif (action == 'create_service'):
-                return self.create_service(doc.Body[el_action]);
+                return self.create_service(doc.Body[el_action])
             elif (action == 'change_service'):
-                return self.change_service(doc.Body[el_action]);                                                                    
+                return self.change_service(doc.Body[el_action])                                                                    
             else:
-                return self.fault('Invalid SOAPAction {0}'.format(action));
+                return self.fault('Invalid SOAPAction {0}'.format(action))
             
         except e.XMLSyntaxError, ex:
-            self._mh.dmsg('htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere());
-            return self.fault('Invalid XML - ' + ex);
+            self._mh.dmsg('htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere())
+            return self.fault('Invalid XML - ' + ex)
         
     def read_customer(self, doc):
         """Method handles read_customer request         
@@ -129,18 +129,21 @@ class SoapHandler():
            read_customer_response with crm_entities.Customer in XML
            SOAP fault when customer not found            
                 
-        """           
-
-        id = doc.find('id').text if doc.find('id') else None;
+        """ 
         
-        db = self._get_db();            
-        customer = db.read_customer(id);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_customer', e.tostring(doc)), 
+                      self._mh.fromhere())                  
+
+        id = doc.find('id').text if doc.find('id') else None
+        
+        db = self._get_db()            
+        customer = db.read_customer(id)
+        db.disconnect()
         
         if (customer != None):
-            return self.response('read_customer', customer.toxml());
+            return self.response('read_customer', customer.toxml())
         else:
-            return self.fault('Customer {0} not found'.format(id));  
+            return self.fault('Customer {0} not found'.format(id))  
         
     def create_customer(self, doc):
         """Method handles create_customer request         
@@ -160,25 +163,28 @@ class SoapHandler():
            create_customer_response with id of created customer
            SOAP fault when customer not created           
                 
-        """             
+        """  
         
-        name = doc.find('name').text if doc.find('name') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        segment = doc.find('segment').text if doc.find('segment') else None;
-        birth_no = doc.find('birth_no').text if doc.find('birth_no') else None;
-        reg_no = doc.find('reg_no').text if doc.find('reg_no') else None;
-        tax_no = doc.find('tax_no').text if doc.find('tax_no') else None;  
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_customer', e.tostring(doc)), 
+                      self._mh.fromhere())                      
         
-        db = self._get_db();
-        id = db.create_customer(name, segment, status, birth_no, reg_no, tax_no);
-        db.disconnect();
+        name = doc.find('name').text if doc.find('name') else None
+        status = doc.find('status').text if doc.find('status') else None
+        segment = doc.find('segment').text if doc.find('segment') else None
+        birth_no = doc.find('birth_no').text if doc.find('birth_no') else None
+        reg_no = doc.find('reg_no').text if doc.find('reg_no') else None
+        tax_no = doc.find('tax_no').text if doc.find('tax_no') else None  
+        
+        db = self._get_db()
+        id = db.create_customer(name, segment, status, birth_no, reg_no, tax_no)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('id');
-            elem.text = str(id);
-            return self.response('create_customer', elem);
+            elem = e.Element('id')
+            elem.text = str(id)
+            return self.response('create_customer', elem)
         else:
-            return self.fault('Customer not created');     
+            return self.fault('Customer not created')     
         
     def change_customer(self, doc):
         """Method handles change_customer request         
@@ -190,26 +196,29 @@ class SoapHandler():
            change_customer_response with result true when customer changed
            SOAP fault when customer not changed           
                 
-        """        
+        """     
         
-        id = doc.find('id').text if doc.find('id') else None;
-        name = doc.find('name').text if doc.find('name') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        segment = doc.find('segment').text if doc.find('segment') else None;
-        birth_no = doc.find('birth_no').text if doc.find('birth_no') else None;
-        reg_no = doc.find('reg_no').text if doc.find('reg_no') else None;
-        tax_no = doc.find('tax_no').text if doc.find('tax_no') else None;  
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_customer', e.tostring(doc)), 
+                      self._mh.fromhere())              
         
-        db = self._get_db();
-        res = db.change_customer(id, name, status, segment, birth_no, reg_no, tax_no);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        name = doc.find('name').text if doc.find('name') else None
+        status = doc.find('status').text if doc.find('status') else None
+        segment = doc.find('segment').text if doc.find('segment') else None
+        birth_no = doc.find('birth_no').text if doc.find('birth_no') else None
+        reg_no = doc.find('reg_no').text if doc.find('reg_no') else None
+        tax_no = doc.find('tax_no').text if doc.find('tax_no') else None  
+        
+        db = self._get_db()
+        res = db.change_customer(id, name, status, segment, birth_no, reg_no, tax_no)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_customer', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_customer', elem)
         else:
-            return self.fault('Customer not changed');                   
+            return self.fault('Customer not changed')                   
         
     def read_payer(self, doc):
         """Method handles read_payer request         
@@ -221,18 +230,21 @@ class SoapHandler():
            read_payer_response with crm_entities.Payer in XML
            SOAP fault when payer not found            
                 
-        """           
-
-        id = doc.find('id').text if doc.find('id') else None;
+        """       
         
-        db = self._get_db();            
-        payer = db.read_payer(id);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_payer', e.tostring(doc)), 
+                      self._mh.fromhere())               
+
+        id = doc.find('id').text if doc.find('id') else None
+        
+        db = self._get_db()            
+        payer = db.read_payer(id)
+        db.disconnect()
         
         if (payer != None):
-            return self.response('read_payer', payer.toxml());
+            return self.response('read_payer', payer.toxml())
         else:
-            return self.fault('Payer {0} not found'.format(id));  
+            return self.fault('Payer {0} not found'.format(id))  
         
     def create_payer(self, doc):
         """Method handles create_payer request         
@@ -251,24 +263,27 @@ class SoapHandler():
            create_payer_response with id of created payer
            SOAP fault when payer not created           
                 
-        """             
+        """    
         
-        name = doc.find('name').text if doc.find('name') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        billcycle = doc.find('billcycle').text if doc.find('billcycle') else None;
-        bank_account = doc.find('bank_account').text if doc.find('bank_account') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_payer', e.tostring(doc)), 
+                      self._mh.fromhere())                    
         
-        db = self._get_db();
-        id = db.create_payer(name, billcycle, customer, status, bank_account);
-        db.disconnect();
+        name = doc.find('name').text if doc.find('name') else None
+        status = doc.find('status').text if doc.find('status') else None
+        billcycle = doc.find('billcycle').text if doc.find('billcycle') else None
+        bank_account = doc.find('bank_account').text if doc.find('bank_account') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        
+        db = self._get_db()
+        id = db.create_payer(name, billcycle, customer, status, bank_account)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('id');
-            elem.text = str(id);
-            return self.response('create_payer', elem);
+            elem = e.Element('id')
+            elem.text = str(id)
+            return self.response('create_payer', elem)
         else:
-            return self.fault('Payer not created');     
+            return self.fault('Payer not created')     
         
     def change_payer(self, doc):
         """Method handles change_payer request         
@@ -280,25 +295,28 @@ class SoapHandler():
            change_payer_response with result true when payer changed
            SOAP fault when payer not changed           
                 
-        """        
+        """ 
         
-        id = doc.find('id').text if doc.find('id') else None;
-        name = doc.find('name').text if doc.find('name') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        billcycle = doc.find('billcycle').text if doc.find('billcycle') else None;
-        bank_account = doc.find('bank_account').text if doc.find('bank_account') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_payer', e.tostring(doc)), 
+                      self._mh.fromhere())                  
         
-        db = self._get_db();
-        res = db.change_payer(id, name, status, billcycle, bank_account, customer);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        name = doc.find('name').text if doc.find('name') else None
+        status = doc.find('status').text if doc.find('status') else None
+        billcycle = doc.find('billcycle').text if doc.find('billcycle') else None
+        bank_account = doc.find('bank_account').text if doc.find('bank_account') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        
+        db = self._get_db()
+        res = db.change_payer(id, name, status, billcycle, bank_account, customer)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_payer', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_payer', elem)
         else:
-            return self.fault('Payer not changed');        
+            return self.fault('Payer not changed')        
         
     def read_subscriber(self, doc):
         """Method handles read_csubscriber request         
@@ -311,17 +329,20 @@ class SoapHandler():
            SOAP fault when subscriber not found            
                 
         """           
-
-        id = doc.find('id').text if doc.find('id') else None;
         
-        db = self._get_db();            
-        subscriber = db.read_subscriber(id);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_subscriber', e.tostring(doc)), 
+                      self._mh.fromhere())           
+
+        id = doc.find('id').text if doc.find('id') else None
+        
+        db = self._get_db()            
+        subscriber = db.read_subscriber(id)
+        db.disconnect()
         
         if (subscriber != None):
-            return self.response('read_subscriber', subscriber.toxml());
+            return self.response('read_subscriber', subscriber.toxml())
         else:
-            return self.fault('Subscriber {0} not found'.format(id));  
+            return self.fault('Subscriber {0} not found'.format(id))  
         
     def create_subscriber(self, doc):
         """Method handles create_subscriber request         
@@ -344,24 +365,27 @@ class SoapHandler():
                 
         """             
         
-        name = doc.find('name').text if doc.find('name') else None;
-        msisdn = doc.find('msisdn').text if doc.find('msisdn') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        market = doc.find('market').text if doc.find('market') else None;
-        tariff = doc.find('tariff').text if doc.find('tariff') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;  
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_subscriber', e.tostring(doc)), 
+                      self._mh.fromhere())           
         
-        db = self._get_db();
-        id = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status);
-        db.disconnect();
+        name = doc.find('name').text if doc.find('name') else None
+        msisdn = doc.find('msisdn').text if doc.find('msisdn') else None
+        status = doc.find('status').text if doc.find('status') else None
+        market = doc.find('market').text if doc.find('market') else None
+        tariff = doc.find('tariff').text if doc.find('tariff') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None  
+        
+        db = self._get_db()
+        id = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('id');
-            elem.text = str(id);
-            return self.response('create_subscriber', elem);
+            elem = e.Element('id')
+            elem.text = str(id)
+            return self.response('create_subscriber', elem)
         else:
-            return self.fault('Subscriber not created');     
+            return self.fault('Subscriber not created')     
         
     def change_subscriber(self, doc):
         """Method handles change_subscriber request         
@@ -373,27 +397,30 @@ class SoapHandler():
            change_subscriber_response with result true when subscriber changed
            SOAP fault when subscriber not changed           
                 
-        """        
+        """     
         
-        id = doc.find('id').text if doc.find('id') else None;
-        name = doc.find('name').text if doc.find('name') else None;
-        msisdn = doc.find('msisdn').text if doc.find('msisdn') else None;
-        status = doc.find('status').text if doc.find('status') else None;
-        market = doc.find('market').text if doc.find('market') else None;
-        tariff = doc.find('tariff').text if doc.find('tariff') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;  
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_subscriber', e.tostring(doc)), 
+                      self._mh.fromhere())              
         
-        db = self._get_db();
-        res = db.change_subscriber(id, name, msisdn, status, market, tariff, customer, payer);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        name = doc.find('name').text if doc.find('name') else None
+        msisdn = doc.find('msisdn').text if doc.find('msisdn') else None
+        status = doc.find('status').text if doc.find('status') else None
+        market = doc.find('market').text if doc.find('market') else None
+        tariff = doc.find('tariff').text if doc.find('tariff') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None  
+        
+        db = self._get_db()
+        res = db.change_subscriber(id, name, msisdn, status, market, tariff, customer, payer)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_subscriber', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_subscriber', elem)
         else:
-            return self.fault('Subscriber not changed');            
+            return self.fault('Subscriber not changed')            
         
     def read_contact(self, doc):
         """Method handles read_contact request         
@@ -406,17 +433,20 @@ class SoapHandler():
            SOAP fault when contact not found            
                 
         """           
-
-        id = doc.find('id').text if doc.find('id') else None;
         
-        db = self._get_db();            
-        contact = db.read_contact(id);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_contact', e.tostring(doc)), 
+                      self._mh.fromhere())           
+
+        id = doc.find('id').text if doc.find('id') else None
+        
+        db = self._get_db()            
+        contact = db.read_contact(id)
+        db.disconnect()
         
         if (contact != None):
-            return self.response('read_contact', contact.toxml());
+            return self.response('read_contact', contact.toxml())
         else:
-            return self.fault('Contact {0} not found'.format(id));  
+            return self.fault('Contact {0} not found'.format(id))  
         
     def create_contact(self, doc):
         """Method handles create_contact request         
@@ -433,22 +463,25 @@ class SoapHandler():
            create_contact_response with id of created contact
            SOAP fault when contact not created           
                 
-        """             
+        """  
         
-        name = doc.find('name').text if doc.find('name') else None;
-        phone = doc.find('phone').text if doc.find('phone') else None;
-        email = doc.find('email').text if doc.find('email') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_contact', e.tostring(doc)), 
+                      self._mh.fromhere())                      
         
-        db = self._get_db();
-        id = db.create_contact(name, phone, email);
-        db.disconnect();
+        name = doc.find('name').text if doc.find('name') else None
+        phone = doc.find('phone').text if doc.find('phone') else None
+        email = doc.find('email').text if doc.find('email') else None
+        
+        db = self._get_db()
+        id = db.create_contact(name, phone, email)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('id');
-            elem.text = str(id);
-            return self.response('create_contact', elem);
+            elem = e.Element('id')
+            elem.text = str(id)
+            return self.response('create_contact', elem)
         else:
-            return self.fault('Contact not created');     
+            return self.fault('Contact not created')     
         
     def change_contact(self, doc):
         """Method handles change_contact request         
@@ -460,23 +493,26 @@ class SoapHandler():
            change_contact_response with result true when contact changed
            SOAP fault when contact not changed           
                 
-        """        
+        """    
         
-        id = doc.find('id').text if doc.find('id') else None;
-        name = doc.find('name').text if doc.find('name') else None;
-        phone = doc.find('phone').text if doc.find('phone') else None;
-        email = doc.find('email').text if doc.find('email') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_contact', e.tostring(doc)), 
+                      self._mh.fromhere())               
         
-        db = self._get_db();
-        res = db.change_contact(id, name, phone, email);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        name = doc.find('name').text if doc.find('name') else None
+        phone = doc.find('phone').text if doc.find('phone') else None
+        email = doc.find('email').text if doc.find('email') else None
+        
+        db = self._get_db()
+        res = db.change_contact(id, name, phone, email)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_contact', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_contact', elem)
         else:
-            return self.fault('Contact not changed');  
+            return self.fault('Contact not changed')  
         
     def assign_contact_role(self, doc):
         """Method handles assign_contact_role request         
@@ -495,24 +531,27 @@ class SoapHandler():
            assign_contact_role_response with result true when contact role assigned
            SOAP fault when contact role not assigned          
                 
-        """             
+        """   
         
-        id = doc.find('id').text if doc.find('id') else None;
-        title = doc.find('title').text if doc.find('title') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;        
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_contact_role', e.tostring(doc)), 
+                      self._mh.fromhere())                     
         
-        db = self._get_db();
-        res = db.assign_contact_role(id, title, customer, payer, subscriber);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        title = doc.find('title').text if doc.find('title') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None        
+        
+        db = self._get_db()
+        res = db.assign_contact_role(id, title, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('assign_contact_role', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('assign_contact_role', elem)
         else:
-            return self.fault('Contact role not assigned');   
+            return self.fault('Contact role not assigned')   
         
     def revoke_contact_role(self, doc):
         """Method handles revoke_contact_role request         
@@ -524,24 +563,27 @@ class SoapHandler():
            revoke_contact_role_response with result true when contact role revoked
            SOAP fault when contact role not revoked          
                 
-        """             
+        """   
         
-        id = doc.find('id').text if doc.find('id') else None;
-        title = doc.find('title').text if doc.find('title') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;        
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_contact_role', e.tostring(doc)), 
+                      self._mh.fromhere())                     
         
-        db = self._get_db();
-        res = db.revoke_contact_role(id, title, customer, payer, subscriber);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        title = doc.find('title').text if doc.find('title') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None        
+        
+        db = self._get_db()
+        res = db.revoke_contact_role(id, title, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('revoke_contact_role', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('revoke_contact_role', elem)
         else:
-            return self.fault('Contact role not revoked');                     
+            return self.fault('Contact role not revoked')                     
         
     def read_address(self, doc):
         """Method handles read_address request         
@@ -554,17 +596,20 @@ class SoapHandler():
            SOAP fault when address not found            
                 
         """           
-
-        id = doc.find('id').text if doc.find('id') else None;
         
-        db = self._get_db();            
-        address = db.read_address(id);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_address', e.tostring(doc)), 
+                      self._mh.fromhere())           
+
+        id = doc.find('id').text if doc.find('id') else None
+        
+        db = self._get_db()            
+        address = db.read_address(id)
+        db.disconnect()
         
         if (address != None):
-            return self.response('read_address', address.toxml());
+            return self.response('read_address', address.toxml())
         else:
-            return self.fault('Address {0} not found'.format(id));  
+            return self.fault('Address {0} not found'.format(id))  
         
     def create_address(self, doc):
         """Method handles create_address request         
@@ -582,23 +627,26 @@ class SoapHandler():
            create_address_response with id of created address
            SOAP fault when address not created           
                 
-        """             
+        """    
         
-        street = doc.find('street').text if doc.find('street') else None;
-        street_no = doc.find('street_no').text if doc.find('street_no') else None;
-        city = doc.find('city').text if doc.find('city') else None;
-        zip = doc.find('zip').text if doc.find('zip') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_address', e.tostring(doc)), 
+                      self._mh.fromhere())                    
         
-        db = self._get_db();
-        id = db.create_address(street, street_no, city, zip);
-        db.disconnect();
+        street = doc.find('street').text if doc.find('street') else None
+        street_no = doc.find('street_no').text if doc.find('street_no') else None
+        city = doc.find('city').text if doc.find('city') else None
+        zip = doc.find('zip').text if doc.find('zip') else None
+        
+        db = self._get_db()
+        id = db.create_address(street, street_no, city, zip)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('id');
-            elem.text = str(id);
-            return self.response('create_address', elem);
+            elem = e.Element('id')
+            elem.text = str(id)
+            return self.response('create_address', elem)
         else:
-            return self.fault('Address not created');     
+            return self.fault('Address not created')     
         
     def change_address(self, doc):
         """Method handles change_address request         
@@ -612,22 +660,25 @@ class SoapHandler():
                 
         """        
         
-        id = doc.find('id').text if doc.find('id') else None;
-        street = doc.find('street').text if doc.find('street') else None;
-        street_no = doc.find('street_no').text if doc.find('street_no') else None;
-        city = doc.find('city').text if doc.find('city') else None;
-        zip = doc.find('zip').text if doc.find('zip') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_address', e.tostring(doc)), 
+                      self._mh.fromhere())           
         
-        db = self._get_db();
-        res = db.change_address(id, street, street_no, city, zip);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        street = doc.find('street').text if doc.find('street') else None
+        street_no = doc.find('street_no').text if doc.find('street_no') else None
+        city = doc.find('city').text if doc.find('city') else None
+        zip = doc.find('zip').text if doc.find('zip') else None
+        
+        db = self._get_db()
+        res = db.change_address(id, street, street_no, city, zip)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_address', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_address', elem)
         else:
-            return self.fault('Address not changed');    
+            return self.fault('Address not changed')    
         
     def assign_address_role(self, doc):
         """Method handles assign_address_role request         
@@ -647,25 +698,28 @@ class SoapHandler():
            assign_address_role_response with result true when address role assigned
            SOAP fault when address role not assigned          
                 
-        """             
+        """  
         
-        id = doc.find('id').text if doc.find('id') else None;
-        title = doc.find('title').text if doc.find('title') else None;
-        contact = doc.find('contact').text if doc.find('contact') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;        
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_address_role', e.tostring(doc)), 
+                      self._mh.fromhere())                      
         
-        db = self._get_db();
-        res = db.assign_address_role(id, title, contact, customer, payer, subscriber);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        title = doc.find('title').text if doc.find('title') else None
+        contact = doc.find('contact').text if doc.find('contact') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None        
+        
+        db = self._get_db()
+        res = db.assign_address_role(id, title, contact, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('assign_address_role', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('assign_address_role', elem)
         else:
-            return self.fault('Address role not assigned');   
+            return self.fault('Address role not assigned')   
         
     def revoke_address_role(self, doc):
         """Method handles revoke_address_role request         
@@ -677,25 +731,28 @@ class SoapHandler():
            revoke_address_role_response with result true when address role revoked
            SOAP fault when address role not revoked          
                 
-        """             
+        """ 
         
-        id = doc.find('id').text if doc.find('id') else None;
-        title = doc.find('title').text if doc.find('title') else None;
-        contact = doc.find('contact').text if doc.find('contact') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;        
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_address_role', e.tostring(doc)), 
+                      self._mh.fromhere())                       
         
-        db = self._get_db();
-        res = db.revoke_address_role(id, title, contact, customer, payer, subscriber);
-        db.disconnect();
+        id = doc.find('id').text if doc.find('id') else None
+        title = doc.find('title').text if doc.find('title') else None
+        contact = doc.find('contact').text if doc.find('contact') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None        
+        
+        db = self._get_db()
+        res = db.revoke_address_role(id, title, contact, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            elem = e.Element('id');
-            elem.text = 'true';
-            return self.response('revoke_address_role', elem);
+            elem = e.Element('id')
+            elem.text = 'true'
+            return self.response('revoke_address_role', elem)
         else:
-            return self.fault('Address role not revoked'); 
+            return self.fault('Address role not revoked') 
         
     def read_services(self, doc):
         """Method handles read_services request         
@@ -710,26 +767,29 @@ class SoapHandler():
            read_services_response with list of crm_entities.Service in XML
            SOAP fault when address not found            
                 
-        """           
-
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;
-        service = doc.find('service').text if doc.find('service') else None;
+        """
         
-        db = self._get_db();            
-        services = db.read_services(customer, payer, subscriber, service);
-        db.disconnect();
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_services', e.tostring(doc)), 
+                      self._mh.fromhere())                      
+
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None
+        service = doc.find('service').text if doc.find('service') else None
+        
+        db = self._get_db()            
+        services = db.read_services(customer, payer, subscriber, service)
+        db.disconnect()
         
         if (len(services) > 0):
             
-            elem = e.Element('services');
+            elem = e.Element('services')
             for service in services:
-                elem.append(service.toxml());
+                elem.append(service.toxml())
             
-            return self.response('read_services', elem);
+            return self.response('read_services', elem)
         else:
-            return self.fault('Service not found'.format(id));          
+            return self.fault('Service not found'.format(id))          
         
     def create_service(self, doc):
         """Method handles create_service request         
@@ -753,29 +813,32 @@ class SoapHandler():
            create_service_response with result true
            SOAP fault when service not created           
                 
-        """             
+        """  
         
-        service = doc.find('service').text if doc.find('service') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;
-        status = doc.find('status').text if doc.find('status') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_service', e.tostring(doc)), 
+                      self._mh.fromhere())                      
         
-        params = {};
+        service = doc.find('service').text if doc.find('service') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None
+        status = doc.find('status').text if doc.find('status') else None
+        
+        params = {}
         if (doc.find('params') != None):
             for param in doc.findall('params/entry'):
-                params[param.find('key').text] = param.find('value').text;
+                params[param.find('key').text] = param.find('value').text
         
-        db = self._get_db();
-        res = db.create_service(service, customer, payer, subscriber, status, params);
-        db.disconnect();
+        db = self._get_db()
+        res = db.create_service(service, customer, payer, subscriber, status, params)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('create_service', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('create_service', elem)
         else:
-            return self.fault('Service not created');     
+            return self.fault('Service not created')     
         
     def change_service(self, doc):
         """Method handles change_service request         
@@ -787,26 +850,29 @@ class SoapHandler():
            change_service_response with result true
            SOAP fault when service not changed           
                 
-        """             
+        """     
         
-        service = doc.find('service').text if doc.find('service') else None;
-        customer = doc.find('customer').text if doc.find('customer') else None;
-        payer = doc.find('payer').text if doc.find('payer') else None;
-        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None;
-        status = doc.find('status').text if doc.find('status') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_service', e.tostring(doc)), 
+                      self._mh.fromhere())                   
         
-        params = {};
+        service = doc.find('service').text if doc.find('service') else None
+        customer = doc.find('customer').text if doc.find('customer') else None
+        payer = doc.find('payer').text if doc.find('payer') else None
+        subscriber = doc.find('subscriber').text if doc.find('subscriber') else None
+        status = doc.find('status').text if doc.find('status') else None
+        
+        params = {}
         if (doc.find('params') != None):
             for param in doc.findall('params/entry'):
-                params[param.find('key').text] = param.find('value').text;
+                params[param.find('key').text] = param.find('value').text
         
-        db = self._get_db();
-        res = db.change_service(service, customer, payer, subscriber, status, params);
-        db.disconnect();
+        db = self._get_db()
+        res = db.change_service(service, customer, payer, subscriber, status, params)
+        db.disconnect()
         
         if (id != None):
-            elem = e.Element('result');
-            elem.text = 'true';
-            return self.response('change_service', elem);
+            elem = e.Element('result')
+            elem.text = 'true'
+            return self.response('change_service', elem)
         else:
-            return self.fault('Service not changed');                                                      
+            return self.fault('Service not changed')                                                      

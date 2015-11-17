@@ -9,24 +9,24 @@
 
 """
 
-from hydratk.core.masterhead import MasterHead;
-import hydratk.extensions.testenv.interfaces.db_int as db_int; 
-import web;
-import jsonlib2;
+from hydratk.core.masterhead import MasterHead
+import hydratk.extensions.testenv.interfaces.db_int as db_int 
+import web
+import jsonlib2
 
 class RestHandler:
     
-    _mh = None;
+    _mh = None
     
     def __init__(self):
         
-        self._mh = MasterHead.get_head();
+        self._mh = MasterHead.get_head()
 
     def _get_db(self):    
     
-        db = db_int.DB_INT();
-        db.connect();
-        return db;
+        db = db_int.DB_INT()
+        db.connect()
+        return db
 
     def read_customer(self, data):
         """Method handles GET customer           
@@ -39,21 +39,24 @@ class RestHandler:
            HTTP 404 when customer not found
            HTTP 400 when param id is missing 
                 
-        """             
+        """          
+           
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_customer', data), 
+                      self._mh.fromhere())
         
         if (data.has_key('id')):
         
-            db = self._get_db();            
-            customer = db.read_customer(data.id);
-            db.disconnect();
+            db = self._get_db()            
+            customer = db.read_customer(data.id)
+            db.disconnect()
             
             if (customer != None):
-                return customer.tojson();
+                return customer.tojson()
             else:
-                return web.NotFound;                        
+                return web.NotFound                        
         
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def create_customer(self, data):   
         """Method handles POST customer           
@@ -75,22 +78,25 @@ class RestHandler:
                 
         """              
         
-        doc = jsonlib2.read(data);
-        name = doc['name'] if doc.has_key('name') else None;
-        status = doc['status'] if doc.has_key('status') else 'active';
-        segment = doc['segment'] if doc.has_key('segment') else None;
-        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None;
-        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None;
-        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_customer', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        id = db.create_customer(name, segment, status, birth_no, reg_no, tax_no);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        name = doc['name'] if doc.has_key('name') else None
+        status = doc['status'] if doc.has_key('status') else 'active'
+        segment = doc['segment'] if doc.has_key('segment') else None
+        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None
+        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None
+        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None
+        
+        db = self._get_db()
+        id = db.create_customer(name, segment, status, birth_no, reg_no, tax_no)
+        db.disconnect()
         
         if (id != None):
-            return id;
+            return id
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def change_customer(self, data):  
         """Method handles PUT customer           
@@ -104,23 +110,26 @@ class RestHandler:
                 
         """           
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        name = doc['name'] if doc.has_key('name') else None;
-        status = doc['status'] if doc.has_key('status') else None;
-        segment = doc['segment'] if doc.has_key('segment') else None;
-        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None;
-        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None;
-        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_customer', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        res = db.change_customer(id, name, status, segment, birth_no, reg_no, tax_no);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        name = doc['name'] if doc.has_key('name') else None
+        status = doc['status'] if doc.has_key('status') else None
+        segment = doc['segment'] if doc.has_key('segment') else None
+        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None
+        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None
+        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None
+        
+        db = self._get_db()
+        res = db.change_customer(id, name, status, segment, birth_no, reg_no, tax_no)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();       
+            return web.BadRequest()       
         
     def read_payer(self, data):  
         """Method handles GET payer           
@@ -135,19 +144,22 @@ class RestHandler:
                 
         """             
         
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_payer', data), 
+                      self._mh.fromhere())        
+        
         if (data.has_key('id')):
         
-            db = self._get_db();            
-            payer = db.read_payer(data.id);
-            db.disconnect();
+            db = self._get_db()            
+            payer = db.read_payer(data.id)
+            db.disconnect()
             
             if (payer != None):
-                return payer.tojson();
+                return payer.tojson()
             else:
-                return web.NotFound;                        
+                return web.NotFound                        
         
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def create_payer(self, data): 
         """Method handles POST payer           
@@ -168,21 +180,24 @@ class RestHandler:
                 
         """            
         
-        doc = jsonlib2.read(data);
-        name = doc['name'] if doc.has_key('name') else None;
-        status = doc['status'] if doc.has_key('status') else 'active';
-        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None;
-        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_payer', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        id = db.create_payer(name, billcycle, customer, status, bank_account);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        name = doc['name'] if doc.has_key('name') else None
+        status = doc['status'] if doc.has_key('status') else 'active'
+        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None
+        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        
+        db = self._get_db()
+        id = db.create_payer(name, billcycle, customer, status, bank_account)
+        db.disconnect()
         
         if (id != None):
-            return id;
+            return id
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def change_payer(self, data): 
         """Method handles PUT payer           
@@ -196,22 +211,25 @@ class RestHandler:
                 
         """             
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        name = doc['name'] if doc.has_key('name') else None;
-        status = doc['status'] if doc.has_key('status') else None;
-        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None;
-        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_payer', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        res = db.change_payer(id, name, status, billcycle, bank_account, customer);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        name = doc['name'] if doc.has_key('name') else None
+        status = doc['status'] if doc.has_key('status') else None
+        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None
+        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        
+        db = self._get_db()
+        res = db.change_payer(id, name, status, billcycle, bank_account, customer)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest(); 
+            return web.BadRequest() 
         
     def read_subscriber(self, data):  
         """Method handles GET subscriber           
@@ -226,19 +244,22 @@ class RestHandler:
                 
         """             
         
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_subscriber', data), 
+                      self._mh.fromhere())        
+        
         if (data.has_key('id')):
         
-            db = self._get_db();            
-            subscriber = db.read_subscriber(data.id);
-            db.disconnect();
+            db = self._get_db()            
+            subscriber = db.read_subscriber(data.id)
+            db.disconnect()
             
             if (subscriber != None):
-                return subscriber.tojson();
+                return subscriber.tojson()
             else:
-                return web.NotFound;                        
+                return web.NotFound                        
         
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def create_subscriber(self, data):
         """Method handles POST subscriber           
@@ -261,23 +282,26 @@ class RestHandler:
                 
         """                 
         
-        doc = jsonlib2.read(data);
-        name = doc['name'] if doc.has_key('name') else None;
-        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None;
-        status = doc['status'] if doc.has_key('status') else 'active';
-        market = doc['market'] if doc.has_key('market') else None;
-        tariff = doc['tariff'] if doc.has_key('tariff') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_subscriber', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        id = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        name = doc['name'] if doc.has_key('name') else None
+        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
+        status = doc['status'] if doc.has_key('status') else 'active'
+        market = doc['market'] if doc.has_key('market') else None
+        tariff = doc['tariff'] if doc.has_key('tariff') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
+        
+        db = self._get_db()
+        id = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status)
+        db.disconnect()
         
         if (id != None):
-            return id;
+            return id
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def change_subscriber(self, data):  
         """Method handles PUT subscriber           
@@ -291,24 +315,27 @@ class RestHandler:
                 
         """            
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        name = doc['name'] if doc.has_key('name') else None;
-        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None;
-        status = doc['status'] if doc.has_key('status') else None;
-        market = doc['market'] if doc.has_key('market') else None;
-        tariff = doc['tariff'] if doc.has_key('tariff') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_subscriber', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        res = db.change_subscriber(id, name, msisdn, status, market, tariff, customer, payer);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        name = doc['name'] if doc.has_key('name') else None
+        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
+        status = doc['status'] if doc.has_key('status') else None
+        market = doc['market'] if doc.has_key('market') else None
+        tariff = doc['tariff'] if doc.has_key('tariff') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
+        
+        db = self._get_db()
+        res = db.change_subscriber(id, name, msisdn, status, market, tariff, customer, payer)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();  
+            return web.BadRequest()  
         
     def read_contact(self, data):  
         """Method handles GET contact           
@@ -323,19 +350,22 @@ class RestHandler:
                 
         """             
         
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_contact', data), 
+                      self._mh.fromhere())        
+        
         if (data.has_key('id')):
         
-            db = self._get_db();            
-            contact = db.read_contact(data.id);
-            db.disconnect();
+            db = self._get_db()            
+            contact = db.read_contact(data.id)
+            db.disconnect()
             
             if (contact != None):
-                return contact.tojson();
+                return contact.tojson()
             else:
-                return web.NotFound;                        
+                return web.NotFound                        
         
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def create_contact(self, data):  
         """Method handles POST contact           
@@ -354,19 +384,22 @@ class RestHandler:
                 
         """           
         
-        doc = jsonlib2.read(data);
-        name = doc['name'] if doc.has_key('name') else None;
-        phone = doc['phone'] if doc.has_key('phone') else None;
-        email = doc['email'] if doc.has_key('email') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_contact', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        id = db.create_contact(name, phone, email);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        name = doc['name'] if doc.has_key('name') else None
+        phone = doc['phone'] if doc.has_key('phone') else None
+        email = doc['email'] if doc.has_key('email') else None
+        
+        db = self._get_db()
+        id = db.create_contact(name, phone, email)
+        db.disconnect()
         
         if (id != None):
-            return id;
+            return id
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def change_contact(self, data):  
         """Method handles PUT customer           
@@ -380,20 +413,23 @@ class RestHandler:
                 
         """            
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        name = doc['name'] if doc.has_key('name') else None;
-        phone = doc['phone'] if doc.has_key('phone') else None;
-        email = doc['email'] if doc.has_key('email') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_contact', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        res = db.change_contact(id, name, phone, email);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        name = doc['name'] if doc.has_key('name') else None
+        phone = doc['phone'] if doc.has_key('phone') else None
+        email = doc['email'] if doc.has_key('email') else None
+        
+        db = self._get_db()
+        res = db.change_contact(id, name, phone, email)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();                     
+            return web.BadRequest()                     
         
     def assign_contact_role(self, data):   
         """Method handles POST contact/role           
@@ -414,21 +450,24 @@ class RestHandler:
                 
         """           
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        role = doc['title'] if doc.has_key('title') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_contact_role', data), 
+                      self._mh.fromhere())        
+        
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        role = doc['title'] if doc.has_key('title') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
         
-        db = self._get_db();
-        res = db.assign_contact_role(id, role, customer, payer, subscriber);
-        db.disconnect();
+        db = self._get_db()
+        res = db.assign_contact_role(id, role, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();      
+            return web.BadRequest()      
         
     def revoke_contact_role(self, data): 
         """Method handles PUT contact/role           
@@ -442,21 +481,24 @@ class RestHandler:
                 
         """              
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        role = doc['title'] if doc.has_key('title') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_contat_role', data), 
+                      self._mh.fromhere())        
+        
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        role = doc['title'] if doc.has_key('title') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
         
-        db = self._get_db();
-        res = db.revoke_contact_role(id, role, customer, payer, subscriber);
-        db.disconnect();
+        db = self._get_db()
+        res = db.revoke_contact_role(id, role, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();      
+            return web.BadRequest()      
         
     def read_address(self, data):  
         """Method handles GET address           
@@ -471,19 +513,22 @@ class RestHandler:
                 
         """             
         
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_address', data), 
+                      self._mh.fromhere())        
+        
         if (data.has_key('id')):
         
-            db = self._get_db();            
-            address = db.read_address(data.id);
-            db.disconnect();
+            db = self._get_db()            
+            address = db.read_address(data.id)
+            db.disconnect()
             
             if (address != None):
-                return address.tojson();
+                return address.tojson()
             else:
-                return web.NotFound;                        
+                return web.NotFound                        
         
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def create_address(self, data): 
         """Method handles POST address           
@@ -503,20 +548,23 @@ class RestHandler:
                 
         """            
         
-        doc = jsonlib2.read(data);
-        street = doc['street'] if doc.has_key('street') else None;
-        street_no = doc['street_no'] if doc.has_key('street_no') else None;
-        city = doc['city'] if doc.has_key('city') else None;
-        zip = doc['zip'] if doc.has_key('zip') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_address', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        id = db.create_address(street, street_no, city, zip);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        street = doc['street'] if doc.has_key('street') else None
+        street_no = doc['street_no'] if doc.has_key('street_no') else None
+        city = doc['city'] if doc.has_key('city') else None
+        zip = doc['zip'] if doc.has_key('zip') else None
+        
+        db = self._get_db()
+        id = db.create_address(street, street_no, city, zip)
+        db.disconnect()
         
         if (id != None):
-            return id;
+            return id
         else:
-            return web.BadRequest();
+            return web.BadRequest()
         
     def change_address(self, data):   
         """Method handles PUT address           
@@ -530,21 +578,24 @@ class RestHandler:
                 
         """           
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        street = doc['street'] if doc.has_key('street') else None;
-        street_no = doc['street_no'] if doc.has_key('street_no') else None;
-        city = doc['city'] if doc.has_key('city') else None;
-        zip = doc['zip'] if doc.has_key('zip') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_address', data), 
+                      self._mh.fromhere())        
         
-        db = self._get_db();
-        res = db.change_address(id, street, street_no, city, zip);
-        db.disconnect();
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        street = doc['street'] if doc.has_key('street') else None
+        street_no = doc['street_no'] if doc.has_key('street_no') else None
+        city = doc['city'] if doc.has_key('city') else None
+        zip = doc['zip'] if doc.has_key('zip') else None
+        
+        db = self._get_db()
+        res = db.change_address(id, street, street_no, city, zip)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();                     
+            return web.BadRequest()                     
         
     def assign_address_role(self, data): 
         """Method handles POST address/role           
@@ -566,22 +617,25 @@ class RestHandler:
                 
         """              
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        role = doc['title'] if doc.has_key('title') else None;
-        contact = doc['contact'] if doc.has_key('contact') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_address_role', data), 
+                      self._mh.fromhere())        
+        
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        role = doc['title'] if doc.has_key('title') else None
+        contact = doc['contact'] if doc.has_key('contact') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
         
-        db = self._get_db();
-        res = db.assign_address_role(id, role, contact, customer, payer, subscriber);
-        db.disconnect();
+        db = self._get_db()
+        res = db.assign_address_role(id, role, contact, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();      
+            return web.BadRequest()      
         
     def revoke_address_role(self, data):
         """Method handles PUT address/role           
@@ -595,22 +649,25 @@ class RestHandler:
                 
         """               
         
-        doc = jsonlib2.read(data);
-        id = doc['id'] if doc.has_key('id') else None;
-        role = doc['title'] if doc.has_key('title') else None;
-        contact = doc['contact'] if doc.has_key('contact') else None;
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_address_role', data), 
+                      self._mh.fromhere())        
+        
+        doc = jsonlib2.read(data)
+        id = doc['id'] if doc.has_key('id') else None
+        role = doc['title'] if doc.has_key('title') else None
+        contact = doc['contact'] if doc.has_key('contact') else None
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
         
-        db = self._get_db();
-        res = db.revoke_address_role(id, role, contact, customer, payer, subscriber);
-        db.disconnect();
+        db = self._get_db()
+        res = db.revoke_address_role(id, role, contact, customer, payer, subscriber)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest(); 
+            return web.BadRequest() 
         
     def read_services(self, data):  
         """Method handles GET service           
@@ -626,41 +683,44 @@ class RestHandler:
            HTTP 404 when service not found
            HTTP 400 when no entity is provided 
                 
-        """                 
+        """          
         
-        customer = data['customer'] if data.has_key('customer') else None;
-        payer = data['payer'] if data.has_key('payer') else None;
-        subscriber = data['subscriber'] if data.has_key('subscriber') else None;
-        service = data['service'] if data.has_key('service') else None;
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_services', data), 
+                      self._mh.fromhere())               
+        
+        customer = data['customer'] if data.has_key('customer') else None
+        payer = data['payer'] if data.has_key('payer') else None
+        subscriber = data['subscriber'] if data.has_key('subscriber') else None
+        service = data['service'] if data.has_key('service') else None
         
         if (customer == None and payer == None and subscriber == None):
-            return web.BadRequest();
+            return web.BadRequest()
         
-        db = self._get_db();            
-        srv_list = db.read_services(customer, payer, subscriber, service);
-        db.disconnect();
+        db = self._get_db()            
+        srv_list = db.read_services(customer, payer, subscriber, service)
+        db.disconnect()
             
         if (len(srv_list) > 0):
             
-            root = {};
+            root = {}
             
-            services = [];                                            
+            services = []                                            
             for service in srv_list:  
-                el_service = {'id': service.id, 'name': service.name, 'status': service.status};
+                el_service = {'id': service.id, 'name': service.name, 'status': service.status}
                 
-                el_params = [];             
+                el_params = []             
                 for key, value in service.params.items():  
-                    el_params.append({'key': key, 'value': value}); 
+                    el_params.append({'key': key, 'value': value}) 
                 
-                el_service['params'] = {'entry' : el_params}; 
-                services.append(el_service);                            
+                el_service['params'] = {'entry' : el_params} 
+                services.append(el_service)                            
             
-            root['services'] = {'service': services};
+            root['services'] = {'service': services}
             
-            return jsonlib2.write(root);
+            return jsonlib2.write(root)
             
         else:
-            return web.NotFound;    
+            return web.NotFound    
         
     def create_service(self, data):
         """Method handles POST service           
@@ -689,27 +749,30 @@ class RestHandler:
            HTTP 200 when service created
            HTTP 400 when service not created
                 
-        """            
+        """  
         
-        doc = jsonlib2.read(data);
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None;
-        service = doc['service'] if doc.has_key('service') else None;
-        status = doc['status'] if doc.has_key('status') else 'active'; 
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_service', data), 
+                      self._mh.fromhere())                  
         
-        params = {};
+        doc = jsonlib2.read(data)
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
+        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        service = doc['service'] if doc.has_key('service') else None
+        status = doc['status'] if doc.has_key('status') else 'active' 
+        
+        params = {}
         for param in doc['params']['entry']:
-            params[param['key']] = param['value'];
+            params[param['key']] = param['value']
             
-        db = self._get_db();
-        res = db.create_service(service, customer, payer, subscriber, status, params);
-        db.disconnect();
+        db = self._get_db()
+        res = db.create_service(service, customer, payer, subscriber, status, params)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();      
+            return web.BadRequest()      
         
     def change_service(self, data):
         """Method handles PUT service           
@@ -721,24 +784,27 @@ class RestHandler:
            HTTP 200 when service changed
            HTTP 400 when service not changed
                 
-        """          
+        """  
         
-        doc = jsonlib2.read(data);
-        customer = doc['customer'] if doc.has_key('customer') else None;
-        payer = doc['payer'] if doc.has_key('payer') else None;
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None;
-        service = doc['service'] if doc.has_key('service') else None;
-        status = doc['status'] if doc.has_key('status') else None; 
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_service', data), 
+                      self._mh.fromhere())                
         
-        params = {};
+        doc = jsonlib2.read(data)
+        customer = doc['customer'] if doc.has_key('customer') else None
+        payer = doc['payer'] if doc.has_key('payer') else None
+        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        service = doc['service'] if doc.has_key('service') else None
+        status = doc['status'] if doc.has_key('status') else None 
+        
+        params = {}
         for param in doc['params']['entry']:
-            params[param['key']] = param['value'];
+            params[param['key']] = param['value']
             
-        db = self._get_db();
-        res = db.change_service(service, customer, payer, subscriber, status, params);
-        db.disconnect();
+        db = self._get_db()
+        res = db.change_service(service, customer, payer, subscriber, status, params)
+        db.disconnect()
         
         if (res):
-            return web.OK();
+            return web.OK()
         else:
-            return web.BadRequest();                                                                           
+            return web.BadRequest()                                                                           
