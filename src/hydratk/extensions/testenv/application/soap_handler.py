@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extension
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.application.soap_handler
+.. module:: testenv.application.soap_handler
    :platform: Unix
    :synopsis: Handles SOAP operations
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -18,56 +17,89 @@ import lxml.objectify
 class SoapHandler():
 
     _mh = None
-    nsmap = None
-    ns0 = None
-    ns1 = None
+    _nsmap = None
+    _ns0 = None
+    _ns1 = None
     
     def __init__(self):
+        """Class constructor
+           
+        Called when the object is initialized    
+           
+        """         
         
         self._mh = MasterHead.get_head()
-        self.nsmap = {'soapenv': 'http://www.w3.org/2003/05/soap-envelope/',
+        self._nsmap = {'soapenv': 'http://www.w3.org/2003/05/soap-envelope/',
                       'ns0': 'http://hydratk.org/'}
-        self.ns0 = '{%s}' % self.nsmap['soapenv']
-        self.ns1 = '{%s}' % self.nsmap['ns0']        
+        self._ns0 = '{%s}' % self._nsmap['soapenv']
+        self._ns1 = '{%s}' % self._nsmap['ns0']        
 
-    def _get_db(self):    
+    def _get_db(self):
+        """Method connect to database     
+           
+        Args:
+
+        Returns:
+           DB_INT: DB client                 
+                
+        """              
     
         db = db_int.DB_INT()
         db.connect()
         return db
     
-    def fault(self, message):
+    def _fault(self, message):
+        """Method creates SOAP fault     
+           
+        Args:
+           message (str): error message                
+                
+        """          
         
-        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap)
+        root = e.Element(self._ns0+'Envelope', nsmap=self._nsmap)
         
-        e.SubElement(root, self.ns0+'Header')
-        body = e.SubElement(root, self.ns0+'Body')
-        fault = e.SubElement(body, self.ns0+'Fault')
-        e.SubElement(fault, self.ns1+'message').text = str(message)
+        e.SubElement(root, self._ns0+'Header')
+        body = e.SubElement(root, self._ns0+'Body')
+        fault = e.SubElement(body, self._ns0+'Fault')
+        e.SubElement(fault, self._ns1+'message').text = str(message)
         
         return e.tostring(root, pretty_print=True) 
     
-    def response(self, method, content):        
+    def _response(self, method, content):        
+        """Method creates SOAP response     
+           
+        Args:
+           method (str): method name
+           content (xml): response body                  
+                
+        """                   
         
-        root = e.Element(self.ns0+'Envelope', nsmap=self.nsmap)
+        root = e.Element(self._ns0+'Envelope', nsmap=self._nsmap)
         
-        e.SubElement(root, self.ns0+'Header')
-        body = e.SubElement(root, self.ns0+'Body')
-        response = e.SubElement(body, self.ns1+method+'_response')
+        e.SubElement(root, self._ns0+'Header')
+        body = e.SubElement(root, self._ns0+'Body')
+        response = e.SubElement(body, self._ns1+method+'_response')
         response.append(content)
         
         return e.tostring(root, pretty_print=True)         
     
     def dispatcher(self, headers, data):
+        """Method dispatches request according to SOAPAction        
+           
+        Args:
+           headers (dict): HTTP headers
+           data (str): SOAP request                  
+                
+        """         
         
         try:
             
             action = headers['HTTP_SOAPACTION'] if headers.has_key('HTTP_SOAPACTION') else None
             doc = lxml.objectify.fromstring(data)
-            el_action = self.ns1+action
+            el_action = self._ns1+action
             
             if (action == None):
-                return self.fault('Missing SOAPAction')
+                return self._fault('Missing SOAPAction')
             elif (action == 'read_customer'):
                 return self.read_customer(doc.Body[el_action])
             elif (action == 'create_customer'):
@@ -113,21 +145,41 @@ class SoapHandler():
             elif (action == 'change_service'):
                 return self.change_service(doc.Body[el_action])                                                                    
             else:
-                return self.fault('Invalid SOAPAction {0}'.format(action))
+                return self._fault('Invalid SOAPAction {0}'.format(action))
             
         except e.XMLSyntaxError, ex:
             self._mh.dmsg('htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere())
-            return self.fault('Invalid XML - ' + ex)
+            return self._fault('Invalid XML - ' + ex)
         
     def read_customer(self, doc):
         """Method handles read_customer request         
            
         Args:
-           id - int 
+           doc (xml): read_customer request with customer id 
              
         Returns:
-           read_customer_response with crm_entities.Customer in XML
-           SOAP fault when customer not found            
+           xml: read_customer_response with customer detail,
+           SOAP fault when customer not found   
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <read_customer>
+             <id>1</id>
+           </read_customer>         
+        
+           <read_customer_response>
+             <customer>
+               <id>1</id>
+               <name>Charlie Bowman</name>
+               <status>active</status>
+               <segment>2</segment>
+               <birth_no>700101/0001</birth_no>
+               <reg_no>123456</reg_no>
+               <tax_no>CZ123456</tax_no>
+             </customer>
+           </read_customer_response>                       
                 
         """ 
         
@@ -141,15 +193,24 @@ class SoapHandler():
         db.disconnect()
         
         if (customer != None):
-            return self.response('read_customer', customer.toxml())
+            return self._response('read_customer', customer.toxml())
         else:
-            return self.fault('Customer {0} not found'.format(id))  
+            return self._fault('Customer {0} not found'.format(id))  
         
     def create_customer(self, doc):
         """Method handles create_customer request         
            
         Args:
-           customer - crm_entities.Customer in XML
+           doc (xml): create_customer request
+             
+        Returns:
+           xml: create_customer_response with id of created customer,
+           SOAP fault when customer not created 
+           
+        Example:
+        
+        .. code-block:: xml
+        
            <create_customer>
              <name>Charlie Bowman</name>
              <status>active</status>
@@ -157,11 +218,11 @@ class SoapHandler():
              <birth_no>700101/0001</birth_no>
              <reg_no>123456</reg_no>
              <tax_no>CZ123456</tax_no>
-           </create_customer>   
-             
-        Returns:
-           create_customer_response with id of created customer
-           SOAP fault when customer not created           
+           </create_customer>  
+           
+           <create_customer_response>
+             <id>1</id>
+           <create_customer_response>                  
                 
         """  
         
@@ -182,19 +243,37 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('id')
             elem.text = str(id)
-            return self.response('create_customer', elem)
+            return self._response('create_customer', elem)
         else:
-            return self.fault('Customer not created')     
+            return self._fault('Customer not created')     
         
     def change_customer(self, doc):
         """Method handles change_customer request         
            
         Args:
-           customer - crm_entities.Customer in XML
+           doc (xml): change_customer request
              
         Returns:
-           change_customer_response with result true when customer changed
-           SOAP fault when customer not changed           
+           xml: change_customer_response with result true when customer changed,
+           SOAP fault when customer not changed
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <change_customer>
+             <id>1</id>
+             <name>Charlie Bowman</name>
+             <status>active</status>
+             <segment>2</segment>
+             <birth_no>700101/0001</birth_no>
+             <reg_no>123456</reg_no>
+             <tax_no>CZ123456</tax_no>
+           </create_customer>  
+           
+           <change_customer_response>
+             <result>true</true>
+           </change_customer_response>                      
                 
         """     
         
@@ -216,19 +295,38 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_customer', elem)
+            return self._response('change_customer', elem)
         else:
-            return self.fault('Customer not changed')                   
+            return self._fault('Customer not changed')                   
         
     def read_payer(self, doc):
         """Method handles read_payer request         
            
         Args:
-           id - int 
+           doc (xml): read_payer request with payer id
              
         Returns:
-           read_payer_response with crm_entities.Payer in XML
-           SOAP fault when payer not found            
+           xml: read_payer_response with payer detail,
+           SOAP fault when payer not found 
+           
+        Example:
+        
+        .. code-block:: xml        
+           
+           <read_payer>
+             <id>1</id>
+           </read_payer>
+           
+           <read_payer_response>
+             <payer>
+               <id>1</id>
+               <name>Charlie Bowman</name>
+               <status>active</status>
+               <billcycle>1</billcycle>
+               <bank_account>12345/0100</bank_account>
+               <customer>1</customer>
+             </payer>
+           </read_payer_response>                                    
                 
         """       
         
@@ -242,26 +340,35 @@ class SoapHandler():
         db.disconnect()
         
         if (payer != None):
-            return self.response('read_payer', payer.toxml())
+            return self._response('read_payer', payer.toxml())
         else:
-            return self.fault('Payer {0} not found'.format(id))  
+            return self._fault('Payer {0} not found'.format(id))  
         
     def create_payer(self, doc):
         """Method handles create_payer request         
            
         Args:
-           payer - crm_entities.Payer in XML
+           doc (xml): create_payer request 
+             
+        Returns:
+           xml: create_payer_response with id of created payer,
+           SOAP fault when payer not created
+           
+        Example:
+        
+        .. code-block:: xml
+        
            <create_payer>
              <name>Charlie Bowman</name>
              <status>active</status>
              <billcycle>1</billcycle>
              <bank_account>12345/0100</bank_account>
              <customer>1</customer>
-           </create_payer>   
-             
-        Returns:
-           create_payer_response with id of created payer
-           SOAP fault when payer not created           
+           </create_payer>
+           
+           <create_payer_response>
+             <id>1</id>
+           </create_payer_response>                    
                 
         """    
         
@@ -281,19 +388,36 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('id')
             elem.text = str(id)
-            return self.response('create_payer', elem)
+            return self._response('create_payer', elem)
         else:
-            return self.fault('Payer not created')     
+            return self._fault('Payer not created')     
         
     def change_payer(self, doc):
         """Method handles change_payer request         
            
         Args:
-           payer - crm_entities.Payer in XML
+           doc (xml): change_payer request
              
         Returns:
-           change_payer_response with result true when payer changed
-           SOAP fault when payer not changed           
+           xml: change_payer_response with result true when payer changed,
+           SOAP fault when payer not changed 
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <change_payer>
+             <id>1</id>
+             <name>Charlie Bowman</name>
+             <status>active</status>
+             <billcycle>1</billcycle>
+             <bank_account>12345/0100</bank_account>
+             <customer>1</customer>
+           </change_payer>
+           
+           <change_payer_response>
+             <result>true</result>
+           </change_payer_response>                                  
                 
         """ 
         
@@ -314,19 +438,40 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_payer', elem)
+            return self._response('change_payer', elem)
         else:
-            return self.fault('Payer not changed')        
+            return self._fault('Payer not changed')        
         
     def read_subscriber(self, doc):
         """Method handles read_csubscriber request         
            
         Args:
-           id - int 
+           doc (xml): read_subscriber request with subscriber id 
              
         Returns:
-           read_subscriber_response with crm_entities.Subscriber in XML
-           SOAP fault when subscriber not found            
+           xml: read_subscriber_response with subscriber detail,
+           SOAP fault when subscriber not found  
+           
+        Example:
+        
+        .. code-block:: xml        
+           
+          <read_subscriber>
+            <id>1</id>
+          <read_subscriber> 
+           
+          <read_subscriber_response>
+            <subscriber>
+              <id>1</id>
+              <name>Charlie Bowman</name>
+              <msisdn>12345</msisdn>
+              <status>active</status>
+              <market>1</market>
+              <tariff>433</tariff>
+              <customer>1</customer>
+              <payer>1</payer>
+            </subscriber>
+          </read_subscriber_response>                                
                 
         """           
         
@@ -340,28 +485,37 @@ class SoapHandler():
         db.disconnect()
         
         if (subscriber != None):
-            return self.response('read_subscriber', subscriber.toxml())
+            return self._response('read_subscriber', subscriber.toxml())
         else:
-            return self.fault('Subscriber {0} not found'.format(id))  
+            return self._fault('Subscriber {0} not found'.format(id))  
         
     def create_subscriber(self, doc):
         """Method handles create_subscriber request         
            
         Args:
-           subscriber - crm_entities.Subscriber in XML
-           <create_subscriber>
-             <name>Charlie Bowman</name>
-             <msisdn>12345</msisdn>
-             <status>active</status>
-             <market>1</market>
-             <tariff>433</tariff>
-             <customer>1</customer>
-             <payer>1</payer>
-           </create_subscriber>   
+           doc(xml): create_subscriber request 
              
         Returns:
-           create_subscriber_response with id of created subscriber
-           SOAP fault when subscriber not created           
+           xml: create_subscriber_response with id of created subscriber,
+           SOAP fault when subscriber not created   
+           
+        Example:
+        
+        .. code-block:: xml
+        
+          <create_subscriber>
+            <name>Charlie Bowman</name>
+            <msisdn>12345</msisdn>
+            <status>active</status>
+            <market>1</market>
+            <tariff>433</tariff>
+            <customer>1</customer>
+            <payer>1</payer>
+          </create_subscriber>
+           
+          <create_subscriber_response>
+            <id>1</id>
+          <create_subscriber_response>                
                 
         """             
         
@@ -383,19 +537,38 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('id')
             elem.text = str(id)
-            return self.response('create_subscriber', elem)
+            return self._response('create_subscriber', elem)
         else:
-            return self.fault('Subscriber not created')     
+            return self._fault('Subscriber not created')     
         
     def change_subscriber(self, doc):
         """Method handles change_subscriber request         
            
         Args:
-           subscriber - crm_entities.Subscriber in XML
+           doc (xml): change_subscriber request
              
         Returns:
-           change_subscriber_response with result true when subscriber changed
-           SOAP fault when subscriber not changed           
+           xml: change_subscriber_response with result true when subscriber changed,
+           SOAP fault when subscriber not changed  
+           
+        Example:
+        
+        .. code-block:: xml
+        
+          <change_subscriber>
+            <id>1</id>
+            <name>Charlie Bowman</name>
+            <msisdn>12345</msisdn>
+            <status>active</status>
+            <market>1</market>
+            <tariff>433</tariff>
+            <customer>1</customer>
+            <payer>1</payer>
+          </change_subscriber>
+           
+          <change_subscriber_response>
+            <result>true</result>
+          <change_subscriber_response>                                
                 
         """     
         
@@ -418,19 +591,45 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_subscriber', elem)
+            return self._response('change_subscriber', elem)
         else:
-            return self.fault('Subscriber not changed')            
+            return self._fault('Subscriber not changed')            
         
     def read_contact(self, doc):
         """Method handles read_contact request         
            
         Args:
-           id - int 
+           doc (int): read_contact request with contact id
              
         Returns:
-           read_contact_response with crm_entities.Contact in XML
-           SOAP fault when contact not found            
+           xml: read_contact_response with contact detail, choice customer|payer|subscriber,
+           SOAP fault when contact not found  
+           
+        Example:
+        
+        .. code-block:: xml
+           
+           <read_contact>
+             <id>1</id>
+           </read_contact>
+           
+           <read_contact_response>   
+             <contact> 
+               <id>1</id>
+               <name>Charlie Bowman</name>
+               <phone>12345</phone>
+               <email>xxx@xxx.com</email>
+               <roles>
+                 <role>
+                   <id>1</id>
+                   <title>contract</title>
+                   <customer>1</customer>
+                   <payer>1</payer>
+                   <subscribe>1</subscriber>
+                 </role>
+               </roles>
+             </contact>
+           </read_contact_response>                                  
                 
         """           
         
@@ -444,24 +643,33 @@ class SoapHandler():
         db.disconnect()
         
         if (contact != None):
-            return self.response('read_contact', contact.toxml())
+            return self._response('read_contact', contact.toxml())
         else:
-            return self.fault('Contact {0} not found'.format(id))  
+            return self._fault('Contact {0} not found'.format(id))  
         
     def create_contact(self, doc):
         """Method handles create_contact request         
            
         Args:
-           contact - crm_entities.Contact in XML
-           <create_contact>
+           doc (xml): create_contact request
+             
+        Returns:
+           xml: create_contact_response with id of created contact,
+           SOAP fault when contact not created
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <create_contact>    
              <name>Charlie Bowman</name>
              <phone>12345</phone>
              <email>xxx@xxx.com</email>
-           </create_contact>   
-             
-        Returns:
-           create_contact_response with id of created contact
-           SOAP fault when contact not created           
+           </create_contact> 
+           
+           <create_contact_response>
+             <id>1</id>
+           </create_contact_response>                                 
                 
         """  
         
@@ -479,19 +687,34 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('id')
             elem.text = str(id)
-            return self.response('create_contact', elem)
+            return self._response('create_contact', elem)
         else:
-            return self.fault('Contact not created')     
+            return self._fault('Contact not created')     
         
     def change_contact(self, doc):
         """Method handles change_contact request         
            
         Args:
-           contact - crm_entities.Contact in XML
+           doc (xml): change_contact request
              
         Returns:
-           change_contact_response with result true when contact changed
-           SOAP fault when contact not changed           
+           xml: change_contact_response with result true when contact changed,
+           SOAP fault when contact not changed    
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <change_contact>    
+             <id>1</id>
+             <name>Charlie Bowman</name>
+             <phone>12345</phone>
+             <email>xxx@xxx.com</email>
+           </change_contact> 
+           
+           <change_contact_response>
+             <result>true</true>
+           </change_contact_response>                     
                 
         """    
         
@@ -510,26 +733,35 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_contact', elem)
+            return self._response('change_contact', elem)
         else:
-            return self.fault('Contact not changed')  
+            return self._fault('Contact not changed')  
         
     def assign_contact_role(self, doc):
         """Method handles assign_contact_role request         
            
         Args:
-           contact_role - crm_entities.ContactRole in XML
-           <create_contact_role>
+           doc (xml): assign_contact_role request, choice customer|payer|subscriber
+             
+        Returns:
+           xml: assign_contact_role_response with result true when contact role assigned,
+           SOAP fault when contact role not assigned   
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <assign_contact_role>    
              <id>1</id>
-             <title>contract</title>
+             <title>contract</title>         
              <customer>1</customer>
              <payer>1</payer>
              <subscriber>1</subscriber>
-           </create_contact_role>   
-             
-        Returns:
-           assign_contact_role_response with result true when contact role assigned
-           SOAP fault when contact role not assigned          
+           </assign_contact_role> 
+           
+           <assign_contact_role_response>
+             <result>true</true>
+           </assign_contact_role_response>                              
                 
         """   
         
@@ -549,19 +781,35 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('assign_contact_role', elem)
+            return self._response('assign_contact_role', elem)
         else:
-            return self.fault('Contact role not assigned')   
+            return self._fault('Contact role not assigned')   
         
     def revoke_contact_role(self, doc):
         """Method handles revoke_contact_role request         
            
         Args:
-           contact_role - crm_entities.ContactRole in XML 
+           doc (xml): revoke_contact_role request, choice customer|payer|subscriber 
              
         Returns:
-           revoke_contact_role_response with result true when contact role revoked
-           SOAP fault when contact role not revoked          
+           xml: revoke_contact_role_response with result true when contact role revoked,
+           SOAP fault when contact role not revoked    
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <revoke_contact_role>    
+             <id>1</id>
+             <title>contract</title>         
+             <customer>1</customer>
+             <payer>1</payer>
+             <subscriber>1</subscriber>
+           </revoke_contact_role> 
+           
+           <revoke_contact_role_response>
+             <result>true</true>
+           </revoke_contact_role_response>                  
                 
         """   
         
@@ -581,19 +829,47 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('revoke_contact_role', elem)
+            return self._response('revoke_contact_role', elem)
         else:
-            return self.fault('Contact role not revoked')                     
+            return self._fault('Contact role not revoked')                     
         
     def read_address(self, doc):
         """Method handles read_address request         
            
         Args:
-           id - int 
+           doc (xml) - read_address request with address id
              
         Returns:
-           read_address_response with crm_entities.Address in XML
-           SOAP fault when address not found            
+           xml: read_address_response with address detail, choice contact|customer|payer|subscriber,
+           SOAP fault when address not found  
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <read_address>
+             <id>1</id>
+           </read_address>           
+        
+           <read_address_response>
+             <address>
+               <id>1</id>
+               <street>Tomickova</street>
+               <street_no>2144/1</street_no>
+               <city>Praha</city>
+               <zip>14800</zip>
+               <roles>
+                 <role>
+                   <id>1</id>
+                   <title>contract</title>
+                   <contact>1</contact>
+                   <customer>1</customer>
+                   <payer>1</payer>
+                   <subscriber>1</subscriber>
+                 </role>
+               </roles>
+             </address>
+           </read_address_response>                                  
                 
         """           
         
@@ -607,25 +883,34 @@ class SoapHandler():
         db.disconnect()
         
         if (address != None):
-            return self.response('read_address', address.toxml())
+            return self._response('read_address', address.toxml())
         else:
-            return self.fault('Address {0} not found'.format(id))  
+            return self._fault('Address {0} not found'.format(id))  
         
     def create_address(self, doc):
         """Method handles create_address request         
            
         Args:
-           address - crm_entities.Address in XML
-           <create_adddress>
+           doc (xml): create_address request
+             
+        Returns:
+           xml: create_address_response with id of created address,
+           SOAP fault when address not created
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <create_address>
              <street>Tomickova</street>
              <street_no>2144/1</street_no>
              <city>Praha</city>
              <zip>14800</zip>
-           </create_address>   
-             
-        Returns:
-           create_address_response with id of created address
-           SOAP fault when address not created           
+           </create_address>  
+           
+           <create_address_response>
+             <id>1</id>
+           </create_address_response>         
                 
         """    
         
@@ -644,19 +929,35 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('id')
             elem.text = str(id)
-            return self.response('create_address', elem)
+            return self._response('create_address', elem)
         else:
-            return self.fault('Address not created')     
+            return self._fault('Address not created')     
         
     def change_address(self, doc):
         """Method handles change_address request         
            
         Args:
-           address - crm_entities.Address in XML
+           doc(xml): change_address request
              
         Returns:
-           change_address_response with result true when address changed
-           SOAP fault when address not changed           
+           xml: change_address_response with result true when address changed,
+           SOAP fault when address not changed  
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <change_address>
+             <id>1</id>
+             <street>Tomickova</street>
+             <street_no>2144/1</street_no>
+             <city>Praha</city>
+             <zip>14800</zip>
+           </change_address> 
+           
+           <change_address_response>
+             <result>true</true>
+           </change_address_response>                          
                 
         """        
         
@@ -676,27 +977,36 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_address', elem)
+            return self._response('change_address', elem)
         else:
-            return self.fault('Address not changed')    
+            return self._fault('Address not changed')    
         
     def assign_address_role(self, doc):
         """Method handles assign_address_role request         
            
         Args:
-           address_role - crm_entities.AddressRole in XML
-           <create_address_role>
+           doc (xml): assign_address_role request, choice contact|customer|payer|subscriber
+             
+        Returns:
+           xml: assign_address_role_response with result true when address role assigned,
+           SOAP fault when address role not assigned
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <assign_address_role>    
              <id>1</id>
-             <title>contract</title>
-             <contact>1</contact>
+             <title>contract</title> 
+             <contact>1</contact>        
              <customer>1</customer>
              <payer>1</payer>
              <subscriber>1</subscriber>
-           </create_address_role>   
-             
-        Returns:
-           assign_address_role_response with result true when address role assigned
-           SOAP fault when address role not assigned          
+           </revoke_address_role> 
+           
+           <assign_address_role_response>
+             <result>true</true>
+           </assign_address_role_response>                
                 
         """  
         
@@ -717,19 +1027,36 @@ class SoapHandler():
         if (res):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('assign_address_role', elem)
+            return self._response('assign_address_role', elem)
         else:
-            return self.fault('Address role not assigned')   
+            return self._fault('Address role not assigned')   
         
     def revoke_address_role(self, doc):
         """Method handles revoke_address_role request         
            
         Args:
-           address_role - crm_entities.AddressRole in XML 
+           doc (xml): revoke_address_role request, choice contact|customer|payer|subscriber
              
         Returns:
-           revoke_address_role_response with result true when address role revoked
-           SOAP fault when address role not revoked          
+           xml: revoke_address_role_response with result true when address role revoked,
+           SOAP fault when address role not revoked   
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <revoke_address_role>    
+             <id>1</id>
+             <title>contract</title>
+             <contact>1</contact>         
+             <customer>1</customer>
+             <payer>1</payer>
+             <subscriber>1</subscriber>
+           </revoke_address_role> 
+           
+           <revoke_address_role_response>
+             <result>true</true>
+           </revoke_address_role_response>                      
                 
         """ 
         
@@ -750,22 +1077,46 @@ class SoapHandler():
         if (res):
             elem = e.Element('id')
             elem.text = 'true'
-            return self.response('revoke_address_role', elem)
+            return self._response('revoke_address_role', elem)
         else:
-            return self.fault('Address role not revoked') 
+            return self._fault('Address role not revoked') 
         
     def read_services(self, doc):
         """Method handles read_services request         
            
         Args:
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           service - int, optional, default all services 
+           doc (xml): read_services request, choice customer|payer|subscriber, all services are read if service empty
              
         Returns:
-           read_services_response with list of crm_entities.Service in XML
-           SOAP fault when address not found            
+           xml: read_services_response with list of services,
+           SOAP fault when service not found            
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <read_services>             
+             <customer>1</customer>
+             <payer>1</payer>
+             <subscriber>1</subscriber>
+             <service>615</service>
+           </read_services> 
+           
+           <read_services_response>
+             <services>
+               <service>
+                 <id>id</id>
+                 <name>Telefonni cislo</name>
+                 <status>active</active>
+                 <params>
+                   <entry>
+                     <key>121</key>
+                     <value>12345</value>
+                   </entry>
+                  </params>                 
+               </service>
+             </services>
+           </read_services_response>             
                 
         """
         
@@ -787,15 +1138,24 @@ class SoapHandler():
             for service in services:
                 elem.append(service.toxml())
             
-            return self.response('read_services', elem)
+            return self._response('read_services', elem)
         else:
-            return self.fault('Service not found'.format(id))          
+            return self._fault('Service not found'.format(id))          
         
     def create_service(self, doc):
         """Method handles create_service request         
            
         Args:
-           service_operation - crm_entities.ServiceOperation in XML
+           doc (xml): create_service request, choice customer|payer|subscriber
+           
+        Returns:
+           xml: create_service_response with result true,
+           SOAP fault when service not created            
+           
+        Example:
+        
+        .. code-block:: xml
+        
            <create_service>
              <service>615</service>
              <customer>1</customer>
@@ -806,12 +1166,13 @@ class SoapHandler():
                <entry>
                  <key>121</key>
                  <value>12345</value>
+               </entry>
              </params>
            </create_service>   
-             
-        Returns:
-           create_service_response with result true
-           SOAP fault when service not created           
+           
+           <create_service_response>
+             <result>true</result>
+           </create_service_response>                    
                 
         """  
         
@@ -836,19 +1197,41 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('create_service', elem)
+            return self._response('create_service', elem)
         else:
-            return self.fault('Service not created')     
+            return self._fault('Service not created')     
         
     def change_service(self, doc):
         """Method handles change_service request         
            
         Args:
-           service_operation - crm_entities.ServiceOperation in XML 
+           doc (xml): change_service request, choice customer|payer|subscriber 
              
         Returns:
-           change_service_response with result true
-           SOAP fault when service not changed           
+           xml: change_service_response with result true,
+           SOAP fault when service not changed    
+           
+        Example:
+        
+        .. code-block:: xml
+        
+           <change_service>
+             <service>615</service>
+             <customer>1</customer>
+             <payer>1</payer>
+             <subscriber>1</subscriber>
+             <status>active</active>
+             <params>
+               <entry>
+                 <key>121</key>
+                 <value>12345</value>
+               </entry>
+             </params>
+           </change_service>  
+           
+           <change_service_response>
+             <result>true</result>
+           </change_service_response>                                     
                 
         """     
         
@@ -873,6 +1256,6 @@ class SoapHandler():
         if (id != None):
             elem = e.Element('result')
             elem.text = 'true'
-            return self.response('change_service', elem)
+            return self._response('change_service', elem)
         else:
-            return self.fault('Service not changed')                                                      
+            return self._fault('Service not changed')                                                      

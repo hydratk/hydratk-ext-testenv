@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""This code is a part of Hydra Toolkit
+"""This code is part of TestEnv extension
 
-.. module:: hydratk.extensions.testenv
+.. module:: testenv.testenv
    :platform: Unix
-   :synopsis: TestEnv extension for test automation exercises
+   :synopsis: Extension for test automation exercises
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
@@ -34,18 +34,25 @@ class Extension(extension.Extension):
         self._mh.register_command_hook(hook)       
             
     def install_db_fc(self, ext_call=True): 
+        """Method handles command te-install-db    
+           
+        Args:
+           ext_call (bool): external method call             
+                
+        """         
             
         try:    
             
             if (ext_call):
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_received_cmd', 'te-install-db'), self._mh.fromhere())
-                    
-            db_file = self._mh.cfg['Extensions']['TestEnv']['db_file']   
+            
+            ext_dir = self._mh.cfg['Extensions']['TestEnv']['ext_dir']         
+            db_file = os.path.join(ext_dir, self._mh.cfg['Extensions']['TestEnv']['db_file'])   
             if (os.path.exists(db_file)):        
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_delete_db', db_file), self._mh.fromhere())
                 os.remove(db_file)
                                 
-            install_file = os.path.join(self._mh.cfg['System']['Extending']['extensions_dir'], 'testenv/application/install_db.sql')
+            install_file = os.path.join(ext_dir, 'install_db.sql')
             if (os.path.exists(install_file)):
             
                 with open(install_file, 'r') as file:
@@ -65,10 +72,15 @@ class Extension(extension.Extension):
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
        
     def start_fc(self):
+        """Method handles command te-start 
+        
+        Starts web server and installs database if not installed                    
+                
+        """         
         
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_received_cmd', 'te-start'), self._mh.fromhere())
         
-        db_file = self._mh.cfg['Extensions']['TestEnv']['db_file']  
+        db_file = os.path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'], self._mh.cfg['Extensions']['TestEnv']['db_file'])  
         if (not os.path.exists(db_file)): 
             self.install_db_fc(False)           
           

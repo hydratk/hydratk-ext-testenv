@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extension
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.application.web_server
+.. module:: testenv.application.web_server
    :platform: Unix
    :synopsis: Web server
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -35,11 +34,19 @@ class Server:
     _server = None
     
     def __init__(self):
+        """Class constructor
+           
+        Called when the object is initialized    
+           
+        """           
         
         global mh
         mh = MasterHead.get_head()               
         
-    def _start(self):    
+    def _start(self):  
+        """Method starts web server          
+           
+        """             
   
         ip = mh.cfg['Extensions']['TestEnv']['server_ip']
         port = mh.cfg['Extensions']['TestEnv']['server_port']   
@@ -56,187 +63,187 @@ class Customer():
     """Handles requests on /rs/customer                           
     """     
     
-    rest = None
+    _rest = None
     
     def __init__(self):
     
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
     
     def GET(self):
                 
-        return self.rest.read_customer(web.input())
+        return self._rest.read_customer(web.input())
     
     def POST(self):
         
-        return self.rest.create_customer(web.data())
+        return self._rest.create_customer(web.data())
     
     def PUT(self):
         
-        return self.rest.change_customer(web.data())
+        return self._rest.change_customer(web.data())
     
 class Payer():
     """Handles requests on /rs/payer                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
         
     def GET(self):
                 
-        return self.rest.read_payer(web.input())
+        return self._rest.read_payer(web.input())
     
     def POST(self):
         
-        return self.rest.create_payer(web.data())
+        return self._rest.create_payer(web.data())
     
     def PUT(self):
         
-        return self.rest.change_payer(web.data())    
+        return self._rest.change_payer(web.data())    
     
 class Subscriber():
     """Handles requests on /rs/subscriber                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
         
     def GET(self):
                 
-        return self.rest.read_subscriber(web.input())
+        return self._rest.read_subscriber(web.input())
     
     def POST(self):
         
-        return self.rest.create_subscriber(web.data())
+        return self._rest.create_subscriber(web.data())
     
     def PUT(self):
         
-        return self.rest.change_subscriber(web.data())  
+        return self._rest.change_subscriber(web.data())  
     
 class Contact():
     """Handles requests on /rs/contact                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
         
     def GET(self):
                 
-        return self.rest.read_contact(web.input())
+        return self._rest.read_contact(web.input())
     
     def POST(self):
         
-        return self.rest.create_contact(web.data())
+        return self._rest.create_contact(web.data())
     
     def PUT(self):
         
-        return self.rest.change_contact(web.data())  
+        return self._rest.change_contact(web.data())  
     
 class ContactRole():
     """Handles requests on /rs/contact/role                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
     
     def POST(self):
         
-        return self.rest.assign_contact_role(web.data())
+        return self._rest.assign_contact_role(web.data())
     
     def PUT(self):
         
-        return self.rest.revoke_contact_role(web.data())       
+        return self._rest.revoke_contact_role(web.data())       
     
 class Address():
     """Handles requests on /rs/address                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
         
     def GET(self):
                 
-        return self.rest.read_address(web.input())
+        return self._rest.read_address(web.input())
     
     def POST(self):
         
-        return self.rest.create_address(web.data())
+        return self._rest.create_address(web.data())
     
     def PUT(self):
         
-        return self.rest.change_address(web.data()) 
+        return self._rest.change_address(web.data()) 
     
 class AddressRole():
     """Handles requests on /rs/address/role                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
     
     def POST(self):
         
-        return self.rest.assign_address_role(web.data())
+        return self._rest.assign_address_role(web.data())
     
     def PUT(self):
         
-        return self.rest.revoke_address_role(web.data())  
+        return self._rest.revoke_address_role(web.data())  
     
 class Service():
     """Handles requests on /rs/service                           
     """       
     
-    rest = None
+    _rest = None
     
     def __init__(self):
         
-        self.rest = rest_handler.RestHandler()
+        self._rest = rest_handler.RestHandler()
         
     def GET(self):
         
-        return self.rest.read_services(web.input())        
+        return self._rest.read_services(web.input())        
     
     def POST(self):
         
-        return self.rest.create_service(web.data())
+        return self._rest.create_service(web.data())
     
     def PUT(self):
         
-        return self.rest.change_service(web.data())           
+        return self._rest.change_service(web.data())           
     
 class SoapService():
     
-    soap = None
+    _soap = None
     
     def __init__(self):
         
-        self.soap = soap_handler.SoapHandler()    
+        self._soap = soap_handler.SoapHandler()    
         
     def GET(self):
         
         key = web.input().keys()[0]
-        path = mh.cfg['System']['Extending']['extensions_dir'] + '/testenv/application/'
+        ext_dir = mh.cfg['Extensions']['TestEnv']['ext_dir'] 
         
         if (key == 'wsdl'):
-            soap_file = path + 'crm.wsdl'
+            soap_file = os.path.join(ext_dir, 'crm.wsdl')
         elif (key == 'xsd'):
-            soap_file = path + 'crm.xsd'
+            soap_file = os.path.join(ext_dir, 'crm.xsd')
         else:
             return web.NotFound() 
         
@@ -251,4 +258,4 @@ class SoapService():
         
     def POST(self):
         
-        return self.soap.dispatcher(web.ctx.env, web.data())      
+        return self._soap.dispatcher(web.ctx.env, web.data())      

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extension
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.interfaces.soap_int
+.. module:: testenv.interfaces.soap_int
    :platform: Unix
-   :synopsis: SOAP interface for testenv
+   :synopsis: SOAP interface methods to be used in helpers
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
@@ -22,6 +21,11 @@ class SOAP_INT():
     _wsdl = None
     
     def __init__(self):
+        """Class constructor
+           
+        Called when the object is initialized    
+           
+        """          
         
         self._mh = MasterHead.get_head()
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip']
@@ -37,12 +41,12 @@ class SOAP_INT():
         """Method reads customer
         
         Args:
-           id - int, mandatory            
+           id (int): customer id           
              
         Returns:
-           customer - crm_entities.Customer
+           obj: crm_entities.Customer
                 
-        """          
+        """         
         
         try:
             
@@ -73,17 +77,17 @@ class SOAP_INT():
         """Method creates customer
         
         Args:
-           name - string, mandatory
-           segment - int, mandatory, lov_segment.id
-           status - string, optional, lov_status.title, default active
-           birth_no - string, optional
-           reg_no - string, optional
-           tax_no - string, optional             
+           name (str): name
+           segment (int): segment id, lov_segment.id
+           status (str): status, lov_status.title, default active
+           birth_no (str): birth number
+           reg_no (str): registration number
+           tax_no (str): tax identification number      
              
         Returns:
-           id - int
+           int - created customer id
                 
-        """          
+        """         
         
         try:
             
@@ -112,18 +116,18 @@ class SOAP_INT():
         """Method changes customer
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           status - string, optional, lov_status.title,           
-           segment - int, optional, lov_segment.id           
-           birth_no - string, optional
-           reg_no - string, optional
-           tax_no - string, optional             
+           id (int): customer id
+           name (str): name
+           status (str): status, lov_status.title
+           segment (int): segment id, lov_segment.id           
+           birth_no (str): birth number
+           reg_no (str): registration number
+           tax_no (str): tax identification number      
              
-        Returns:
-           result - bool
+        Returns: 
+           bool: result
                 
-        """          
+        """        
         
         try:
             
@@ -151,17 +155,17 @@ class SOAP_INT():
         """Method reads payer
         
         Args:
-           id - int, mandatory            
+           id (int): payer id          
              
         Returns:
-           payer - crm_entities.Payer
+           obj: crm_entities.Payer
                 
-        """          
+        """         
         
         try:
             
             msg = 'id:{0}'.format(id)
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_func', 'read_Payer', msg), 
+            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_func', 'read_payer', msg), 
                           self._mh.fromhere()) 
             
             self._client.set_options(headers={'SOAPAction': 'read_payer'})
@@ -185,14 +189,14 @@ class SOAP_INT():
         """Method creates payer
         
         Args:
-           name - string, mandatory
-           billcycle - int, mandatory, lov_billcycle.id
-           customer - int, mandatory
-           status - string, optional, lov_status.title, default active
-           bank_account - string, optional            
+           name (str): name
+           billcycle (int): billcycle, lov_billcycle.id
+           customer (int): assigned customer id
+           status (str): status, lov_status.title, default active
+           bank_account (str): banking account            
              
         Returns:
-           id - int
+           int: created payer id
                 
         """          
         
@@ -223,15 +227,15 @@ class SOAP_INT():
         """Method changes payer
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           status - string, optional, lov_status.title,           
-           billcycle - int, optional, lov_billcycle.id        
-           bank_account - string, optional
-           customer - int, optional             
+           id (int): payer id
+           name (str): name
+           status (str): status, lov_status.title
+           billcycle (int): billcycle id, lov_billcycle.id
+           bank_account (str): banking account 
+           customer (int): assigned customer id                    
              
         Returns:
-           result - bool
+           bool: result
                 
         """          
         
@@ -261,10 +265,10 @@ class SOAP_INT():
         """Method reads subscriber
         
         Args:
-           id - int, mandatory            
+           id (int): subscriber id           
              
         Returns:
-           subscriber - crm_entities.Subscriber
+           obj: crm_entities.Subscriber
                 
         """          
         
@@ -295,16 +299,16 @@ class SOAP_INT():
         """Method creates subscriber
         
         Args:
-           name - string, mandatory
-           msisdn - string, mandatory
-           market - int, mandatory, lov_market.id
-           tariff - int, mandatory, lov_tariff.id
-           customer - int, mandatory
-           payer - int, mandatory
-           status - string, optional, lov_status.title, default active             
+           name (str): name
+           msisdn (str): MSISDN
+           market (int): market id, lov_market.id
+           tariff (int): tariff id, lov_tariff.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           status (str): status, lov_status.title, default active                              
              
         Returns:
-           id - int
+           int: created subscriber id
                 
         """          
         
@@ -335,17 +339,18 @@ class SOAP_INT():
         """Method changes subscriber
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           status - string, optional, lov_status.title,           
-           market - int, optional, lov_market.id           
-           tariff - int, optional, lov_tariff.id
-           customer - int, optional
-           payer - int, optional             
+           id (int): subscriber id
+           name (str): name
+           msisdn (str): MSISDN
+           status (str): status, lov_status.title           
+           market (int): market id, lov_market.id
+           tariff (int): tariff id, lov_tariff.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id                     
              
         Returns:
            result - bool
-                
+        
         """          
         
         try:
@@ -374,10 +379,10 @@ class SOAP_INT():
         """Method reads contact
         
         Args:
-           id - int, mandatory            
+           id (int): contact id         
              
         Returns:
-           contact - crm_entities.Contact
+           obj: crm_entities.Contact
                 
         """          
         
@@ -418,14 +423,14 @@ class SOAP_INT():
         """Method creates contact
         
         Args:
-           name - string, mandatory
-           phone - string, optional
-           email - string, optional           
+           name (str): name
+           phone (str): phone number
+           email (str): email         
              
         Returns:
-           id - int
+           int: created contact id
                 
-        """          
+        """         
         
         try:
             
@@ -453,15 +458,15 @@ class SOAP_INT():
         """Method changes contact
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           phone - string, optional
-           email - string, optional          
+           id (int): contact id
+           name (str): name
+           phone (str): phone number
+           email (str): email         
              
         Returns:
-           result - bool
+           bool: result
                 
-        """          
+        """         
         
         try:
             
@@ -488,16 +493,16 @@ class SOAP_INT():
         """Method assigns contact role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_contact_role.title
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional          
+           id (int): contact id
+           role (str): role title, lov_contact_role.title
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id     
              
         Returns:
-           result - bool
+           bool: result
                 
-        """          
+        """            
         
         try:
             
@@ -525,16 +530,16 @@ class SOAP_INT():
         """Method revokes contact role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_contact_role.title
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional          
+           id (int): contact id
+           role (str): role title, lov_contact_role.title
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id     
              
         Returns:
-           result - bool
+           bool: result
                 
-        """          
+        """         
         
         try:
             
@@ -562,10 +567,10 @@ class SOAP_INT():
         """Method reads address
         
         Args:
-           id - int, mandatory            
+           id (int): address id         
              
         Returns:
-           address - crm_entities.Address
+           obj: crm_entities.Address 
                 
         """          
         
@@ -605,15 +610,15 @@ class SOAP_INT():
         """Method creates address
         
         Args:
-           street - string, mandatory
-           street_no - string, mandatory
-           city - string, mandatory
-           zip - int, mandatory         
+           street (str): street
+           street_no (str): street number
+           city (str): city
+           zip (int): zip code       
              
         Returns:
-           id - int
+           int: created address id
                 
-        """          
+        """           
         
         try:
             
@@ -641,16 +646,16 @@ class SOAP_INT():
         """Method changes address
         
         Args:
-           id - int, mandatory
-           street - string, optional
-           street_no - string, optional
-           city - string, optional
-           zip - int, optional         
+           id (int): address id
+           street (str): street
+           street_no (str): street number
+           city (str): city
+           zip (int): zip code    
              
         Returns:
-           result - bool
+           bool: result
                 
-        """          
+        """              
         
         try:
             
@@ -677,17 +682,17 @@ class SOAP_INT():
         """Method assigns address role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_address_role.title
-           contact - int, madantory
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional          
-             
+           id (int): address id
+           role (str): role title, lov_address_role.title
+           contact (int): assigned contact id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id  
+            
         Returns:
-           result - bool
+           bool: result
                 
-        """          
+        """           
         
         try:
             
@@ -715,15 +720,15 @@ class SOAP_INT():
         """Method revokes address role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_address_role.title
-           contact - int, optional
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional          
+           id (int): address id
+           role (str): role title, lov_address_role.title
+           contact (int): assigned contact id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id  
              
         Returns:
-           result - bool
+           bool: result
                 
         """          
         
@@ -750,18 +755,18 @@ class SOAP_INT():
             return False    
         
     def read_services(self, customer=None, payer=None, subscriber=None, service=None):
-        """Method reads services
+        """Method read services
         
         Args:
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           service - int, optional, lov_service.id, default read all services for entity     
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           service (int): service id, lov_service.id, default empty, read all services for entity     
              
         Returns:
-           services - list of crm_entities.Service
+           list: list of crm_entities.Service
                 
-        """          
+        """         
         
         try:
             
@@ -801,17 +806,17 @@ class SOAP_INT():
         """Method creates service
         
         Args: 
-           service - int, mandatory, lov_service.id
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           status - string, optional, lov_status.title, default active
-           params - dictionary, optional, key - int, lov_service_param.id, value - string  
+           service (int): service id, lov_service.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           status (str): status, lov_status.title, default active
+           params (dict): key (int), lov_service_param.id, value (str)  
              
         Returns:
-           result - bool
+           bool: result
                 
-        """       
+        """     
         
         try:
             
@@ -843,20 +848,20 @@ class SOAP_INT():
             return False            
         
     def change_service(self, service, customer=None, payer=None, subscriber=None, status=None, params={}):
-        """Method creates service
+        """Method changes service
         
         Args: 
-           service - int, mandatory, lov_service.id
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           status - string, optional, lov_status.title
-           params - dictionary, optional, key - int, lov_service_param.id, value - string  
+           service (int): service id, lov_service.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           status (str): status, lov_status.title, default active
+           params (dict): key (int), lov_service_param.id, value (str)  
              
         Returns:
-           result - bool
+           bool: result
                 
-        """       
+        """           
         
         try:
             

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extensions 
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.entities.crm_entities
+.. module:: testenv.entities.crm_entities
    :platform: Unix
-   :synopsis: CRM entities for testenv
+   :synopsis: CRM entity classes
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
@@ -12,21 +11,23 @@
 import lxml.etree as e
 import jsonlib2
 
-class Customer:
-    """Customer entity class
-        
-        Args:
-           id - int, mandatory
-           name - string, mandatory
-           status - string, mandatory
-           segment - int, mandatory           
-           birth_no - string, optional
-           reg_no - string, optional
-           tax_no - string, optional              
-                
-    """     
+class Customer:   
     
     def __init__(self, id, name, status, segment, birth_no=None, reg_no=None, tax_no=None):
+        """Class constructor
+    
+        Customer entity   
+    
+        Args:
+           id (int): customer id
+           name (str): name
+           status (str): status, active|deactive|suspend
+           segment (int): segment id, 2|3|4|5 RES|VSE|SME|LE
+           birth_no (str): birth number
+           reg_no (str): registration number
+           tax_no (str): tax identification number
+           
+        """                     
         
         self.id = id
         self.name = name
@@ -43,6 +44,8 @@ class Customer:
         return s
     
     def toxml(self):
+        """Method serializes customer to XML           
+        """         
         
         root = e.Element('customer')
         
@@ -59,7 +62,9 @@ class Customer:
         
         return root
         
-    def tojson(self):   
+    def tojson(self): 
+        """Method serializes customer to JSON           
+        """            
         
         root = {}
         
@@ -76,20 +81,22 @@ class Customer:
 
         return jsonlib2.write(root)           
     
-class Payer:
-    """Payer entity class
-        
-        Args:
-           id - int, mandatory
-           name - string, mandatory
-           status - string, mandatory
-           billcycle - int, mandatory
-           bank_account - string, optional
-           customer - int, mandatory       
-                
-    """     
+class Payer:     
     
     def __init__(self, id, name, status, billcycle, customer, bank_account=None):
+        """Class constructor
+    
+        Payer entity   
+    
+        Args:
+           id (int): payer id
+           name (str): name
+           status (str): status, active|deactive|suspend
+           billcycle (int): billcycle id, 1|2|3|4 51|52|53|54        
+           bank_account (str): banking account
+           customer (id): assigned customer id           
+           
+        """         
         
         self.id = id
         self.name = name
@@ -105,6 +112,8 @@ class Payer:
         return s
     
     def toxml(self):
+        """Method serializes payer to XML           
+        """         
         
         root = e.Element('payer')
         
@@ -119,6 +128,8 @@ class Payer:
         return root
         
     def tojson(self):   
+        """Method serializes payer to JSON           
+        """         
         
         root = {}
         
@@ -132,22 +143,24 @@ class Payer:
 
         return jsonlib2.write(root)            
             
-class Subscriber:
-    """Subscriber entity class
-        
-        Args:
-           id - int, mandatory
-           name - string, mandatory
-           msisdn - string, mandatory
-           status - string, mandatory
-           market - int, mandatory
-           tariff - int, mandatory
-           customer - int, mandatory
-           payer - int, mandatory       
-                
-    """        
+class Subscriber:      
     
     def __init__(self, id, name, msisdn, status, market, tariff, customer, payer):
+        """Class constructor
+    
+        Subscriber entity   
+    
+        Args:
+           id (int): subscriber id           
+           name (str): name
+           msisdn (str): MSISDN
+           status (str): status, active|deactive|suspend
+           market (int): market id, 1|2|3 GSM|DSL|FIX
+           tariff (int): tariff id, 433|459|434|460
+           customer (int): assigned customer id    
+           payer (int): assigned payer id       
+           
+        """         
         
         self.id = id
         self.name = name
@@ -165,6 +178,8 @@ class Subscriber:
         return s
     
     def toxml(self):
+        """Method serializes subscriber to XML           
+        """          
         
         root = e.Element('subscriber')
         
@@ -179,7 +194,9 @@ class Subscriber:
         
         return root
         
-    def tojson(self):   
+    def tojson(self):  
+        """Method serializes subscriber to JSON           
+        """           
         
         root = {}
         
@@ -194,19 +211,21 @@ class Subscriber:
 
         return jsonlib2.write(root)    
             
-class Contact:
-    """Contact entity class
-        
-        Args:
-           id - int, mandatory
-           name - string, mandatory
-           phone - string, optional
-           email - string, optional
-           roles - list of ContactRole, optional     
-                
-    """        
+class Contact:     
     
     def __init__(self, id, name, phone=None, email=None, roles=[]):
+        """Class constructor
+    
+        Contact entity   
+    
+        Args:
+           id (int): contact id           
+           name (str): name 
+           phone (str): phone number
+           email (str): email
+           roles (list): contact roles   
+           
+        """          
         
         self.id = id
         self.name = name
@@ -226,6 +245,8 @@ class Contact:
         return s
     
     def toxml(self):
+        """Method serializes contact to XML           
+        """           
         
         root = e.Element('contact')
         
@@ -244,7 +265,9 @@ class Contact:
                                   
         return root 
         
-    def tojson(self):   
+    def tojson(self):  
+        """Method serializes contact to JSON           
+        """            
         
         root = {}
         
@@ -268,19 +291,21 @@ class Contact:
 
         return jsonlib2.write(root)      
         
-class ContactRole:
-    """ContactRole entity class
-        
-        Args:
-           id - int, mandatory
-           title - string, mandatory
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional     
-                
-    """        
+class ContactRole:      
     
     def __init__(self, id, title, customer=None, payer=None, subscriber=None):
+        """Class constructor
+    
+        Contact role entity   
+    
+        Args:
+           id (int): contact id           
+           title (str): role title, contract|contact|invoicing
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id 
+           
+        """         
         
         self.id = id
         self.title = title
@@ -295,6 +320,8 @@ class ContactRole:
         return s
     
     def toxml(self):
+        """Method serializes contact role to XML           
+        """         
         
         root = e.Element('role')
         
@@ -309,7 +336,9 @@ class ContactRole:
         
         return root
         
-    def tojson(self):   
+    def tojson(self): 
+        """Method serializes contact role to JSON           
+        """           
         
         root = {}
         
@@ -324,20 +353,22 @@ class ContactRole:
 
         return jsonlib2.write(root)               
         
-class Address:
-    """Address entity class
-        
-        Args:
-           id - int, mandatory
-           street - string, mandatory
-           street_no - string, mandatory
-           city - string, mandatory
-           zip - int, mandatory
-           roles - list of AddressRole, optional      
-                
-    """        
+class Address:       
     
     def __init__(self, id, street, street_no, city, zip, roles={}):
+        """Class constructor
+    
+        Address role entity   
+    
+        Args:
+           id (int): address id           
+           street (str): street
+           street_no (str): street number
+           city (str): city
+           zip (int): zip code
+           roles (list): address roles
+           
+        """         
         
         self.id = id
         self.street = street
@@ -359,6 +390,8 @@ class Address:
         return s
     
     def toxml(self):
+        """Method serializes address to XML           
+        """        
         
         root = e.Element('address')
         
@@ -377,6 +410,8 @@ class Address:
         return root
         
     def tojson(self):   
+        """Method serializes address to JSON           
+        """        
         
         root = {}
         
@@ -399,20 +434,22 @@ class Address:
 
         return jsonlib2.write(root)     
             
-class AddressRole:
-    """AddressRole entity class
-        
-        Args:
-           id - int, mandatory
-           title - string, mandatory
-           contact - int, optional
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional     
-                
-    """        
+class AddressRole: 
     
     def __init__(self, id, title, contact=None, customer=None, payer=None, subscriber=None):
+        """Class constructor
+    
+        Address role entity   
+    
+        Args:
+           id (int): address id           
+           title (str): role title, contract|contact|invoicing|delivery
+           contact (int): assigned contact id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id 
+           
+        """          
         
         self.id = id
         self.title = title
@@ -428,6 +465,8 @@ class AddressRole:
         return s
     
     def toxml(self):
+        """Method serializes address role to XML           
+        """         
         
         root = e.Element('role')
         
@@ -445,6 +484,8 @@ class AddressRole:
         return root 
         
     def tojson(self):   
+        """Method serializes address role to JSON           
+        """         
         
         root = {}
         
@@ -461,18 +502,20 @@ class AddressRole:
 
         return jsonlib2.write(root)         
     
-class Service:
-    """Service entity class
-        
-        Args:
-           id - int, mandatory
-           name - string, mandatory
-           status - string, mandatory
-           params - dictionary key:value, optional      
-                
-    """        
+class Service:      
     
     def __init__(self, id, name, status, params={}):
+        """Class constructor
+    
+        Service entity   
+    
+        Args:
+           id (int): service id           
+           name (str): name
+           status (str): status, active|deactive|suspend
+           params (dict): parameters
+           
+        """           
         
         self.id = id
         self.name = name
@@ -491,6 +534,8 @@ class Service:
         return s
     
     def toxml(self):
+        """Method serializes service to XML           
+        """           
         
         root = e.Element('service')
         
@@ -508,6 +553,8 @@ class Service:
         return root
     
     def tojson(self):
+        """Method serializes service to JSON           
+        """           
         
         root = {}
         
@@ -526,20 +573,22 @@ class Service:
         
         return jsonlib2.write(root)        
     
-class ServiceOperation:
-    """ServiceOperation entity class
-        
-        Args:
-           service - int, mandatory
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           status - string, optional
-           params - dictionary key:value, optional      
-                
-    """        
+class ServiceOperation:     
     
     def __init__(self, service, customer=None, payer=None, subscriber=None, status=None, params={}):
+        """Class constructor
+    
+        Service operation entity   
+    
+        Args:
+           service (int): service id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           status (str): service status, active|deactive|suspend
+           params (dict): service parameters
+           
+        """          
         
         self.service = service
         self.customer = customer
@@ -561,6 +610,8 @@ class ServiceOperation:
         return s 
     
     def toxml(self):
+        """Method serializes service operation to XML           
+        """           
         
         root = e.Element('operation')
         
@@ -586,6 +637,8 @@ class ServiceOperation:
         return root
         
     def tojson(self):
+        """Method serializes service operation to JSON           
+        """           
         
         root = {}
         

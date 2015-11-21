@@ -39,7 +39,9 @@ requires = [
            
 data_files=[
             ('/etc/hydratk/conf.d', ['etc/hydratk/conf.d/hydratk-ext-testenv.conf']),
-            ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/testenv.db3']),
+            ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/install_db.sql']),
+            ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.wsdl']),
+            ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.xsd']),
             ('/var/local/hydratk/yoda/helpers/testenv', ['var/local/hydratk/yoda/helpers/testenv/__init__.py']),
             ('/var/local/hydratk/yoda/helpers/testenv', ['var/local/hydratk/yoda/helpers/testenv/testenv_helpers.py']),
             ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/db.yoda']),
@@ -47,7 +49,7 @@ data_files=[
             ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/soap.yoda'])   
            ]                    
                 
-setup(name='HydraTK-TestEnv',
+setup(name='hydratk-ext-testenv',
       version='0.1.0a',
       description='Test environment for test automation exercises',
       long_description=readme,

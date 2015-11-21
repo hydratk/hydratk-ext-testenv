@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extension
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.interfaces.rest_int
+.. module:: testenv.interfaces.rest_int
    :platform: Unix
-   :synopsis: REST interface for testenv
+   :synopsis: REST interface methods to be used in helpers
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
@@ -23,6 +22,11 @@ class REST_INT():
     _client = None   
     
     def __init__(self):
+        """Class constructor
+           
+        Called when the object is initialized    
+           
+        """          
         
         self._mh = MasterHead.get_head()
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip']
@@ -34,12 +38,12 @@ class REST_INT():
         """Method reads customer
         
         Args:
-           id - int, mandatory            
+           id (int): customer id           
              
         Returns:
-           customer - crm_entities.Customer
+           obj: crm_entities.Customer
                 
-        """        
+        """       
         
         msg = 'id:{0}'.format(id)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_customer', msg), 
@@ -69,17 +73,17 @@ class REST_INT():
         """Method creates customer
         
         Args:
-           name - string, mandatory
-           segment - int, mandatory, lov_segment.id
-           status - string, optional, lov_status.title, default active
-           birth_no - string, optional
-           reg_no - string, optional
-           tax_no - string, optional              
+           name (str): name
+           segment (int): segment id, lov_segment.id
+           status (str): status, lov_status.title, default active
+           birth_no (str): birth number
+           reg_no (str): registration number
+           tax_no (str): tax identification number      
              
         Returns:
-           id - int
+           int - created customer id
                 
-        """           
+        """        
         
         msg = 'name:{0}, status:{1}, segment:{2}, birth_no:{3}, reg_no:{4}, tax_no:{5}'.format(
                name, status, segment, birth_no, reg_no, tax_no)
@@ -105,16 +109,16 @@ class REST_INT():
         """Method changes customer
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           status - string, optional, lov_status.title
-           segment - int, optional, lov_segment.id           
-           birth_no - string, optional
-           reg_no - string, optional
-           tax_no - string, optional              
+           id (int): customer id
+           name (str): name
+           status (str): status, lov_status.title
+           segment (int): segment id, lov_segment.id           
+           birth_no (str): birth number
+           reg_no (str): registration number
+           tax_no (str): tax identification number      
              
-        Returns:
-           result - bool
+        Returns: 
+           bool: result
                 
         """  
         
@@ -142,12 +146,12 @@ class REST_INT():
         """Method reads payer
         
         Args:
-           id - int, mandatory           
+           id (int): payer id          
              
         Returns:
-           payer - crm_entities.Payer
+           obj: crm_entities.Payer
                 
-        """           
+        """         
         
         msg = 'id:{0}'.format(id)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_Payer', msg), 
@@ -177,16 +181,16 @@ class REST_INT():
         """Method creates payer
         
         Args:
-           name - string, mandatory
-           billcycle - int, mandatory, lov_billcycle.id
-           customer - int, mandatory
-           status - string, optional, lov_status.title, default active
-           bank_account - string, optional            
+           name (str): name
+           billcycle (int): billcycle, lov_billcycle.id
+           customer (int): assigned customer id
+           status (str): status, lov_status.title, default active
+           bank_account (str): banking account            
              
         Returns:
-           id - int
+           int: created payer id
                 
-        """  
+        """ 
         
         msg = 'name:{0}, status:{1}, billcycle:{2}, bank_account:{3}, customer:{4}'.format(
                name, status, billcycle, bank_account, customer)
@@ -212,15 +216,15 @@ class REST_INT():
         """Method changes payer
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           status - string, optional, lov_status.title
-           billcycle - int, optional, lov_billcycle.id
-           bank_account - string, optional 
-           customer - int, optional                               
+           id (int): payer id
+           name (str): name
+           status (str): status, lov_status.title
+           billcycle (int): billcycle id, lov_billcycle.id
+           bank_account (str): banking account 
+           customer (int): assigned customer id                    
              
         Returns:
-           result - bool
+           bool: result
                 
         """ 
         
@@ -248,12 +252,12 @@ class REST_INT():
         """Method reads subscriber
         
         Args:
-           id - int, mandatory            
+           id (int): subscriber id           
              
         Returns:
-           subscriber - crm_entities.Subscriber
+           obj: crm_entities.Subscriber
                 
-        """           
+        """         
         
         msg = 'id:{0}'.format(id)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_subscriber', msg), 
@@ -283,16 +287,16 @@ class REST_INT():
         """Method creates subscriber
         
         Args:
-           name - string, mandatory
-           msisdn - string, mandatory
-           market - int, mandatory, lov_market.id
-           tariff - int, mandatory, lov_tariff.id
-           customer - int, mandatory
-           payer - int, mandatory
-           status - string, optional, lov_status.title, default active                              
+           name (str): name
+           msisdn (str): MSISDN
+           market (int): market id, lov_market.id
+           tariff (int): tariff id, lov_tariff.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           status (str): status, lov_status.title, default active                              
              
         Returns:
-           id - int
+           int: created subscriber id
                 
         """     
         
@@ -320,19 +324,19 @@ class REST_INT():
         """Method changes subscriber
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           msisdn - string, optional
-           status - string, optional, lov_status.title           
-           market - int, optional, lov_market.id
-           tariff - int, optional, lov_tariff.id
-           customer - int, optional
-           payer - int, optional                                    
+           id (int): subscriber id
+           name (str): name
+           msisdn (str): MSISDN
+           status (str): status, lov_status.title           
+           market (int): market id, lov_market.id
+           tariff (int): tariff id, lov_tariff.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id                     
              
         Returns:
            result - bool
         
-        """  
+        """ 
         
         msg = 'id:{0}, name:{1}, msisdn:{2}, status:{3}, market:{4}, tariff:{5}, customer:{6}, payer:{7}'.format(
                id, name, msisdn, status, market, tariff, customer, payer)
@@ -358,12 +362,12 @@ class REST_INT():
         """Method reads contact
         
         Args:
-           id - int           
+           id (int): contact id         
              
         Returns:
-           contact - crm_entities.Contact
+           obj: crm_entities.Contact
                 
-        """ 
+        """  
                   
         msg = 'id:{0}'.format(id)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_contact', msg), 
@@ -398,12 +402,12 @@ class REST_INT():
         """Method creates contact
         
         Args:
-           name - string, mandatory
-           phone - string, optional
-           email - string, optional          
+           name (str): name
+           phone (str): phone number
+           email (str): email         
              
         Returns:
-           id - int
+           int: created contact id
                 
         """    
         
@@ -430,13 +434,13 @@ class REST_INT():
         """Method changes contact
         
         Args:
-           id - int, mandatory
-           name - string, optional
-           phone - string, optional
-           email - string, optional          
+           id (int): contact id
+           name (str): name
+           phone (str): phone number
+           email (str): email         
              
         Returns:
-           result - bool
+           bool: result
                 
         """  
         
@@ -463,14 +467,14 @@ class REST_INT():
         """Method assigns contact role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_contact_role.title
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional         
+           id (int): contact id
+           role (str): role title, lov_contact_role.title
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id     
              
         Returns:
-           result - bool
+           bool: result
                 
         """    
         
@@ -498,14 +502,14 @@ class REST_INT():
         """Method revokes contact role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_contact_role.title
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional         
+           id (int): contact id
+           role (str): role title, lov_contact_role.title
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id     
              
         Returns:
-           result - bool
+           bool: result
                 
         """   
         
@@ -533,12 +537,12 @@ class REST_INT():
         """Method reads address
         
         Args:
-           id - int            
+           id (int): address id         
              
         Returns:
-           address - crm_entities.Address 
+           obj: crm_entities.Address 
                 
-        """           
+        """            
         
         msg = 'id:{0}'.format(id)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_address', msg), 
@@ -574,15 +578,15 @@ class REST_INT():
         """Method creates address
         
         Args:
-           street - string, mandatory
-           street_no - string, mandatory
-           city - string, mandatory
-           zip - int, mandatory       
+           street (str): street
+           street_no (str): street number
+           city (str): city
+           zip (int): zip code       
              
         Returns:
-           id - int
+           int: created address id
                 
-        """ 
+        """   
         
         msg = 'street:{0}, street_no:{1}, city:{2}, zip:{3}'.format(street, street_no, city, zip)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_address', msg), 
@@ -607,16 +611,16 @@ class REST_INT():
         """Method changes address
         
         Args:
-           id - int, mandatory
-           street - string, optional
-           street_no - string, optional
-           city - string, optional
-           zip - int, optional    
+           id (int): address id
+           street (str): street
+           street_no (str): street number
+           city (str): city
+           zip (int): zip code    
              
         Returns:
-           result - bool
+           bool: result
                 
-        """  
+        """     
         
         msg = 'id:{0}, street:{1}, street_no:{2}, city:{3}, zip:{4}'.format(id, street, street_no, city, zip)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_address', msg), 
@@ -641,17 +645,17 @@ class REST_INT():
         """Method assigns address role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_address_role.title
-           contact - int, optional
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional      
-             
+           id (int): address id
+           role (str): role title, lov_address_role.title
+           contact (int): assigned contact id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id  
+            
         Returns:
-           result - bool
+           bool: result
                 
-        """ 
+        """  
         
         msg = 'id:{0}, role:{1}, contact:{2}, customer:{3}, payer:{4}, subscriber:{5}'.format(
                id, role, contact, customer, payer, subscriber)
@@ -677,17 +681,17 @@ class REST_INT():
         """Method revokes address role
         
         Args:
-           id - int, mandatory
-           role - string, mandatory, lov_address_role.title
-           contact - int, optional
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional      
+           id (int): address id
+           role (str): role title, lov_address_role.title
+           contact (int): assigned contact id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id  
              
         Returns:
-           result - bool
+           bool: result
                 
-        """   
+        """    
         
         msg = 'id:{0}, role:{1}, contact:{2}, customer:{3}, payer:{4}, subscriber:{5}'.format(
                id, role, contact, customer, payer, subscriber)
@@ -713,15 +717,15 @@ class REST_INT():
         """Method read services
         
         Args:
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           service - int, optional, lov_service.id, default read all services for entity     
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           service (int): service id, lov_service.id, default empty, read all services for entity     
              
         Returns:
-           services - list of crm_entities.Service
+           list: list of crm_entities.Service
                 
-        """    
+        """  
         
         msg = 'customer:{0}, payer:{1}, subscriber:{2}, service:{3}'.format(
                customer, payer, subscriber, service)
@@ -770,17 +774,17 @@ class REST_INT():
         """Method creates service
         
         Args: 
-           service - int, mandatory, lov_service.id
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           status - string, optional, lov_status.title, default active
-           params - dictionary, optional, key - int, lov_service_param.id, value - string  
+           service (int): service id, lov_service.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           status (str): status, lov_status.title, default active
+           params (dict): key (int), lov_service_param.id, value (str)  
              
         Returns:
-           result - bool
+           bool: result
                 
-        """           
+        """         
             
         msg = 'service:{0}, customer:{1}, payer:{2}, subscriber:{3}, status:{4}, params:{5}'.format(
                service, customer, payer, subscriber, status, params)
@@ -806,17 +810,17 @@ class REST_INT():
         """Method changes service
         
         Args: 
-           service - int, mandatory, lov_service.id
-           customer - int, optional
-           payer - int, optional
-           subscriber - int, optional
-           status - string, optional, lov_status.title
-           params - dictionary, optional, key - int, lov_service_param.id, value - string  
+           service (int): service id, lov_service.id
+           customer (int): assigned customer id
+           payer (int): assigned payer id
+           subscriber (int): assigned subscriber id
+           status (str): status, lov_status.title, default active
+           params (dict): key (int), lov_service_param.id, value (str)  
              
         Returns:
-           result - bool
+           bool: result
                 
-        """   
+        """        
         
         msg = 'service:{0}, customer:{1}, payer:{2}, subscriber:{3}, status:{4}, params:{5}'.format(
                service, customer, payer, subscriber, status, params)

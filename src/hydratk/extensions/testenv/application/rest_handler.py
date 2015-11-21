@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+"""This code is part of TestEnv extension
 
-"""This code is a part of Hydra Toolkit
-
-.. module:: hydratk.extensions.testenv.application.rest_handler
+.. module:: testenv.application.rest_handler
    :platform: Unix
    :synopsis: Handles REST operations
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -19,10 +18,23 @@ class RestHandler:
     _mh = None
     
     def __init__(self):
+        """Class constructor
+           
+        Called when the object is initialized    
+           
+        """            
         
         self._mh = MasterHead.get_head()
 
-    def _get_db(self):    
+    def _get_db(self): 
+        """Method connect to database     
+           
+        Args:
+
+        Returns:
+           DB_INT: DB client                 
+                
+        """              
     
         db = db_int.DB_INT()
         db.connect()
@@ -32,12 +44,26 @@ class RestHandler:
         """Method handles GET customer           
            
         Args:
-           id - URL param, int   
+           data (dict) - request input with customer id 
              
         Returns:
-           HTTP 200 with crm_entities.Customer in JSON
-           HTTP 404 when customer not found
+           http: HTTP 200 with customer detail in JSON,
+           HTTP 404 when customer not found,
            HTTP 400 when param id is missing 
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "status": "active",
+             "segment": 2,
+             "birth_no": "700101/0001",
+             "reg_no": "123456",
+             "tax_no": "CZ123456"
+           }         
                 
         """          
            
@@ -62,7 +88,16 @@ class RestHandler:
         """Method handles POST customer           
            
         Args:
-           customer - crm_entities.Customer in JSON  
+           data (json): customer detail  
+             
+        Returns:
+           http: HTTP 200 with id of created customer,
+           HTTP 400 when customer not created
+           
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "name": "Charlie Bowman",
              "status": "active",
@@ -70,11 +105,7 @@ class RestHandler:
              "birth_no": "700101/0001",
              "reg_no": "123456",
              "tax_no": "CZ123456"
-           } 
-             
-        Returns:
-           HTTP 200 with id of created customer
-           HTTP 400 when customer not created
+           }         
                 
         """              
         
@@ -102,11 +133,25 @@ class RestHandler:
         """Method handles PUT customer           
            
         Args:
-           customer - crm_entities.Customer in JSON  
+           data (json): customer detail  
              
         Returns:
-           HTTP 200 when customer changed
+           HTTP 200 when customer changed,
            HTTP 400 when customer not changed
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "status": "active",
+             "segment": 2,
+             "birth_no": "700101/0001",
+             "reg_no": "123456",
+             "tax_no": "CZ123456"
+           }                    
                 
         """           
         
@@ -135,12 +180,25 @@ class RestHandler:
         """Method handles GET payer           
            
         Args:
-           id - URL param, int   
+           data (dict): request input with payer id   
              
         Returns:
-           HTTP 200 with crm_entities.Payer in JSON
-           HTTP 404 when payer not found
+           http: HTTP 200 with payer detail in JSON,
+           HTTP 404 when payer not found,
            HTTP 400 when param id is missing 
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "status": "active",
+             "billcycle": 1,
+             "bank_account": "123456/0100",
+             "customer": 1
+           }         
                 
         """             
         
@@ -165,18 +223,23 @@ class RestHandler:
         """Method handles POST payer           
            
         Args:
-           payer - crm_entities.Payer in JSON  
+           data (json): payer detail  
+             
+        Returns:
+           http: HTTP 200 with id of created payer,
+           HTTP 400 when payer not created
+                
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "name": "Charlie Bowman",
              "status": "active",
              "billcycle": 1,
              "bank_account": "123456/0100",
              "customer": 1
-           } 
-             
-        Returns:
-           HTTP 200 with id of created payer
-           HTTP 400 when payer not created
+           }                
                 
         """            
         
@@ -203,11 +266,24 @@ class RestHandler:
         """Method handles PUT payer           
            
         Args:
-           payer - crm_entities.Payer in JSON  
+           data (json) - payer detail  
              
         Returns:
-           HTTP 200 when payer changed
+           http: HTTP 200 when payer changed,
            HTTP 400 when payer not changed
+                
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "status": "active",
+             "billcycle": 1,
+             "bank_account": "123456/0100",
+             "customer": 1
+           }                 
                 
         """             
         
@@ -235,12 +311,27 @@ class RestHandler:
         """Method handles GET subscriber           
            
         Args:
-           id - URL param, int   
+           data (dict) - request input with subscriber id   
              
         Returns:
-           HTTP 200 with crm_entities.Subscriber in JSON
-           HTTP 404 when subscriber not found
+           http: HTTP 200 with subscriber detail in JSON,
+           HTTP 404 when subscriber not found,
            HTTP 400 when param id is missing 
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "msisdn": "123456"
+             "status": "active",
+             "market": 1,
+             "tariff": 433,
+             "customer": 1,
+             "payer": 2
+           }         
                 
         """             
         
@@ -265,7 +356,16 @@ class RestHandler:
         """Method handles POST subscriber           
            
         Args:
-           payer - crm_entities.Subscriber in JSON  
+           data (json) - subscriber detail  
+             
+        Returns:
+           http: HTTP 200 with id of created subscriber,
+           HTTP 400 when subscriber not created
+                
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "name": "Charlie Bowman",
              "msisdn": "123456"
@@ -274,11 +374,7 @@ class RestHandler:
              "tariff": 433,
              "customer": 1,
              "payer": 2
-           } 
-             
-        Returns:
-           HTTP 200 with id of created subscriber
-           HTTP 400 when subscriber not created
+           }                 
                 
         """                 
         
@@ -307,11 +403,26 @@ class RestHandler:
         """Method handles PUT subscriber           
            
         Args:
-           subscriber - crm_entities.Subscriber in JSON  
+           data (json): payer detail  
              
         Returns:
-           HTTP 200 when subscriber changed
+           http: HTTP 200 when subscriber changed,
            HTTP 400 when subscriber not changed
+                
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "msisdn": "123456"
+             "status": "active",
+             "market": 1,
+             "tariff": 433,
+             "customer": 1,
+             "payer": 2
+           }                 
                 
         """            
         
@@ -341,12 +452,33 @@ class RestHandler:
         """Method handles GET contact           
            
         Args:
-           id - URL param, int   
+           data (dict): request input with contact id   
              
         Returns:
-           HTTP 200 with crm_entities.Contact in JSON
-           HTTP 404 when contact not found
+           http: HTTP 200 with contact detail in JSON, choice customer|payer|subscriber,
+           HTTP 404 when contact not found,
            HTTP 400 when param id is missing 
+                
+        Example:
+        
+        .. code-block:: javascript  
+        
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "phone": "123456"
+             "email": "aaa@xxx.com",
+             "roles": {
+               "role": [
+                 {
+                   "id": 1,
+                   "title": "contract",
+                   "customer": 1,
+                   "payer": 1,
+                   "subscriber": 1
+                 }  
+             ]}
+           }               
                 
         """             
         
@@ -371,16 +503,21 @@ class RestHandler:
         """Method handles POST contact           
            
         Args:
-           payer - crm_entities.Contact in JSON  
+           data (json): contact detail  
+             
+        Returns:
+           http: HTTP 200 with id of created contact,
+           HTTP 400 when contact not created
+                
+        Example:
+        
+        .. code-block:: javascript        
+                
            {
              "name": "Charlie Bowman",
              "phone": "123456"
              "email": "aaa@xxx.com"
-           } 
-             
-        Returns:
-           HTTP 200 with id of created contact
-           HTTP 400 when contact not created
+           }                 
                 
         """           
         
@@ -405,11 +542,22 @@ class RestHandler:
         """Method handles PUT customer           
            
         Args:
-           contact - crm_entities.Contact in JSON  
+           data (json): contact detail  
              
         Returns:
-           HTTP 200 when contact changed
+           http: HTTP 200 when contact changed,
            HTTP 400 when contact not changed
+           
+        Example:
+        
+        .. code-block:: javascript        
+                
+           {
+             "id": 1,
+             "name": "Charlie Bowman",
+             "phone": "123456"
+             "email": "aaa@xxx.com"
+           }             
                 
         """            
         
@@ -435,18 +583,23 @@ class RestHandler:
         """Method handles POST contact/role           
            
         Args:
-           contact_role - crm_entities.ContactRole in JSON  
+           data (json): contact role detail, choice customer|payer|subscriber   
+             
+        Returns:
+           http: HTTP 200 when contact role assigned,
+           HTTP 400 when customer role not assigned
+           
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "id": 1,
              "title": "contract",
              "customer": 1,
              "payer": 1,
              "subscriber": 1
-           } 
-             
-        Returns:
-           HTTP 200 when contact role assigned
-           HTTP 400 when customer role not assigned
+           }         
                 
         """           
         
@@ -473,11 +626,23 @@ class RestHandler:
         """Method handles PUT contact/role           
            
         Args:
-           contact_role - crm_entities.ContactRole in JSON  
+           data (json): contact role detail, choice customer|payer|subscriber  
              
         Returns:
-           HTTP 200 when contact role revoked
+           http: HTTP 200 when contact role revoked,
            HTTP 400 when customer role not revoked
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "id": 1,
+             "title": "contract",
+             "customer": 1,
+             "payer": 1,
+             "subscriber": 1
+           }          
                 
         """              
         
@@ -504,12 +669,35 @@ class RestHandler:
         """Method handles GET address           
            
         Args:
-           id - URL param, int   
+           data (dict): request input with address id   
              
         Returns:
-           HTTP 200 with crm_entities.Address in JSON
-           HTTP 404 when address not found
-           HTTP 400 when param id is missing 
+           http: HTTP 200 with address detail in JSON, choice contact|customer|payer|subscriber,
+           HTTP 404 when address not found,
+           HTTP 400 when param id is missing
+           
+        Example:
+        
+        .. code-block:: javascript  
+        
+           {
+             "id": 1,
+             "street": "Tomickova",
+             "street_no": "2144/1"
+             "city": "Praha",
+             "zip": 14800
+             "roles": {
+               "role": [
+                 {
+                   "id": 1,
+                   "title": "contract",
+                   "contact": 1,
+                   "customer": 1,
+                   "payer": 1,
+                   "subscriber": 1
+                 }  
+             ]}
+           }             
                 
         """             
         
@@ -534,17 +722,22 @@ class RestHandler:
         """Method handles POST address           
            
         Args:
-           payer - crm_entities.Address in JSON  
+           data (json): address detail  
+             
+        Returns:
+           http: HTTP 200 with id of created address,
+           HTTP 400 when address not created
+           
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "street": "Tomickova",
              "street_no": "2144/1"
              "city": "Praha",
              "zip": 14800
-           } 
-             
-        Returns:
-           HTTP 200 with id of created address
-           HTTP 400 when address not created
+           }                    
                 
         """            
         
@@ -570,11 +763,23 @@ class RestHandler:
         """Method handles PUT address           
            
         Args:
-           address - crm_entities.Address in JSON  
+           data (json): address detail  
              
         Returns:
-           HTTP 200 when address changed
+           http: HTTP 200 when address changed,
            HTTP 400 when address not changed
+           
+        Example:
+        
+        .. code-block:: javascript   
+           
+           {
+             "id": 1,
+             "street": "Tomickova",
+             "street_no": "2144/1"
+             "city": "Praha",
+             "zip": 14800
+           }            
                 
         """           
         
@@ -601,19 +806,24 @@ class RestHandler:
         """Method handles POST address/role           
            
         Args:
-           address_role - crm_entities.AddressRole in JSON  
-           {
+           data (json): address role detail  
+             
+        Returns:
+           http: HTTP 200 when address role assigned,
+           HTTP 400 when address role not assigned
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+          {
              "id": 1,
              "title": "contract",
              "contact": 1,
              "customer": 1,
              "payer": 1,
              "subscriber": 1
-           } 
-             
-        Returns:
-           HTTP 200 when address role assigned
-           HTTP 400 when address role not assigned
+           }         
                 
         """              
         
@@ -641,11 +851,24 @@ class RestHandler:
         """Method handles PUT address/role           
            
         Args:
-           address_role - crm_entities.AddressRole in JSON  
+           data (json): address role detail  
              
         Returns:
-           HTTP 200 when address role revoked
+           http: HTTP 200 when address role revoked,
            HTTP 400 when address role not revoked
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+          {
+             "id": 1,
+             "title": "contract",
+             "contact": 1,
+             "customer": 1,
+             "payer": 1,
+             "subscriber": 1
+           }         
                 
         """               
         
@@ -673,15 +896,40 @@ class RestHandler:
         """Method handles GET service           
            
         Args:
-           customer - URL param, int
-           payer - URL param, int
-           subscriber - URL param, int
-           service - URL param, int   
+           data (dict): request input entity and service id (all services if empty), choice customer|payer|subscriber, 
              
         Returns:
-           HTTP 200 with list of crm_entities.Service in JSON
-           HTTP 404 when service not found
+           http: HTTP 200 with list of services in JSON,
+           HTTP 404 when service not found,
            HTTP 400 when no entity is provided 
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "service": 
+             {
+               "service": 
+               [
+                 {
+                   "id": 615,
+                   "name": "Telefonni cislo",
+                   "status": "active",
+                   "params": 
+                   {
+                     "entry": 
+                     [
+                       {
+                         "key": 121,
+                         "value": "12345"
+                       }
+                     ]
+                   } 
+                 }  
+               ]
+             } 
+           }         
                 
         """          
         
@@ -726,7 +974,16 @@ class RestHandler:
         """Method handles POST service           
            
         Args:
-           service - crm_entities.ServiceOperation in JSON  
+           data (json): service operation, choice customer|payer|subscriber  
+           
+        Returns:
+           http: HTTP 200 when service created,
+           HTTP 400 when service not created           
+           
+        Example:
+        
+        .. code-block:: javascript
+        
            {
              "customer": 1,
              "payer": 1,
@@ -743,11 +1000,7 @@ class RestHandler:
                  }
                ]
              } 
-           } 
-             
-        Returns:
-           HTTP 200 when service created
-           HTTP 400 when service not created
+           }             
                 
         """  
         
@@ -778,11 +1031,33 @@ class RestHandler:
         """Method handles PUT service           
            
         Args:
-           service - crm_entities.ServiceOperation in JSON  
+           data (json): service operation, choice customer|payer|subscriber  
              
         Returns:
-           HTTP 200 when service changed
+           http: HTTP 200 when service changed,
            HTTP 400 when service not changed
+           
+        Example:
+        
+        .. code-block:: javascript
+        
+           {
+             "customer": 1,
+             "payer": 1,
+             "subscriber": 1,
+             "service": 615,
+             "status": "active",
+             "params": 
+             {
+               "entry": 
+               [
+                 {
+                   "key": 121,
+                   "value": "12345"
+                 }
+               ]
+             } 
+           }          
                 
         """  
         
