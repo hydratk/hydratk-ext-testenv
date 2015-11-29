@@ -30,11 +30,7 @@ packages=[
          
 requires = [
             'hydratk',
-            'web.py',
-            'httplib2',
-            'suds',
-            'lxml',
-            'jsonlib2'
+            'web.py'
            ]  
            
 data_files=[
@@ -42,8 +38,7 @@ data_files=[
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/install_db.sql']),
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.wsdl']),
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.xsd']),
-            ('/var/local/hydratk/yoda/helpers/testenv', ['var/local/hydratk/yoda/helpers/testenv/__init__.py']),
-            ('/var/local/hydratk/yoda/helpers/testenv', ['var/local/hydratk/yoda/helpers/testenv/testenv_helpers.py']),
+            ('/var/local/hydratk/yoda/helpers', ['var/local/hydratk/yoda/helpers/testenv_helpers.py']),
             ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/db.yoda']),
             ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/rest.yoda']),
             ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/soap.yoda'])   
@@ -58,6 +53,7 @@ setup(name='hydratk-ext-testenv',
       url='http://extensions.hydratk.org/testenv',
       license='BSD',
       packages=find_packages('src'),
+      install_requires=requires,
       package_dir={'' : 'src'},
       classifiers=classifiers,
       data_files=data_files 
