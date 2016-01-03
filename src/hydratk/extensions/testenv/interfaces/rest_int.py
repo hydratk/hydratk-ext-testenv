@@ -9,10 +9,11 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-import hydratk.extensions.testenv.entities.crm_entities as crm
-import httplib2
-import urllib
-import jsonlib2
+from hydratk.extensions.testenv.entities.crm_entities import Customer, Payer, Subscriber, Service, ServiceOperation
+from hydratk.extensions.testenv.entities.crm_entities import Contact, ContactRole, Address, AddressRole
+from httplib2 import Http
+from urllib import urlencode
+from jsonlib2 import read
 
 class REST_INT():
     
@@ -32,7 +33,7 @@ class REST_INT():
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip']
         port = self._mh.cfg['Extensions']['TestEnv']['server_port']  
         self._url = 'http://{0}:{1}/rs/'.format(ip, port)
-        self._client = httplib2.Http()            
+        self._client = Http()            
         
     def read_customer(self, id):
         """Method reads customer
@@ -51,15 +52,15 @@ class REST_INT():
         
         path = 'customer'
         params = {'id' : id}
-        url = self._url + path + '?' + urllib.urlencode(params)
+        url = self._url + path + '?' + urlencode(params)
         headers = {'Accept' : 'application/json'}
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
-            customer = crm.Customer(doc['id'], doc['name'], doc['status'], doc['segment'], 
-                                    doc['birth_no'], doc['reg_no'], doc['tax_no'])
+            doc = read(content)
+            customer = Customer(doc['id'], doc['name'], doc['status'], doc['segment'], 
+                                doc['birth_no'], doc['reg_no'], doc['tax_no'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'customer', customer),
                           self._mh.fromhere())
                 
@@ -93,7 +94,7 @@ class REST_INT():
         path = 'customer'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}        
-        customer = crm.Customer(None, name, status, segment, birth_no, reg_no, tax_no)                        
+        customer = Customer(None, name, status, segment, birth_no, reg_no, tax_no)                        
         body = customer.tojson()         
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -130,7 +131,7 @@ class REST_INT():
         path = 'customer'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}        
-        customer = crm.Customer(id, name, status, segment, birth_no, reg_no, tax_no)
+        customer = Customer(id, name, status, segment, birth_no, reg_no, tax_no)
         body = customer.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -159,15 +160,15 @@ class REST_INT():
         
         path = 'payer'
         params = {'id' : id}
-        url = self._url + path + '?' + urllib.urlencode(params)
+        url = self._url + path + '?' + urlencode(params)
         headers = {'Accept' : 'application/json'}
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
-            payer = crm.Payer(doc['id'], doc['name'], doc['status'], doc['billcycle'], 
-                              doc['customer'], doc['bank_account'])
+            doc = read(content)
+            payer = Payer(doc['id'], doc['name'], doc['status'], doc['billcycle'], 
+                          doc['customer'], doc['bank_account'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'payer', payer),
                           self._mh.fromhere())                           
                 
@@ -200,7 +201,7 @@ class REST_INT():
         path = 'payer'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        payer = crm.Payer(None, name, status, billcycle, customer, bank_account)
+        payer = Payer(None, name, status, billcycle, customer, bank_account)
         body = payer.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -236,7 +237,7 @@ class REST_INT():
         path = 'payer'
         url = self._url + path        
         headers = {'Content-Type' : 'application/json'}
-        payer = crm.Payer(id, name, status, billcycle, customer, bank_account)
+        payer = Payer(id, name, status, billcycle, customer, bank_account)
         body = payer.tojson()        
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -265,15 +266,15 @@ class REST_INT():
         
         path = 'subscriber'
         params = {'id' : id}
-        url = self._url + path + '?' + urllib.urlencode(params)
+        url = self._url + path + '?' + urlencode(params)
         headers = {'Accept' : 'application/json'}
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
-            subscriber = crm.Subscriber(doc['id'], doc['name'], doc['msisdn'], doc['status'], doc['market'], 
-                                        doc['tariff'], doc['customer'], doc['payer'])
+            doc = read(content)
+            subscriber = Subscriber(doc['id'], doc['name'], doc['msisdn'], doc['status'], doc['market'], 
+                                    doc['tariff'], doc['customer'], doc['payer'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'subscriber', subscriber),
                           self._mh.fromhere())                                      
                 
@@ -308,7 +309,7 @@ class REST_INT():
         path = 'subscriber'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        subscriber = crm.Subscriber(None, name, msisdn, status, market, tariff, customer, payer)
+        subscriber = Subscriber(None, name, msisdn, status, market, tariff, customer, payer)
         body = subscriber.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -346,7 +347,7 @@ class REST_INT():
         path = 'subscriber'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        subscriber = crm.Subscriber(id, name, msisdn, status, market, tariff, customer, payer)
+        subscriber = Subscriber(id, name, msisdn, status, market, tariff, customer, payer)
         body = subscriber.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -375,20 +376,20 @@ class REST_INT():
         
         path = 'contact'
         params = {'id' : id}
-        url = self._url + path + '?' + urllib.urlencode(params)
+        url = self._url + path + '?' + urlencode(params)
         headers = {'Accept' : 'application/json'}
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
+            doc = read(content)
             roles = []
             if (doc.has_key('roles')):                    
                 for role in doc['roles']['role']:
-                    roles.append(crm.ContactRole(role['id'], role['title'], role['customer'],
-                                                 role['payer'], role['subscriber']))
+                    roles.append(ContactRole(role['id'], role['title'], role['customer'],
+                                             role['payer'], role['subscriber']))
                 
-            contact = crm.Contact(doc['id'], doc['name'], doc['phone'], doc['email'], roles)
+            contact = Contact(doc['id'], doc['name'], doc['phone'], doc['email'], roles)
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'contact', contact),
                           self._mh.fromhere())
                 
@@ -418,7 +419,7 @@ class REST_INT():
         path = 'contact'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        contact = crm.Contact(None, name, phone, email)
+        contact = Contact(None, name, phone, email)
         body = contact.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -451,7 +452,7 @@ class REST_INT():
         path = 'contact'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        contact = crm.Contact(id, name, phone, email)
+        contact = Contact(id, name, phone, email)
         body = contact.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -486,7 +487,7 @@ class REST_INT():
         path = 'contact/role'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        contact_role = crm.ContactRole(id, role, customer, payer, subscriber)
+        contact_role = ContactRole(id, role, customer, payer, subscriber)
         body = contact_role.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -521,7 +522,7 @@ class REST_INT():
         path = 'contact/role'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        contact_role = crm.ContactRole(id, role, customer, payer, subscriber)
+        contact_role = ContactRole(id, role, customer, payer, subscriber)
         body = contact_role.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -550,21 +551,21 @@ class REST_INT():
         
         path = 'address'
         params = {'id' : id}
-        url = self._url + path + '?' + urllib.urlencode(params)
+        url = self._url + path + '?' + urlencode(params)
         headers = {'Accept' : 'application/json'}
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
+            doc = read(content)
                 
             roles = []
             if (doc.has_key('roles')):
                 for role in doc['roles']['role']:
-                    roles.append(crm.AddressRole(role['id'], role['title'], role['contact'],
-                                                 role['customer'], role['payer'], role['subscriber']))
+                    roles.append(AddressRole(role['id'], role['title'], role['contact'],
+                                             role['customer'], role['payer'], role['subscriber']))
                 
-            address = crm.Address(doc['id'], doc['street'], doc['street_no'], doc['city'], doc['zip'], roles)
+            address = Address(doc['id'], doc['street'], doc['street_no'], doc['city'], doc['zip'], roles)
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'address', address),
                           self._mh.fromhere())
                 
@@ -595,7 +596,7 @@ class REST_INT():
         path = 'address'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        address = crm.Address(None, street, street_no, city, zip)
+        address = Address(None, street, street_no, city, zip)
         body = address.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -629,7 +630,7 @@ class REST_INT():
         path = 'address'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        address = crm.Address(id, street, street_no, city, zip)
+        address = Address(id, street, street_no, city, zip)
         body = address.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -665,7 +666,7 @@ class REST_INT():
         path = 'address/role'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        address_role = crm.AddressRole(id, role, contact, customer, payer, subscriber)
+        address_role = AddressRole(id, role, contact, customer, payer, subscriber)
         body = address_role.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -701,7 +702,7 @@ class REST_INT():
         path = 'address/role'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        address_role = crm.AddressRole(id, role, contact, customer, payer, subscriber)
+        address_role = AddressRole(id, role, contact, customer, payer, subscriber)
         body = address_role.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 
@@ -744,12 +745,12 @@ class REST_INT():
         if (service != None):
             params['service'] = service                                    
         
-        url = self._url + path + '?' + urllib.urlencode(params) 
+        url = self._url + path + '?' + urlencode(params) 
         response, content = self._client.request(url, method='GET', headers=headers)
 
         if (response.status == 200):
             
-            doc = jsonlib2.read(content)
+            doc = read(content)
              
             services = []
             for service in doc['services']['service']:
@@ -758,7 +759,7 @@ class REST_INT():
                 for param in service['params']['entry']:
                     params[param['key']] = param['value']
                 
-                services.append(crm.Service(service['id'], service['name'], service['status'], params))
+                services.append(Service(service['id'], service['name'], service['status'], params))
             
             for service in services:    
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'service', service),
@@ -794,7 +795,7 @@ class REST_INT():
         path = 'service'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        service_operation = crm.ServiceOperation(service, customer, payer, subscriber, status, params)
+        service_operation = ServiceOperation(service, customer, payer, subscriber, status, params)
         body = service_operation.tojson()
         response, content = self._client.request(url, method='POST', headers=headers, body=body)              
 
@@ -830,7 +831,7 @@ class REST_INT():
         path = 'service'
         url = self._url + path
         headers = {'Content-Type' : 'application/json'}
-        service_operation = crm.ServiceOperation(service, customer, payer, subscriber, status, params)
+        service_operation = ServiceOperation(service, customer, payer, subscriber, status, params)
         body = service_operation.tojson()
         response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
 

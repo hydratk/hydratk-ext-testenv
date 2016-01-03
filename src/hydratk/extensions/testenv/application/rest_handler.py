@@ -9,9 +9,9 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-import hydratk.extensions.testenv.interfaces.db_int as db_int 
-import web
-import jsonlib2
+from hydratk.extensions.testenv.interfaces.db_int import DB_INT
+from web import OK, NotFound, BadRequest
+from jsonlib2 import read, write
 
 class RestHandler:
     
@@ -36,7 +36,7 @@ class RestHandler:
                 
         """              
     
-        db = db_int.DB_INT()
+        db = DB_INT()
         db.connect()
         return db
 
@@ -79,10 +79,10 @@ class RestHandler:
             if (customer != None):
                 return customer.tojson()
             else:
-                return web.NotFound                        
+                return NotFound                        
         
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def create_customer(self, data):   
         """Method handles POST customer           
@@ -112,7 +112,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_customer', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         name = doc['name'] if doc.has_key('name') else None
         status = doc['status'] if doc.has_key('status') else 'active'
         segment = doc['segment'] if doc.has_key('segment') else None
@@ -127,7 +127,7 @@ class RestHandler:
         if (id != None):
             return id
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def change_customer(self, data):  
         """Method handles PUT customer           
@@ -158,7 +158,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_customer', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         name = doc['name'] if doc.has_key('name') else None
         status = doc['status'] if doc.has_key('status') else None
@@ -172,9 +172,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()       
+            return BadRequest()       
         
     def read_payer(self, data):  
         """Method handles GET payer           
@@ -214,10 +214,10 @@ class RestHandler:
             if (payer != None):
                 return payer.tojson()
             else:
-                return web.NotFound                        
+                return NotFound                        
         
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def create_payer(self, data): 
         """Method handles POST payer           
@@ -246,7 +246,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_payer', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         name = doc['name'] if doc.has_key('name') else None
         status = doc['status'] if doc.has_key('status') else 'active'
         billcycle = doc['billcycle'] if doc.has_key('billcycle') else None
@@ -260,7 +260,7 @@ class RestHandler:
         if (id != None):
             return id
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def change_payer(self, data): 
         """Method handles PUT payer           
@@ -290,7 +290,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_payer', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         name = doc['name'] if doc.has_key('name') else None
         status = doc['status'] if doc.has_key('status') else None
@@ -303,9 +303,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest() 
+            return BadRequest() 
         
     def read_subscriber(self, data):  
         """Method handles GET subscriber           
@@ -347,10 +347,10 @@ class RestHandler:
             if (subscriber != None):
                 return subscriber.tojson()
             else:
-                return web.NotFound                        
+                return NotFound                        
         
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def create_subscriber(self, data):
         """Method handles POST subscriber           
@@ -381,7 +381,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_subscriber', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         name = doc['name'] if doc.has_key('name') else None
         msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
         status = doc['status'] if doc.has_key('status') else 'active'
@@ -397,7 +397,7 @@ class RestHandler:
         if (id != None):
             return id
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def change_subscriber(self, data):  
         """Method handles PUT subscriber           
@@ -429,7 +429,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_subscriber', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         name = doc['name'] if doc.has_key('name') else None
         msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
@@ -444,9 +444,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()  
+            return BadRequest()  
         
     def read_contact(self, data):  
         """Method handles GET contact           
@@ -494,10 +494,10 @@ class RestHandler:
             if (contact != None):
                 return contact.tojson()
             else:
-                return web.NotFound                        
+                return NotFound                        
         
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def create_contact(self, data):  
         """Method handles POST contact           
@@ -524,7 +524,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_contact', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         name = doc['name'] if doc.has_key('name') else None
         phone = doc['phone'] if doc.has_key('phone') else None
         email = doc['email'] if doc.has_key('email') else None
@@ -536,7 +536,7 @@ class RestHandler:
         if (id != None):
             return id
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def change_contact(self, data):  
         """Method handles PUT customer           
@@ -564,7 +564,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_contact', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         name = doc['name'] if doc.has_key('name') else None
         phone = doc['phone'] if doc.has_key('phone') else None
@@ -575,9 +575,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()                     
+            return BadRequest()                     
         
     def assign_contact_role(self, data):   
         """Method handles POST contact/role           
@@ -606,7 +606,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_contact_role', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         role = doc['title'] if doc.has_key('title') else None
         customer = doc['customer'] if doc.has_key('customer') else None
@@ -618,9 +618,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()      
+            return BadRequest()      
         
     def revoke_contact_role(self, data): 
         """Method handles PUT contact/role           
@@ -649,7 +649,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_contat_role', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         role = doc['title'] if doc.has_key('title') else None
         customer = doc['customer'] if doc.has_key('customer') else None
@@ -661,9 +661,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()      
+            return BadRequest()      
         
     def read_address(self, data):  
         """Method handles GET address           
@@ -713,10 +713,10 @@ class RestHandler:
             if (address != None):
                 return address.tojson()
             else:
-                return web.NotFound                        
+                return NotFound                        
         
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def create_address(self, data): 
         """Method handles POST address           
@@ -744,7 +744,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_address', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         street = doc['street'] if doc.has_key('street') else None
         street_no = doc['street_no'] if doc.has_key('street_no') else None
         city = doc['city'] if doc.has_key('city') else None
@@ -757,7 +757,7 @@ class RestHandler:
         if (id != None):
             return id
         else:
-            return web.BadRequest()
+            return BadRequest()
         
     def change_address(self, data):   
         """Method handles PUT address           
@@ -786,7 +786,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_address', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         street = doc['street'] if doc.has_key('street') else None
         street_no = doc['street_no'] if doc.has_key('street_no') else None
@@ -798,9 +798,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()                     
+            return BadRequest()                     
         
     def assign_address_role(self, data): 
         """Method handles POST address/role           
@@ -830,7 +830,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_address_role', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         role = doc['title'] if doc.has_key('title') else None
         contact = doc['contact'] if doc.has_key('contact') else None
@@ -843,9 +843,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()      
+            return BadRequest()      
         
     def revoke_address_role(self, data):
         """Method handles PUT address/role           
@@ -875,7 +875,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_address_role', data), 
                       self._mh.fromhere())        
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         id = doc['id'] if doc.has_key('id') else None
         role = doc['title'] if doc.has_key('title') else None
         contact = doc['contact'] if doc.has_key('contact') else None
@@ -888,9 +888,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest() 
+            return BadRequest() 
         
     def read_services(self, data):  
         """Method handles GET service           
@@ -942,7 +942,7 @@ class RestHandler:
         service = data['service'] if data.has_key('service') else None
         
         if (customer == None and payer == None and subscriber == None):
-            return web.BadRequest()
+            return BadRequest()
         
         db = self._get_db()            
         srv_list = db.read_services(customer, payer, subscriber, service)
@@ -965,10 +965,10 @@ class RestHandler:
             
             root['services'] = {'service': services}
             
-            return jsonlib2.write(root)
+            return write(root)
             
         else:
-            return web.NotFound    
+            return NotFound    
         
     def create_service(self, data):
         """Method handles POST service           
@@ -1007,7 +1007,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_service', data), 
                       self._mh.fromhere())                  
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         customer = doc['customer'] if doc.has_key('customer') else None
         payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
@@ -1023,9 +1023,9 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()      
+            return BadRequest()      
         
     def change_service(self, data):
         """Method handles PUT service           
@@ -1064,7 +1064,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_service', data), 
                       self._mh.fromhere())                
         
-        doc = jsonlib2.read(data)
+        doc = read(data)
         customer = doc['customer'] if doc.has_key('customer') else None
         payer = doc['payer'] if doc.has_key('payer') else None
         subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
@@ -1080,6 +1080,6 @@ class RestHandler:
         db.disconnect()
         
         if (res):
-            return web.OK()
+            return OK()
         else:
-            return web.BadRequest()                                                                           
+            return BadRequest()                                                                           

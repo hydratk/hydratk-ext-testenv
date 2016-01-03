@@ -9,9 +9,10 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-import hydratk.extensions.testenv.entities.crm_entities as crm
-import os
-import sqlite3 as db
+from hydratk.extensions.testenv.entities.crm_entities import Customer, Payer, Subscriber, Service
+from hydratk.extensions.testenv.entities.crm_entities import Contact, ContactRole, Address, AddressRole
+from os import path
+from sqlite3 import Error, connect, Row
 
 class DB_INT():
     
@@ -27,8 +28,8 @@ class DB_INT():
         """           
         
         self._mh = MasterHead.get_head()
-        self._db_file = os.path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'], 
-                                     self._mh.cfg['Extensions']['TestEnv']['db_file'])
+        self._db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'], 
+                                  self._mh.cfg['Extensions']['TestEnv']['db_file'])
         
     def connect(self):
         """Method connects to database
@@ -42,13 +43,13 @@ class DB_INT():
         
         try:
                     
-            self._conn = db.connect(self._db_file)
+            self._conn = connect(self._db_file)
             self._conn.execute('PRAGMA foreign_keys = ON')
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_connected'), self._mh.fromhere())
             
             return True
         
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False        
 
@@ -69,7 +70,7 @@ class DB_INT():
             
             return True
         
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False        
         
@@ -93,7 +94,7 @@ class DB_INT():
             query = 'SELECT a.id, a.name, b.title AS status, a.segment, a.birth_no, a.reg_no, a.tax_no ' + \
                     'FROM customer a, lov_status b WHERE a.id = ? AND a.status = b.id'
                    
-            self._conn.row_factory = db.Row 
+            self._conn.row_factory = Row 
             cur = self._conn.cursor()
             cur.execute(query, (id, ))
             
@@ -103,14 +104,14 @@ class DB_INT():
                               self._mh.fromhere())
                 return None
 
-            customer = crm.Customer(row['id'], row['name'], row['status'], row['segment'], 
-                                    row['birth_no'], row['reg_no'], row['tax_no'])
+            customer = Customer(row['id'], row['name'], row['status'], row['segment'], 
+                                row['birth_no'], row['reg_no'], row['tax_no'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'customer', customer),
                           self._mh.fromhere())
                                             
             return customer                                             
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None
         
@@ -161,7 +162,7 @@ class DB_INT():
             
             return id
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return None
@@ -231,7 +232,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False
@@ -256,7 +257,7 @@ class DB_INT():
             query = 'SELECT a.id, a.name, b.title AS status, a.billcycle, a.bank_account, a.customer ' + \
                     'FROM payer a, lov_status b WHERE a.id = ? AND a.status = b.id'
                     
-            self._conn.row_factory = db.Row 
+            self._conn.row_factory = Row 
             cur = self._conn.cursor()
             cur.execute(query, (id, ))
             
@@ -266,14 +267,14 @@ class DB_INT():
                               self._mh.fromhere())              
                 return None
 
-            payer = crm.Payer(row['id'], row['name'], row['status'], row['billcycle'], 
-                              row['customer'], row['bank_account'])
+            payer = Payer(row['id'], row['name'], row['status'], row['billcycle'], 
+                          row['customer'], row['bank_account'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'payer', payer),
                           self._mh.fromhere())  
                                          
             return payer                                             
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None
         
@@ -323,7 +324,7 @@ class DB_INT():
             
             return id
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return None
@@ -390,7 +391,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False 
@@ -415,7 +416,7 @@ class DB_INT():
             query = 'SELECT a.id, a.name, a.msisdn, b.title AS status, a.market, a.tariff, a.customer, a.payer ' + \
                     'FROM subscriber a, lov_status b WHERE a.id = ? AND a.status = b.id'
                     
-            self._conn.row_factory = db.Row 
+            self._conn.row_factory = Row 
             cur = self._conn.cursor()
             cur.execute(query, (id, ))
             
@@ -425,14 +426,14 @@ class DB_INT():
                               self._mh.fromhere())               
                 return None
 
-            subscriber = crm.Subscriber(row['id'], row['name'], row['msisdn'], row['status'], 
-                                        row['market'], row['tariff'], row['customer'], row['payer'])
+            subscriber = Subscriber(row['id'], row['name'], row['msisdn'], row['status'], 
+                                    row['market'], row['tariff'], row['customer'], row['payer'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'subscriber', subscriber),
                           self._mh.fromhere()) 
                                             
             return subscriber                                             
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None
         
@@ -484,7 +485,7 @@ class DB_INT():
             
             return id
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return None
@@ -557,7 +558,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False  
@@ -585,7 +586,7 @@ class DB_INT():
                     'LEFT JOIN lov_contact_role c ON b.contact_role = c.id ' + \
                     'WHERE a.id = ?'
                     
-            self._conn.row_factory = db.Row 
+            self._conn.row_factory = Row 
             cur = self._conn.cursor()
             cur.execute(query, (id, ))
             
@@ -613,16 +614,16 @@ class DB_INT():
                     first = False 
                     
                 if (row['title'] != None):
-                    roles.append(crm.ContactRole(row['id'], row['title'], row['customer'],
-                                                 row['payer'], row['subscriber']))   
+                    roles.append(ContactRole(row['id'], row['title'], row['customer'],
+                                             row['payer'], row['subscriber']))   
 
-            contact = crm.Contact(id, name, phone, email, roles)
+            contact = Contact(id, name, phone, email, roles)
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'contact', contact),
                           self._mh.fromhere())                    
                                              
             return contact                                             
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None
         
@@ -663,7 +664,7 @@ class DB_INT():
             
             return id
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return None
@@ -717,7 +718,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False   
@@ -771,7 +772,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False     
@@ -833,7 +834,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False              
@@ -861,7 +862,7 @@ class DB_INT():
                     'LEFT JOIN lov_address_role c ON b.address_role = c.id ' + \
                     'WHERE a.id = ?'
                     
-            self._conn.row_factory = db.Row 
+            self._conn.row_factory = Row 
             cur = self._conn.cursor()
             cur.execute(query, (id, ))
             
@@ -891,16 +892,16 @@ class DB_INT():
                     first = False 
                     
                 if (row['title'] != None):
-                    roles.append(crm.AddressRole(row['id'], row['title'], row['contact'], 
-                                                 row['customer'], row['payer'], row['subscriber']))
+                    roles.append(AddressRole(row['id'], row['title'], row['contact'], 
+                                             row['customer'], row['payer'], row['subscriber']))
 
-            address = crm.Address(id, street, street_no, city, zip, roles)
+            address = Address(id, street, street_no, city, zip, roles)
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'address', address),
                           self._mh.fromhere())
                                              
             return address                                             
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None
         
@@ -943,7 +944,7 @@ class DB_INT():
             
             return id
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return None
@@ -1001,7 +1002,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False                
@@ -1056,7 +1057,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False     
@@ -1121,7 +1122,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False  
@@ -1151,7 +1152,7 @@ class DB_INT():
                     'FROM service a LEFT JOIN service_params b ON a.id = b.service ' + \
                     'JOIN lov_service c ON a.service = c.id JOIN lov_status d ON a.status = d.id ' + \
                     'WHERE '
-            self._conn.row_factory = db.Row
+            self._conn.row_factory = Row
             cur = self._conn.cursor()                     
                     
             entity = None
@@ -1189,7 +1190,7 @@ class DB_INT():
                 
                     # store service
                     if (curr != None and curr != id):
-                        services.append(crm.Service(curr, title, status, params))
+                        services.append(Service(curr, title, status, params))
                         
                     # new service
                     if (curr == None or curr != id):
@@ -1204,7 +1205,7 @@ class DB_INT():
                     
                 # last service
                 if (id != None):
-                    services.append(crm.Service(id, title, status, params))  
+                    services.append(Service(id, title, status, params))  
                 
                 for service in services:    
                     self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'service', service),
@@ -1215,7 +1216,7 @@ class DB_INT():
             else:
                 return None  
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return None             
         
@@ -1243,7 +1244,7 @@ class DB_INT():
                           self._mh.fromhere())
             
             query = 'SELECT customer, payer, subscriber FROM lov_service WHERE id = ?'
-            self._conn.row_factory = db.Row
+            self._conn.row_factory = Row
             cur = self._conn.cursor()
             cur.execute(query, (service, ))
             row = cur.fetchone()            
@@ -1350,7 +1351,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False             
@@ -1378,7 +1379,7 @@ class DB_INT():
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_service', msg), 
                           self._mh.fromhere())
             
-            self._conn.row_factory = db.Row
+            self._conn.row_factory = Row
             cur = self._conn.cursor() 
             id = None      
             
@@ -1465,7 +1466,7 @@ class DB_INT():
             
             return True
             
-        except db.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
             self._conn.rollback()
             return False                    

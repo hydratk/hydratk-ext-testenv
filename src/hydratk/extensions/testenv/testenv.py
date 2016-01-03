@@ -9,9 +9,9 @@
 """
 
 from hydratk.core import extension
-import hydratk.extensions.testenv.application.web_server as web_server
-import os
-import sqlite3
+from hydratk.extensions.testenv.application import web_server
+from os import path, remove
+from sqlite3 import Error, connect
 
 class Extension(extension.Extension):
     
@@ -47,19 +47,19 @@ class Extension(extension.Extension):
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_received_cmd', 'te-install-db'), self._mh.fromhere())
             
             ext_dir = self._mh.cfg['Extensions']['TestEnv']['ext_dir']         
-            db_file = os.path.join(ext_dir, self._mh.cfg['Extensions']['TestEnv']['db_file'])   
-            if (os.path.exists(db_file)):        
+            db_file = path.join(ext_dir, self._mh.cfg['Extensions']['TestEnv']['db_file'])   
+            if (path.exists(db_file)):        
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_delete_db', db_file), self._mh.fromhere())
-                os.remove(db_file)
+                remove(db_file)
                                 
-            install_file = os.path.join(ext_dir, 'install_db.sql')
-            if (os.path.exists(install_file)):
+            install_file = path.join(ext_dir, 'install_db.sql')
+            if (path.exists(install_file)):
             
                 with open(install_file, 'r') as file:
                     script = file.read()
             
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_create_db', db_file), self._mh.fromhere()) 
-                with sqlite3.connect(db_file) as conn:
+                with connect(db_file) as conn:
                     self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_install_db', install_file), self._mh.fromhere())
                     cur = conn.cursor()
                     cur.executescript(script)
@@ -68,7 +68,7 @@ class Extension(extension.Extension):
             else:
                 self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_unknown_install'), self._mh.fromhere())
                     
-        except sqlite3.Error, ex:
+        except Error, ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
        
     def start_fc(self):
@@ -80,8 +80,8 @@ class Extension(extension.Extension):
         
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_received_cmd', 'te-start'), self._mh.fromhere())
         
-        db_file = os.path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'], self._mh.cfg['Extensions']['TestEnv']['db_file'])  
-        if (not os.path.exists(db_file)): 
+        db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'], self._mh.cfg['Extensions']['TestEnv']['db_file'])  
+        if (not path.exists(db_file)): 
             self.install_db_fc(False)           
           
         server = web_server.Server()

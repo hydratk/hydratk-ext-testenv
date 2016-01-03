@@ -9,11 +9,12 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-import hydratk.extensions.testenv.entities.crm_entities as crm
-import suds
-import logging
+from hydratk.extensions.testenv.entities.crm_entities import Customer, Payer, Subscriber, Service
+from hydratk.extensions.testenv.entities.crm_entities import Contact, ContactRole, Address, AddressRole
+from suds import client, WebFault
+from logging import getLogger, CRITICAL
 
-logging.getLogger('suds.client').setLevel(logging.CRITICAL)
+getLogger('suds.client').setLevel(CRITICAL)
 
 class SOAP_INT():
     
@@ -31,7 +32,7 @@ class SOAP_INT():
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip']
         port = self._mh.cfg['Extensions']['TestEnv']['server_port'] 
         self._wsdl = 'http://{0}:{1}/ws/crm?wsdl'.format(ip, port)      
-        self._client = suds.client.Client(self._wsdl)
+        self._client = client.Client(self._wsdl)
         
     def is_soap_fault(self, res):
         
@@ -64,12 +65,12 @@ class SOAP_INT():
                 birth_no = res.birth_no if (hasattr(res, 'birth_no')) else None
                 reg_no = res.reg_no if (hasattr(res, 'reg_no')) else None
                 tax_no = res.tax_no if (hasattr(res, 'tax_no')) else None                
-                customer = crm.Customer(res.id, res.name, res.status, res.segment, birth_no, reg_no, tax_no)
+                customer = Customer(res.id, res.name, res.status, res.segment, birth_no, reg_no, tax_no)
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'customer', customer),
                               self._mh.fromhere())                           
                 return customer
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -108,7 +109,7 @@ class SOAP_INT():
                               self._mh.fromhere())           
                 return id
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -147,7 +148,7 @@ class SOAP_INT():
                               self._mh.fromhere())                
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False              
         
@@ -176,12 +177,12 @@ class SOAP_INT():
                 return None
             else:
                 bank_account = res.bank_account if (hasattr(res, 'bank_account')) else None
-                payer = crm.Payer(res.id, res.name, res.status, res.billcycle, res.customer, bank_account)
+                payer = Payer(res.id, res.name, res.status, res.billcycle, res.customer, bank_account)
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'payer', payer),
                               self._mh.fromhere())         
                 return payer
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -219,7 +220,7 @@ class SOAP_INT():
                               self._mh.fromhere())        
                 return id
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -257,7 +258,7 @@ class SOAP_INT():
                               self._mh.fromhere())              
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False    
         
@@ -285,13 +286,13 @@ class SOAP_INT():
                 self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(res), self._mh.fromhere())
                 return None
             else:
-                subscriber = crm.Subscriber(res.id, res.name, res.msisdn, res.status, res.market, res.tariff,
-                                            res.customer, res.payer)
+                subscriber = Subscriber(res.id, res.name, res.msisdn, res.status, res.market, res.tariff,
+                                        res.customer, res.payer)
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'subscriber', subscriber),
                               self._mh.fromhere())           
                 return subscriber
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -331,7 +332,7 @@ class SOAP_INT():
                               self._mh.fromhere())           
                 return id
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -371,7 +372,7 @@ class SOAP_INT():
                               self._mh.fromhere())              
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False            
         
@@ -406,16 +407,16 @@ class SOAP_INT():
                         customer = role.customer if (hasattr(role, 'customer')) else None
                         payer = role.payer if (hasattr(role, 'payer')) else None
                         subscriber = role.subscriber if (hasattr(role, 'subscriber')) else None
-                        roles.append(crm.ContactRole(role.id, role.title, customer, payer, subscriber))
+                        roles.append(ContactRole(role.id, role.title, customer, payer, subscriber))
                 
                 phone = res.phone if (hasattr(res, 'phone')) else None
                 email = res.email if (hasattr(res, 'email')) else None
-                contact = crm.Contact(res.id, res.name, phone, email, roles)
+                contact = Contact(res.id, res.name, phone, email, roles)
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'contact', contact),
                               self._mh.fromhere())           
                 return contact
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -450,7 +451,7 @@ class SOAP_INT():
                               self._mh.fromhere())           
                 return id
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -485,7 +486,7 @@ class SOAP_INT():
                               self._mh.fromhere())              
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False 
         
@@ -522,7 +523,7 @@ class SOAP_INT():
                               self._mh.fromhere())           
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False     
         
@@ -559,7 +560,7 @@ class SOAP_INT():
                               self._mh.fromhere())                
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False               
            
@@ -595,14 +596,14 @@ class SOAP_INT():
                         customer = role.customer if (hasattr(role, 'customer')) else None
                         payer = role.payer if (hasattr(role, 'payer')) else None
                         subscriber = role.subscriber if (hasattr(role, 'subscriber')) else None
-                        roles.append(crm.AddressRole(role.id, role.title, contact, customer, payer, subscriber))                
+                        roles.append(AddressRole(role.id, role.title, contact, customer, payer, subscriber))                
                 
-                address = crm.Address(res.id, res.street, res.street_no, res.city, res.zip, roles)
+                address = Address(res.id, res.street, res.street_no, res.city, res.zip, roles)
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'address', address),
                               self._mh.fromhere())           
                 return address
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -638,7 +639,7 @@ class SOAP_INT():
                               self._mh.fromhere())           
                 return id
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return None      
         
@@ -674,7 +675,7 @@ class SOAP_INT():
                               self._mh.fromhere())             
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False          
         
@@ -712,7 +713,7 @@ class SOAP_INT():
                               self._mh.fromhere())                
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False     
         
@@ -750,7 +751,7 @@ class SOAP_INT():
                               self._mh.fromhere())          
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False    
         
@@ -790,7 +791,7 @@ class SOAP_INT():
                     for param in service.params.entry:
                         params[param.key] = param.value
                 
-                    services.append(crm.Service(service.id, service.name, service.status, params))
+                    services.append(Service(service.id, service.name, service.status, params))
             
                 for service in services:    
                     self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_entity_found', 'service', service),
@@ -798,7 +799,7 @@ class SOAP_INT():
                     
             return services  
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False       
         
@@ -843,7 +844,7 @@ class SOAP_INT():
                               self._mh.fromhere())          
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False            
         
@@ -888,6 +889,6 @@ class SOAP_INT():
                               self._mh.fromhere())              
                 return True
             
-        except suds.WebFault as ex:
+        except WebFault as ex:
             self._mh.dmsg('htk_on_extension_error', 'SOAP fault {0}'.format(ex), self._mh.fromhere())
             return False                                                    

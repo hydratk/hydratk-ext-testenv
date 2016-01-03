@@ -8,8 +8,8 @@
 
 """
 
-import lxml.etree as e
-import jsonlib2
+from lxml.etree import Element, SubElement
+from jsonlib2 import write
 
 class Customer:   
     
@@ -47,18 +47,18 @@ class Customer:
         """Method serializes customer to XML           
         """         
         
-        root = e.Element('customer')
+        root = Element('customer')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'name').text = self.name
-        e.SubElement(root, 'status').text = self.status
-        e.SubElement(root, 'segment').text = str(self.segment)
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'name').text = self.name
+        SubElement(root, 'status').text = self.status
+        SubElement(root, 'segment').text = str(self.segment)
         if (self.birth_no != None):
-            e.SubElement(root, 'birth_no').text = self.birth_no
+            SubElement(root, 'birth_no').text = self.birth_no
         if (self.reg_no != None):
-            e.SubElement(root, 'reg_no').text = self.reg_no
+            SubElement(root, 'reg_no').text = self.reg_no
         if (self.tax_no != None):
-            e.SubElement(root, 'tax_no').text = self.tax_no   
+            SubElement(root, 'tax_no').text = self.tax_no   
         
         return root
         
@@ -79,7 +79,7 @@ class Customer:
         if (self.tax_no != None):
             root['tax_no'] = self.tax_no
 
-        return jsonlib2.write(root)           
+        return write(root)           
     
 class Payer:     
     
@@ -115,15 +115,15 @@ class Payer:
         """Method serializes payer to XML           
         """         
         
-        root = e.Element('payer')
+        root = Element('payer')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'name').text = self.name
-        e.SubElement(root, 'status').text = self.status
-        e.SubElement(root, 'billcycle').text = str(self.billcycle)
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'name').text = self.name
+        SubElement(root, 'status').text = self.status
+        SubElement(root, 'billcycle').text = str(self.billcycle)
         if (self.bank_account != None):
-            e.SubElement(root, 'bank_account').text = self.bank_account
-        e.SubElement(root, 'customer').text = str(self.customer)
+            SubElement(root, 'bank_account').text = self.bank_account
+        SubElement(root, 'customer').text = str(self.customer)
         
         return root
         
@@ -141,7 +141,7 @@ class Payer:
             root['bank_account'] = self.bank_account
         root['customer'] = self.customer
 
-        return jsonlib2.write(root)            
+        return write(root)            
             
 class Subscriber:      
     
@@ -181,16 +181,16 @@ class Subscriber:
         """Method serializes subscriber to XML           
         """          
         
-        root = e.Element('subscriber')
+        root = Element('subscriber')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'name').text = self.name
-        e.SubElement(root, 'msisdn').text = self.msisdn
-        e.SubElement(root, 'status').text = self.status
-        e.SubElement(root, 'market').text = str(self.market)
-        e.SubElement(root, 'tariff').text = str(self.tariff)
-        e.SubElement(root, 'customer').text = str(self.customer)
-        e.SubElement(root, 'payer').text = str(self.payer)
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'name').text = self.name
+        SubElement(root, 'msisdn').text = self.msisdn
+        SubElement(root, 'status').text = self.status
+        SubElement(root, 'market').text = str(self.market)
+        SubElement(root, 'tariff').text = str(self.tariff)
+        SubElement(root, 'customer').text = str(self.customer)
+        SubElement(root, 'payer').text = str(self.payer)
         
         return root
         
@@ -209,7 +209,7 @@ class Subscriber:
         root['customer'] = self.customer
         root['payer'] = self.payer
 
-        return jsonlib2.write(root)    
+        return write(root)    
             
 class Contact:     
     
@@ -248,17 +248,17 @@ class Contact:
         """Method serializes contact to XML           
         """           
         
-        root = e.Element('contact')
+        root = Element('contact')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'name').text = self.name
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'name').text = self.name
         if (self.phone != None):
-            e.SubElement(root, 'phone').text = self.phone
+            SubElement(root, 'phone').text = self.phone
         if (self.email != None):
-            e.SubElement(root, 'email').text = self.email
+            SubElement(root, 'email').text = self.email
             
         if (len(self.roles) > 0):
-            elem = e.SubElement(root, 'roles')
+            elem = SubElement(root, 'roles')
             
             for role in self.roles:
                 elem.append(role.toxml())
@@ -289,7 +289,7 @@ class Contact:
   
             root['roles'] = {'role' : el_roles}              
 
-        return jsonlib2.write(root)      
+        return write(root)      
         
 class ContactRole:      
     
@@ -323,16 +323,16 @@ class ContactRole:
         """Method serializes contact role to XML           
         """         
         
-        root = e.Element('role')
+        root = Element('role')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'title').text = self.title
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'title').text = self.title
         if (self.customer != None):
-            e.SubElement(root, 'customer').text = str(self.customer)
+            SubElement(root, 'customer').text = str(self.customer)
         if (self.payer != None):
-            e.SubElement(root, 'payer').text = str(self.payer)
+            SubElement(root, 'payer').text = str(self.payer)
         if (self.subscriber != None):
-            e.SubElement(root, 'subscriber').text = str(self.subscriber)
+            SubElement(root, 'subscriber').text = str(self.subscriber)
         
         return root
         
@@ -351,7 +351,7 @@ class ContactRole:
         if (self.subscriber != None):
             root['subscriber'] = self.subscriber
 
-        return jsonlib2.write(root)               
+        return write(root)               
         
 class Address:       
     
@@ -393,16 +393,16 @@ class Address:
         """Method serializes address to XML           
         """        
         
-        root = e.Element('address')
+        root = Element('address')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'street').text = self.street
-        e.SubElement(root, 'street_no').text = self.street_no
-        e.SubElement(root, 'city').text = self.city
-        e.SubElement(root, 'zip').text = str(self.zip) 
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'street').text = self.street
+        SubElement(root, 'street_no').text = self.street_no
+        SubElement(root, 'city').text = self.city
+        SubElement(root, 'zip').text = str(self.zip) 
         
         if (len(self.roles) > 0):
-            elem = e.SubElement(root, 'roles')
+            elem = SubElement(root, 'roles')
             
             for role in self.roles:
                 elem.append(role.toxml())                 
@@ -432,7 +432,7 @@ class Address:
   
             root['roles'] = {'role' : el_roles}                   
 
-        return jsonlib2.write(root)     
+        return write(root)     
             
 class AddressRole: 
     
@@ -468,18 +468,18 @@ class AddressRole:
         """Method serializes address role to XML           
         """         
         
-        root = e.Element('role')
+        root = Element('role')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'title').text = self.title
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'title').text = self.title
         if (self.contact != None):
-            e.SubElement(root, 'contact').text = str(self.contact)
+            SubElement(root, 'contact').text = str(self.contact)
         if (self.customer != None):
-            e.SubElement(root, 'customer').text = str(self.customer)
+            SubElement(root, 'customer').text = str(self.customer)
         if (self.payer != None):
-            e.SubElement(root, 'payer').text = str(self.payer)
+            SubElement(root, 'payer').text = str(self.payer)
         if (self.subscriber != None):
-            e.SubElement(root, 'subscriber').text = str(self.subscriber)
+            SubElement(root, 'subscriber').text = str(self.subscriber)
         
         return root 
         
@@ -500,7 +500,7 @@ class AddressRole:
         if (self.subscriber != None):
             root['subscriber'] = self.subscriber
 
-        return jsonlib2.write(root)         
+        return write(root)         
     
 class Service:      
     
@@ -537,17 +537,17 @@ class Service:
         """Method serializes service to XML           
         """           
         
-        root = e.Element('service')
+        root = Element('service')
         
-        e.SubElement(root, 'id').text = str(self.id)
-        e.SubElement(root, 'name').text = self.name
-        e.SubElement(root, 'status').text = self.status
+        SubElement(root, 'id').text = str(self.id)
+        SubElement(root, 'name').text = self.name
+        SubElement(root, 'status').text = self.status
         
-        elem = e.SubElement(root, 'params')
+        elem = SubElement(root, 'params')
         for key, value in self.params.items():
-            el_param = e.Element('entry')
-            e.SubElement(el_param, 'key').text = str(key)
-            e.SubElement(el_param, 'value').text = value
+            el_param = Element('entry')
+            SubElement(el_param, 'key').text = str(key)
+            SubElement(el_param, 'value').text = value
             elem.append(el_param)
         
         return root
@@ -571,7 +571,7 @@ class Service:
   
         root['params'] = {'entry' : el_params} 
         
-        return jsonlib2.write(root)        
+        return write(root)        
     
 class ServiceOperation:     
     
@@ -613,25 +613,25 @@ class ServiceOperation:
         """Method serializes service operation to XML           
         """           
         
-        root = e.Element('operation')
+        root = Element('operation')
         
-        e.SubElement(root, 'service').text = str(self.service)
+        SubElement(root, 'service').text = str(self.service)
         if (self.customer != None):
-            e.SubElement(root, 'customer').text = str(self.customer)
+            SubElement(root, 'customer').text = str(self.customer)
         if (self.payer != None):
-            e.SubElement(root, 'payer').text = str(self.payer)
+            SubElement(root, 'payer').text = str(self.payer)
         if (self.subscriber != None):
-            e.SubElement(root, 'subscriber').text = str(self.subscriber)
+            SubElement(root, 'subscriber').text = str(self.subscriber)
         if (self.status != None):
-            e.SubElement(root, 'status').text = self.status  
+            SubElement(root, 'status').text = self.status  
              
-        elParams = e.SubElement(root, 'params')
+        elParams = SubElement(root, 'params')
             
         for key, value in self.params.items():
-            elParam = e.SubElement(elParams, 'entry')
-            elem = e.SubElement(elParam, 'key')
+            elParam = SubElement(elParams, 'entry')
+            elem = SubElement(elParam, 'key')
             elem.text = str(key)    
-            elem = e.SubElement(elParam, 'value')
+            elem = SubElement(elParam, 'value')
             elem.text = str(value)  
             
         return root
@@ -661,4 +661,4 @@ class ServiceOperation:
   
         root['params'] = {'entry' : el_params} 
         
-        return jsonlib2.write(root)                                          
+        return write(root)                                          

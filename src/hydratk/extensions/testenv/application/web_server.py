@@ -9,10 +9,10 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-import hydratk.extensions.testenv.application.rest_handler as rest_handler
-import hydratk.extensions.testenv.application.soap_handler as soap_handler
-import web
-import os
+from hydratk.extensions.testenv.application.rest_handler import RestHandler
+from hydratk.extensions.testenv.application.soap_handler import SoapHandler
+from web import application, httpserver, input, data, NotFound, header, ctx
+from os import path
 
 urls = (
          '/', 'Index',
@@ -50,8 +50,8 @@ class Server:
   
         ip = mh.cfg['Extensions']['TestEnv']['server_ip']
         port = mh.cfg['Extensions']['TestEnv']['server_port']   
-        self._server = web.application(urls, globals())
-        web.httpserver.runsimple(self._server.wsgifunc(), (str(ip), port))    
+        self._server = application(urls, globals())
+        httpserver.runsimple(self._server.wsgifunc(), (str(ip), port))    
         
 class Index:
     
@@ -67,19 +67,19 @@ class Customer():
     
     def __init__(self):
     
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
     
     def GET(self):
                 
-        return self._rest.read_customer(web.input())
+        return self._rest.read_customer(input())
     
     def POST(self):
         
-        return self._rest.create_customer(web.data())
+        return self._rest.create_customer(data())
     
     def PUT(self):
         
-        return self._rest.change_customer(web.data())
+        return self._rest.change_customer(data())
     
 class Payer():
     """Handles requests on /rs/payer                           
@@ -89,19 +89,19 @@ class Payer():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
         
     def GET(self):
                 
-        return self._rest.read_payer(web.input())
+        return self._rest.read_payer(input())
     
     def POST(self):
         
-        return self._rest.create_payer(web.data())
+        return self._rest.create_payer(data())
     
     def PUT(self):
         
-        return self._rest.change_payer(web.data())    
+        return self._rest.change_payer(data())    
     
 class Subscriber():
     """Handles requests on /rs/subscriber                           
@@ -111,19 +111,19 @@ class Subscriber():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
         
     def GET(self):
                 
-        return self._rest.read_subscriber(web.input())
+        return self._rest.read_subscriber(input())
     
     def POST(self):
         
-        return self._rest.create_subscriber(web.data())
+        return self._rest.create_subscriber(data())
     
     def PUT(self):
         
-        return self._rest.change_subscriber(web.data())  
+        return self._rest.change_subscriber(data())  
     
 class Contact():
     """Handles requests on /rs/contact                           
@@ -133,19 +133,19 @@ class Contact():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
         
     def GET(self):
                 
-        return self._rest.read_contact(web.input())
+        return self._rest.read_contact(input())
     
     def POST(self):
         
-        return self._rest.create_contact(web.data())
+        return self._rest.create_contact(data())
     
     def PUT(self):
         
-        return self._rest.change_contact(web.data())  
+        return self._rest.change_contact(data())  
     
 class ContactRole():
     """Handles requests on /rs/contact/role                           
@@ -155,15 +155,15 @@ class ContactRole():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
     
     def POST(self):
         
-        return self._rest.assign_contact_role(web.data())
+        return self._rest.assign_contact_role(data())
     
     def PUT(self):
         
-        return self._rest.revoke_contact_role(web.data())       
+        return self._rest.revoke_contact_role(data())       
     
 class Address():
     """Handles requests on /rs/address                           
@@ -173,19 +173,19 @@ class Address():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
         
     def GET(self):
                 
-        return self._rest.read_address(web.input())
+        return self._rest.read_address(input())
     
     def POST(self):
         
-        return self._rest.create_address(web.data())
+        return self._rest.create_address(data())
     
     def PUT(self):
         
-        return self._rest.change_address(web.data()) 
+        return self._rest.change_address(data()) 
     
 class AddressRole():
     """Handles requests on /rs/address/role                           
@@ -195,15 +195,15 @@ class AddressRole():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
     
     def POST(self):
         
-        return self._rest.assign_address_role(web.data())
+        return self._rest.assign_address_role(data())
     
     def PUT(self):
         
-        return self._rest.revoke_address_role(web.data())  
+        return self._rest.revoke_address_role(data())  
     
 class Service():
     """Handles requests on /rs/service                           
@@ -213,19 +213,19 @@ class Service():
     
     def __init__(self):
         
-        self._rest = rest_handler.RestHandler()
+        self._rest = RestHandler()
         
     def GET(self):
         
-        return self._rest.read_services(web.input())        
+        return self._rest.read_services(input())        
     
     def POST(self):
         
-        return self._rest.create_service(web.data())
+        return self._rest.create_service(data())
     
     def PUT(self):
         
-        return self._rest.change_service(web.data())           
+        return self._rest.change_service(data())           
     
 class SoapService():
     
@@ -233,29 +233,29 @@ class SoapService():
     
     def __init__(self):
         
-        self._soap = soap_handler.SoapHandler()    
+        self._soap = SoapHandler()    
         
     def GET(self):
         
-        key = web.input().keys()[0]
+        key = input().keys()[0]
         ext_dir = mh.cfg['Extensions']['TestEnv']['ext_dir'] 
         
         if (key == 'wsdl'):
-            soap_file = os.path.join(ext_dir, 'crm.wsdl')
+            soap_file = path.join(ext_dir, 'crm.wsdl')
         elif (key == 'xsd'):
-            soap_file = os.path.join(ext_dir, 'crm.xsd')
+            soap_file = path.join(ext_dir, 'crm.xsd')
         else:
-            return web.NotFound() 
+            return NotFound() 
         
-        if (os.path.exists(soap_file)):            
+        if (path.exists(soap_file)):            
             with open(soap_file, 'r') as file:
-                web.header('Content-Type', 'text/xml')
+                header('Content-Type', 'text/xml')
                 return file.read()
         else:
             mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_web_unknown_file', soap_file), 
                     self._mh.fromhere())
-            return web.NotFound()         
+            return NotFound()         
         
     def POST(self):
         
-        return self._soap.dispatcher(web.ctx.env, web.data())      
+        return self._soap.dispatcher(ctx.env, data())      
