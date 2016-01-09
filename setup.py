@@ -45,7 +45,7 @@ data_files=[
            ]                    
                 
 setup(name='hydratk-ext-testenv',
-      version='0.1.0a',
+      version='0.2.0a',
       description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek',
