@@ -25,11 +25,11 @@ class Extension(extension.Extension):
         
     def _register_actions(self):
         
-        self._mh.match_command('te-install-db')        
+        self._mh.match_cli_command('te-install-db')        
         hook = [{'command' : 'te-install-db', 'callback' : self.install_db_fc }]        
         self._mh.register_command_hook(hook) 
         
-        self._mh.match_command('te-start')
+        self._mh.match_cli_command('te-start')
         hook = [{'command' : 'te-start', 'callback' : self.start_fc }]  
         self._mh.register_command_hook(hook)       
             
