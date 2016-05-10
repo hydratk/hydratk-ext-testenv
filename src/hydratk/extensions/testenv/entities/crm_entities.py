@@ -38,6 +38,8 @@ class Customer:
         self.tax_no = tax_no
         
     def __str__(self):
+        """Method overrides __str__         
+        """          
         
         s = u'id:{0}|name:{1}|status:{2}|segment:{3}'.format(self.id, self.name, self.status, self.segment) + \
             u'|birth_no:{0}|reg_no:{1}|tax_no:{2}'.format(self.birth_no, self.reg_no, self.tax_no)
@@ -106,6 +108,8 @@ class Payer:
         self.customer = customer
         
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|name:{1}|status:{2}|billcycle:{3}'.format(self.id, self.name, self.status, self.billcycle) + \
             u'|bank_account:{0}|customer:{1}'.format(self.bank_account, self.customer)  
@@ -172,6 +176,8 @@ class Subscriber:
         self.payer = payer
         
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|name:{1}|msisdn:{2}|status:{3}'.format(self.id, self.name, self.msisdn, self.status) + \
             u'|market:{0}|tariff:{1}|customer:{2}|payer:{3}'.format(self.market, self.tariff, self.customer, self.payer)
@@ -234,6 +240,8 @@ class Contact:
         self.roles = roles
     
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|name:{1}|phone:{2}|email:{3}|roles#'.format(self.id, self.name, self.phone, self.email)
         
@@ -314,6 +322,8 @@ class ContactRole:
         self.subscriber = subscriber
         
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|title:{1}|customer:{2}|payer:{3}'.format(self.id, self.title, self.customer, self.payer) + \
             u'|subscriber:{0}'.format(self.subscriber)
@@ -378,6 +388,8 @@ class Address:
         self.roles = roles
         
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|street:{1}|street_no:{2}|city:{3}'.format(self.id, self.street, self.street_no, self.city) + \
             u'|zip:{0}|roles#'.format(self.zip)
@@ -459,6 +471,8 @@ class AddressRole:
         self.subscriber = subscriber
 
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|title:{1}|contact:{2}|customer:{3}'.format(self.id, self.title, self.contact, self.customer) + \
             u'|payer:{0}|subscriber:{1}'.format(self.payer, self.subscriber)
@@ -523,6 +537,8 @@ class Service:
         self.params = params
     
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'id:{0}|name:{1}|status:{2}|params#'.format(self.id, self.name, self.status)
         
@@ -598,6 +614,8 @@ class ServiceOperation:
         self.params = params  
         
     def __str__(self):
+        """Method overrides __str__         
+        """         
         
         s = u'service:{0}|customer:{1}|payer:{2}'.format(self.service, self.customer, self.payer) + \
             u'|subscriber:{0}|status:{1}|params#'.format(self.subscriber, self.status)

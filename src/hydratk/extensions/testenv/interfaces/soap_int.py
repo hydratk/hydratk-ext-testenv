@@ -24,7 +24,9 @@ class SOAP_INT():
     def __init__(self):
         """Class constructor
            
-        Called when the object is initialized    
+        Called when the object is initialized  
+        
+        Args:  
            
         """          
         
@@ -35,6 +37,15 @@ class SOAP_INT():
         self._client = client.Client(self._wsdl)
         
     def is_soap_fault(self, res):
+        """Method checks if response is SOAP fault
+        
+        Args:
+           res (str): response
+           
+        Returns:
+           bool: result
+                
+        """         
         
         return isinstance(res, unicode)        
     

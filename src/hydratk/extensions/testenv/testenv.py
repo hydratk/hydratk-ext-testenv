@@ -16,6 +16,14 @@ from sqlite3 import Error, connect
 class Extension(extension.Extension):
     
     def _init_extension(self):
+        """Method initializes extension
+        
+        Args:
+        
+        Returns:
+           void
+            
+        """         
         
         self._ext_id   = 'testenv'
         self._ext_name = 'TestEnv'
@@ -24,6 +32,16 @@ class Extension(extension.Extension):
         self._ext_year = '2015'  
         
     def _register_actions(self):
+        """Method registers command hooks
+        
+        Commands - te-install-db, te-start
+        
+        Args:
+        
+        Returns:
+           void
+            
+        """           
         
         self._mh.match_cli_command('te-install-db')        
         hook = [{'command' : 'te-install-db', 'callback' : self.install_db_fc }]        
@@ -37,7 +55,10 @@ class Extension(extension.Extension):
         """Method handles command te-install-db    
            
         Args:
-           ext_call (bool): external method call             
+           ext_call (bool): external method call   
+           
+        Returns:
+           void          
                 
         """         
             
@@ -74,7 +95,12 @@ class Extension(extension.Extension):
     def start_fc(self):
         """Method handles command te-start 
         
-        Starts web server and installs database if not installed                    
+        Starts web server and installs database if not installed  
+        
+        Args:
+        
+        Returns:
+           void                  
                 
         """         
         

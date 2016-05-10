@@ -21,6 +21,8 @@ class RestHandler:
         """Class constructor
            
         Called when the object is initialized    
+        
+        Args:
            
         """            
         
@@ -48,8 +50,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with customer detail in JSON,
-           HTTP 404 when customer not found,
-           HTTP 400 when param id is missing 
+                 HTTP 404 when customer not found,
+                 HTTP 400 when param id is missing 
            
         Example:
         
@@ -92,7 +94,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with id of created customer,
-           HTTP 400 when customer not created
+                 HTTP 400 when customer not created
            
         Example:
         
@@ -136,8 +138,8 @@ class RestHandler:
            data (json): customer detail  
              
         Returns:
-           HTTP 200 when customer changed,
-           HTTP 400 when customer not changed
+           http: HTTP 200 when customer changed,
+                 HTTP 400 when customer not changed
            
         Example:
         
@@ -184,8 +186,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with payer detail in JSON,
-           HTTP 404 when payer not found,
-           HTTP 400 when param id is missing 
+                 HTTP 404 when payer not found,
+                 HTTP 400 when param id is missing 
            
         Example:
         
@@ -227,7 +229,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with id of created payer,
-           HTTP 400 when payer not created
+                 HTTP 400 when payer not created
                 
         Example:
         
@@ -270,7 +272,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when payer changed,
-           HTTP 400 when payer not changed
+                 HTTP 400 when payer not changed
                 
         Example:
         
@@ -315,8 +317,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with subscriber detail in JSON,
-           HTTP 404 when subscriber not found,
-           HTTP 400 when param id is missing 
+                 HTTP 404 when subscriber not found,
+                 HTTP 400 when param id is missing 
            
         Example:
         
@@ -360,7 +362,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with id of created subscriber,
-           HTTP 400 when subscriber not created
+                 HTTP 400 when subscriber not created
                 
         Example:
         
@@ -407,7 +409,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when subscriber changed,
-           HTTP 400 when subscriber not changed
+                 HTTP 400 when subscriber not changed
                 
         Example:
         
@@ -456,8 +458,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with contact detail in JSON, choice customer|payer|subscriber,
-           HTTP 404 when contact not found,
-           HTTP 400 when param id is missing 
+                 HTTP 404 when contact not found,
+                 HTTP 400 when param id is missing 
                 
         Example:
         
@@ -507,7 +509,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with id of created contact,
-           HTTP 400 when contact not created
+                 HTTP 400 when contact not created
                 
         Example:
         
@@ -546,7 +548,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when contact changed,
-           HTTP 400 when contact not changed
+                 HTTP 400 when contact not changed
            
         Example:
         
@@ -587,7 +589,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when contact role assigned,
-           HTTP 400 when customer role not assigned
+                 HTTP 400 when customer role not assigned
            
         Example:
         
@@ -630,7 +632,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when contact role revoked,
-           HTTP 400 when customer role not revoked
+                 HTTP 400 when customer role not revoked
            
         Example:
         
@@ -673,8 +675,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with address detail in JSON, choice contact|customer|payer|subscriber,
-           HTTP 404 when address not found,
-           HTTP 400 when param id is missing
+                 HTTP 404 when address not found,
+                 HTTP 400 when param id is missing
            
         Example:
         
@@ -726,7 +728,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with id of created address,
-           HTTP 400 when address not created
+                 HTTP 400 when address not created
            
         Example:
         
@@ -767,7 +769,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when address changed,
-           HTTP 400 when address not changed
+                 HTTP 400 when address not changed
            
         Example:
         
@@ -810,7 +812,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when address role assigned,
-           HTTP 400 when address role not assigned
+                 HTTP 400 when address role not assigned
            
         Example:
         
@@ -855,7 +857,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when address role revoked,
-           HTTP 400 when address role not revoked
+                 HTTP 400 when address role not revoked
            
         Example:
         
@@ -900,8 +902,8 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 with list of services in JSON,
-           HTTP 404 when service not found,
-           HTTP 400 when no entity is provided 
+                 HTTP 404 when service not found,
+                 HTTP 400 when no entity is provided 
            
         Example:
         
@@ -978,7 +980,7 @@ class RestHandler:
            
         Returns:
            http: HTTP 200 when service created,
-           HTTP 400 when service not created           
+                 HTTP 400 when service not created           
            
         Example:
         
@@ -1035,7 +1037,7 @@ class RestHandler:
              
         Returns:
            http: HTTP 200 when service changed,
-           HTTP 400 when service not changed
+                 HTTP 400 when service not changed
            
         Example:
         

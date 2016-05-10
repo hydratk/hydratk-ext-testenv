@@ -23,7 +23,9 @@ class SoapHandler():
     def __init__(self):
         """Class constructor
            
-        Called when the object is initialized    
+        Called when the object is initialized   
+        
+        Args: 
            
         """         
         
@@ -51,7 +53,10 @@ class SoapHandler():
         """Method creates SOAP fault     
            
         Args:
-           message (str): error message                
+           message (str): error message 
+           
+        Returns:
+           str: SOAP fault               
                 
         """          
         
@@ -69,7 +74,10 @@ class SoapHandler():
            
         Args:
            method (str): method name
-           content (xml): response body                  
+           content (xml): response body
+           
+        Returns:
+           str: SOAP response                  
                 
         """                   
         
@@ -87,7 +95,10 @@ class SoapHandler():
            
         Args:
            headers (dict): HTTP headers
-           data (str): SOAP request                  
+           data (str): SOAP request   
+           
+        Returns:
+           str: SOAP response or fault               
                 
         """         
         
@@ -158,7 +169,7 @@ class SoapHandler():
              
         Returns:
            xml: read_customer_response with customer detail,
-           SOAP fault when customer not found   
+                SOAP fault when customer not found   
            
         Example:
         
@@ -204,7 +215,7 @@ class SoapHandler():
              
         Returns:
            xml: create_customer_response with id of created customer,
-           SOAP fault when customer not created 
+                SOAP fault when customer not created 
            
         Example:
         
@@ -254,7 +265,7 @@ class SoapHandler():
              
         Returns:
            xml: change_customer_response with result true when customer changed,
-           SOAP fault when customer not changed
+                SOAP fault when customer not changed
            
         Example:
         
@@ -306,7 +317,7 @@ class SoapHandler():
              
         Returns:
            xml: read_payer_response with payer detail,
-           SOAP fault when payer not found 
+                SOAP fault when payer not found 
            
         Example:
         
@@ -351,7 +362,7 @@ class SoapHandler():
              
         Returns:
            xml: create_payer_response with id of created payer,
-           SOAP fault when payer not created
+                SOAP fault when payer not created
            
         Example:
         
@@ -399,7 +410,7 @@ class SoapHandler():
              
         Returns:
            xml: change_payer_response with result true when payer changed,
-           SOAP fault when payer not changed 
+                SOAP fault when payer not changed 
            
         Example:
         
@@ -449,7 +460,7 @@ class SoapHandler():
              
         Returns:
            xml: read_subscriber_response with subscriber detail,
-           SOAP fault when subscriber not found  
+                SOAP fault when subscriber not found  
            
         Example:
         
@@ -496,7 +507,7 @@ class SoapHandler():
              
         Returns:
            xml: create_subscriber_response with id of created subscriber,
-           SOAP fault when subscriber not created   
+                SOAP fault when subscriber not created   
            
         Example:
         
@@ -548,7 +559,7 @@ class SoapHandler():
              
         Returns:
            xml: change_subscriber_response with result true when subscriber changed,
-           SOAP fault when subscriber not changed  
+                SOAP fault when subscriber not changed  
            
         Example:
         
@@ -602,7 +613,7 @@ class SoapHandler():
              
         Returns:
            xml: read_contact_response with contact detail, choice customer|payer|subscriber,
-           SOAP fault when contact not found  
+                SOAP fault when contact not found  
            
         Example:
         
@@ -654,7 +665,7 @@ class SoapHandler():
              
         Returns:
            xml: create_contact_response with id of created contact,
-           SOAP fault when contact not created
+                SOAP fault when contact not created
            
         Example:
         
@@ -698,7 +709,7 @@ class SoapHandler():
              
         Returns:
            xml: change_contact_response with result true when contact changed,
-           SOAP fault when contact not changed    
+                SOAP fault when contact not changed    
            
         Example:
         
@@ -744,7 +755,7 @@ class SoapHandler():
              
         Returns:
            xml: assign_contact_role_response with result true when contact role assigned,
-           SOAP fault when contact role not assigned   
+                SOAP fault when contact role not assigned   
            
         Example:
         
@@ -792,7 +803,7 @@ class SoapHandler():
              
         Returns:
            xml: revoke_contact_role_response with result true when contact role revoked,
-           SOAP fault when contact role not revoked    
+                SOAP fault when contact role not revoked    
            
         Example:
         
@@ -840,7 +851,7 @@ class SoapHandler():
              
         Returns:
            xml: read_address_response with address detail, choice contact|customer|payer|subscriber,
-           SOAP fault when address not found  
+                SOAP fault when address not found  
            
         Example:
         
@@ -894,7 +905,7 @@ class SoapHandler():
              
         Returns:
            xml: create_address_response with id of created address,
-           SOAP fault when address not created
+                SOAP fault when address not created
            
         Example:
         
@@ -940,7 +951,7 @@ class SoapHandler():
              
         Returns:
            xml: change_address_response with result true when address changed,
-           SOAP fault when address not changed  
+                SOAP fault when address not changed  
            
         Example:
         
@@ -988,7 +999,7 @@ class SoapHandler():
              
         Returns:
            xml: assign_address_role_response with result true when address role assigned,
-           SOAP fault when address role not assigned
+                SOAP fault when address role not assigned
            
         Example:
         
@@ -1038,7 +1049,7 @@ class SoapHandler():
              
         Returns:
            xml: revoke_address_role_response with result true when address role revoked,
-           SOAP fault when address role not revoked   
+                SOAP fault when address role not revoked   
            
         Example:
         
@@ -1088,7 +1099,7 @@ class SoapHandler():
              
         Returns:
            xml: read_services_response with list of services,
-           SOAP fault when service not found            
+                SOAP fault when service not found            
            
         Example:
         
@@ -1149,7 +1160,7 @@ class SoapHandler():
            
         Returns:
            xml: create_service_response with result true,
-           SOAP fault when service not created            
+                SOAP fault when service not created            
            
         Example:
         
@@ -1208,7 +1219,7 @@ class SoapHandler():
              
         Returns:
            xml: change_service_response with result true,
-           SOAP fault when service not changed    
+                SOAP fault when service not changed    
            
         Example:
         

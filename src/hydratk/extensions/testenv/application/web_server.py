@@ -37,6 +37,8 @@ class Server:
         """Class constructor
            
         Called when the object is initialized    
+        
+        Args:
            
         """           
         
@@ -44,7 +46,12 @@ class Server:
         mh = MasterHead.get_head()               
         
     def _start(self):  
-        """Method starts web server          
+        """Method starts web server   
+        
+        Args:
+        
+        Returns:
+           void       
            
         """             
   
@@ -228,6 +235,8 @@ class Service():
         return self._rest.change_service(data())           
     
 class SoapService():
+    """Handles requests on /ws/crm                           
+    """      
     
     _soap = None
     
