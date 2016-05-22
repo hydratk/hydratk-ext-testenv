@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""Web server
 
 .. module:: testenv.application.web_server
    :platform: Unix
@@ -29,7 +29,9 @@ urls = (
         
 mh = None
 
-class Server:    
+class Server:   
+    """Class Server
+    """ 
         
     _server = None
     
@@ -39,6 +41,7 @@ class Server:
         Called when the object is initialized    
         
         Args:
+           none
            
         """           
         
@@ -49,6 +52,7 @@ class Server:
         """Method starts web server   
         
         Args:
+           none
         
         Returns:
            void       

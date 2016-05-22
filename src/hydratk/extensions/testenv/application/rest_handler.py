@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""Handles REST operations
 
 .. module:: testenv.application.rest_handler
    :platform: Unix
@@ -14,6 +14,8 @@ from web import OK, NotFound, BadRequest
 from jsonlib2 import read, write
 
 class RestHandler:
+    """Class RestHandler
+    """
     
     _mh = None
     
@@ -23,6 +25,7 @@ class RestHandler:
         Called when the object is initialized    
         
         Args:
+           none
            
         """            
         
@@ -32,6 +35,7 @@ class RestHandler:
         """Method connect to database     
            
         Args:
+           none
 
         Returns:
            DB_INT: DB client                 

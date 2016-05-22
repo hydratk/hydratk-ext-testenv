@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extensions 
+"""CRM entity classes
 
 .. module:: testenv.entities.crm_entities
    :platform: Unix
@@ -12,6 +12,8 @@ from lxml.etree import Element, SubElement
 from jsonlib2 import write
 
 class Customer:   
+    """Class Customer
+    """
     
     def __init__(self, id, name, status, segment, birth_no=None, reg_no=None, tax_no=None):
         """Class constructor
@@ -83,7 +85,9 @@ class Customer:
 
         return write(root)           
     
-class Payer:     
+class Payer:  
+    """Class Payer
+    """   
     
     def __init__(self, id, name, status, billcycle, customer, bank_account=None):
         """Class constructor
@@ -147,7 +151,9 @@ class Payer:
 
         return write(root)            
             
-class Subscriber:      
+class Subscriber: 
+    """Class Subscriber
+    """     
     
     def __init__(self, id, name, msisdn, status, market, tariff, customer, payer):
         """Class constructor
@@ -217,7 +223,9 @@ class Subscriber:
 
         return write(root)    
             
-class Contact:     
+class Contact:    
+    """Class Contact
+    """ 
     
     def __init__(self, id, name, phone=None, email=None, roles=[]):
         """Class constructor
@@ -299,7 +307,9 @@ class Contact:
 
         return write(root)      
         
-class ContactRole:      
+class ContactRole:  
+    """Class ContactRole
+    """    
     
     def __init__(self, id, title, customer=None, payer=None, subscriber=None):
         """Class constructor
@@ -363,7 +373,9 @@ class ContactRole:
 
         return write(root)               
         
-class Address:       
+class Address:      
+    """Class Address
+    """ 
     
     def __init__(self, id, street, street_no, city, zip, roles={}):
         """Class constructor
@@ -447,6 +459,8 @@ class Address:
         return write(root)     
             
 class AddressRole: 
+    """Class AddressRole
+    """
     
     def __init__(self, id, title, contact=None, customer=None, payer=None, subscriber=None):
         """Class constructor
@@ -516,7 +530,9 @@ class AddressRole:
 
         return write(root)         
     
-class Service:      
+class Service:   
+    """Class Service
+    """   
     
     def __init__(self, id, name, status, params={}):
         """Class constructor
@@ -589,7 +605,9 @@ class Service:
         
         return write(root)        
     
-class ServiceOperation:     
+class ServiceOperation: 
+    """Class ServiceOperation
+    """    
     
     def __init__(self, service, customer=None, payer=None, subscriber=None, status=None, params={}):
         """Class constructor

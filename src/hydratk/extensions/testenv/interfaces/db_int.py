@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""DB interface methods to be used in helpers
 
 .. module:: testenv.interfaces.db_int
    :platform: Unix
@@ -15,6 +15,8 @@ from os import path
 from sqlite3 import Error, connect, Row
 
 class DB_INT():
+    """Class DB_INT
+    """
     
     _mh = None    
     _db_file = None
@@ -25,7 +27,8 @@ class DB_INT():
            
         Called when the object is initialized 
         
-        Args:   
+        Args:  
+           none 
            
         """           
         
@@ -36,7 +39,8 @@ class DB_INT():
     def connect(self):
         """Method connects to database
         
-        Args:            
+        Args:
+           none            
              
         Returns:
            bool: result
@@ -58,10 +62,11 @@ class DB_INT():
     def disconnect(self):
         """Method disconnects from database
         
-        Args:            
+        Args:  
+           none          
              
         Returns:
-          bool: result
+           bool: result
                 
         """        
         
@@ -129,7 +134,7 @@ class DB_INT():
            tax_no (str): tax identification number      
              
         Returns:
-           int - created customer id
+           int: created customer id
                 
         """           
         
@@ -506,7 +511,7 @@ class DB_INT():
            payer (int): assigned payer id                     
              
         Returns:
-           result - bool
+           result: bool
         
         """             
         

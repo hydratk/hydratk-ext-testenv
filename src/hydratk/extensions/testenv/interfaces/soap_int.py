@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""SOAP interface methods to be used in helpers
 
 .. module:: testenv.interfaces.soap_int
    :platform: Unix
@@ -17,6 +17,8 @@ from logging import getLogger, CRITICAL
 getLogger('suds.client').setLevel(CRITICAL)
 
 class SOAP_INT():
+    """Class SOAP_INT
+    """
     
     _mh = None
     _wsdl = None
@@ -27,6 +29,7 @@ class SOAP_INT():
         Called when the object is initialized  
         
         Args:  
+           none
            
         """          
         
@@ -97,7 +100,7 @@ class SOAP_INT():
            tax_no (str): tax identification number      
              
         Returns:
-           int - created customer id
+           int: created customer id
                 
         """         
         
@@ -361,7 +364,7 @@ class SOAP_INT():
            payer (int): assigned payer id                     
              
         Returns:
-           result - bool
+           result: bool
         
         """          
         

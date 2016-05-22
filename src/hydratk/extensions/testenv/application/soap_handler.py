@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""Handles SOAP operations
 
 .. module:: testenv.application.soap_handler
    :platform: Unix
@@ -14,6 +14,8 @@ from lxml.etree import Element, SubElement, tostring, XMLSyntaxError
 from lxml import objectify
 
 class SoapHandler():
+    """Class SoapHandler
+    """
 
     _mh = None
     _nsmap = None
@@ -26,6 +28,7 @@ class SoapHandler():
         Called when the object is initialized   
         
         Args: 
+           none
            
         """         
         
@@ -39,6 +42,7 @@ class SoapHandler():
         """Method connect to database     
            
         Args:
+           none
 
         Returns:
            DB_INT: DB client                 

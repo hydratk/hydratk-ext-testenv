@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""REST interface methods to be used in helpers
 
 .. module:: testenv.interfaces.rest_int
    :platform: Unix
@@ -16,6 +16,8 @@ from urllib import urlencode
 from jsonlib2 import read
 
 class REST_INT():
+    """Class REST_INT
+    """
     
     _mh = None 
     _ip = None
@@ -27,7 +29,8 @@ class REST_INT():
            
         Called when the object is initialized 
         
-        Args:   
+        Args:
+           none   
            
         """          
         
@@ -84,7 +87,7 @@ class REST_INT():
            tax_no (str): tax identification number      
              
         Returns:
-           int - created customer id
+           int: created customer id
                 
         """        
         
@@ -337,7 +340,7 @@ class REST_INT():
            payer (int): assigned payer id                     
              
         Returns:
-           result - bool
+           result: bool
         
         """ 
         

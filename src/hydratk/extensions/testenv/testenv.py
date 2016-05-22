@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""This code is part of TestEnv extension
+"""Extension for test automation exercises
 
 .. module:: testenv.testenv
    :platform: Unix
@@ -14,11 +14,14 @@ from os import path, remove
 from sqlite3 import Error, connect
 
 class Extension(extension.Extension):
+    """Class Extension
+    """
     
     def _init_extension(self):
         """Method initializes extension
         
         Args:
+           none
         
         Returns:
            void
@@ -37,6 +40,7 @@ class Extension(extension.Extension):
         Commands - te-install-db, te-start
         
         Args:
+           none
         
         Returns:
            void
@@ -98,6 +102,7 @@ class Extension(extension.Extension):
         Starts web server and installs database if not installed  
         
         Args:
+           none
         
         Returns:
            void                  
