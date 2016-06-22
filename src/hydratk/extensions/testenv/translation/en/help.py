@@ -15,8 +15,12 @@ language = {
 
 ''' TestEnv Commands '''
 help_cmd = {
-    'te-install-db' : 'install testing environment database',
-    'te-start'      : 'start testing environment'
+    'te-install'  : 'install testing environment database',
+    'te-run'      : 'start testing environment',
+    
+    #standalone with option profile testenv
+    'install'     : 'install testing environment database',
+    'run'         : 'start testing environment'
 }
 
 ''' TestEnv Options '''

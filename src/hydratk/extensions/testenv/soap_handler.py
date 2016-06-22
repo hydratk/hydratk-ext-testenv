@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Handles SOAP operations
 
-.. module:: testenv.application.soap_handler
+.. module:: testenv.soap_handler
    :platform: Unix
    :synopsis: Handles SOAP operations
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -9,7 +9,7 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-from hydratk.extensions.testenv.interfaces.db_int import DB_INT
+from hydratk.extensions.testenv.db_handler import DbHandler
 from lxml.etree import Element, SubElement, tostring, XMLSyntaxError
 from lxml import objectify
 
@@ -49,7 +49,7 @@ class SoapHandler():
                 
         """              
     
-        db = DB_INT()
+        db = DbHandler()
         db.connect()
         return db
     

@@ -1,15 +1,15 @@
 Test-Scenario-1:
   Id: ts_01
-  Path: testenv/soap.yoda
-  Name: Customer SOAP operations
-  Desc: Test customer operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Customer REST operations
+  Desc: Test customer operations via REST interface
   Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
   
   Pre-Req: |
-    import testenv_helpers as hlp
+    import yodahelpers.testenv.helpers as hlp
     
-    client = hlp.soap()
+    client = hlp.rest()
     
   Test-Case-1:
     Id: tc_01
@@ -20,8 +20,7 @@ Test-Scenario-1:
       Id: tco_01 
       Name: tco_create_customer
       Desc: Create customer
-      Test: | 
-        print '\ncreate_customer'
+      Test: |
         name = 'Vince Neil'
         status = 'active'
         segment = 2
@@ -37,7 +36,7 @@ Test-Scenario-1:
       Id: tco_02 
       Name: tco_read_customer
       Desc: Read customer
-      Test: | 
+      Test: 
         customer = client.read_customer(cust)           
             
       Validate: |
@@ -55,8 +54,7 @@ Test-Scenario-1:
       Id: tco_01 
       Name: tco_change_customer
       Desc: Change customer
-      Test: | 
-        print '\nchange_customer'
+      Test: |
         name = 'Charlie Bowman'
         status = 'suspend'
         segment = 3
@@ -68,11 +66,11 @@ Test-Scenario-1:
       Validate: |            
         assert res == True
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_customer
       Desc: Read customer
-      Test: | 
+      Test: |
         customer = client.read_customer(cust)           
             
       Validate: |
@@ -83,9 +81,9 @@ Test-Scenario-1:
      
 Test-Scenario-2:
   Id: ts_02
-  Path: testenv/soap.yoda
-  Name: Payer SOAP operations
-  Desc: Test payer operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Payer REST operations
+  Desc: Test payer operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
   Version: 0.1
     
@@ -98,8 +96,7 @@ Test-Scenario-2:
       Id: tco_01 
       Name: tco_create_payer
       Desc: Create payer
-      Test: | 
-        print '\ncreate_payer'
+      Test: |
         name = 'Vince Neil'
         status = 'active'
         billcycle = 1
@@ -110,20 +107,20 @@ Test-Scenario-2:
       Validate: |
         assert pay != None
                     
-    Test-Condition-2:
-      Id: tco_02 
+    Test-Condition-2: 
+      Id: tco_02
       Name: tco_read_payer
       Desc: Read payer
-      Test: | 
+      Test: |
         payer = client.read_payer(pay)           
             
       Validate: |
         assert payer != None         
-        assert ([name, status, billcycle, bank_account, customer] == 
-                [payer.name, payer.status, payer.billcycle,
-                 payer.bank_account, payer.customer])    
+        assert ([name, status, billcycle, bank_account, int(customer)] == 
+                [payer.name, payer.status, int(payer.billcycle),
+                 payer.bank_account, int(payer.customer)])    
                  
-  Test-Case-2:
+  Test-Case-2: 
     Id: tc_02
     Name: tc_change_payer
     Desc: Change_payer  
@@ -132,8 +129,7 @@ Test-Scenario-2:
       Id: tco_01 
       Name: tco_change_payer
       Desc: Change payer
-      Test: | 
-        print '\nchange_payer'
+      Test: |
         name = 'Charlie Bowman'
         status = 'suspend'
         billcycle = 2
@@ -143,24 +139,24 @@ Test-Scenario-2:
       Validate: |
         assert res == True
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_payer
       Desc: Read payer
-      Test: | 
+      Test: |
         payer = client.read_payer(pay)           
             
       Validate: |
-        assert payer != None           
-        assert ([name, status, billcycle, bank_account, customer] == 
-                [payer.name, payer.status, payer.billcycle,
-                 payer.bank_account, payer.customer])                                         
+        assert payer != None     
+        assert ([name, status, billcycle, bank_account, int(customer)] == 
+                [payer.name, payer.status, int(payer.billcycle), 
+                 payer.bank_account, int(payer.customer)])                                         
      
 Test-Scenario-3:
   Id: ts_03
-  Path: testenv/soap.yoda
-  Name: Subscriber SOAP operations
-  Desc: Test subscriber operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Subscriber REST operations
+  Desc: Test subscriber operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
   Version: 0.1
     
@@ -169,12 +165,11 @@ Test-Scenario-3:
     Name: tc_create_subscriber
     Desc: Create subscriber
   
-    Test-Condition-1:
-      Id: tco_01 
+    Test-Condition-1: 
+      Id: tco_01
       Name: tco_create_subscriber
       Desc: Create subscriber
-      Test: | 
-        print '\ncreate_subscriber'
+      Test: |
         name = 'Vince Neil'
         msisdn = '773592179'
         status = 'active'
@@ -187,19 +182,19 @@ Test-Scenario-3:
       Validate: |
         assert subs != None
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_subscriber
       Desc: Read subscriber
-      Test: | 
+      Test: |
         subscriber = client.read_subscriber(subs)           
             
       Validate: |
         assert subscriber != None           
-        assert ([name, msisdn, status, market, tariff, customer, payer] == 
+        assert ([name, msisdn, status, market, tariff, int(customer), int(payer)] == 
                 [subscriber.name, subscriber.msisdn, subscriber.status,
-                 subscriber.market, subscriber.tariff, subscriber.customer,
-                 subscriber.payer])    
+                 int(subscriber.market), int(subscriber.tariff), int(subscriber.customer),
+                 int(subscriber.payer)])    
                     
   Test-Case-2:
     Id: tc_02
@@ -210,8 +205,7 @@ Test-Scenario-3:
       Id: tco_01 
       Name: tco_change_subscriber
       Desc: Change subscriber
-      Test: | 
-        print '\nchange_subscriber'
+      Test: |
         name = 'Charlie Bowman'
         msisdn = '603404746'
         status = 'suspend'
@@ -222,25 +216,25 @@ Test-Scenario-3:
       Validate: |
        assert res == True
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_subscriber
       Desc: Read subscriber
-      Test: | 
+      Test: |
         subscriber = client.read_subscriber(subs)           
             
       Validate: |
         assert subscriber != None          
-        assert ([name, msisdn, status, market, tariff, customer, payer] == 
+        assert ([name, msisdn, status, market, tariff, int(customer), int(payer)] == 
                 [subscriber.name, subscriber.msisdn, subscriber.status,
-                 subscriber.market, subscriber.tariff, subscriber.customer,
-                 subscriber.payer])            
+                 int(subscriber.market), int(subscriber.tariff), int(subscriber.customer),
+                 int(subscriber.payer)])           
      
 Test-Scenario-4:
   Id: ts_04
-  Path: testenv/soap.yoda
-  Name: Contact SOAP operations
-  Desc: Test contact operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Contact REST operations
+  Desc: Test contact operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
   Version: 0.1
     
@@ -249,12 +243,11 @@ Test-Scenario-4:
     Name: tc_create_contact
     Desc: Create contact
   
-    Test-Condition-1:
-      Id: tco_01 
+    Test-Condition-1: 
+      Id: tco_01
       Name: tco_create_contact
       Desc: Create contact
-      Test: | 
-        print '\ncreate_contact'
+      Test: |
         name = 'Vince Neil'
         phone = '12345'
         email = 'aaa@xxx.com'
@@ -263,11 +256,11 @@ Test-Scenario-4:
       Validate: |
         assert con != None
                     
-    Test-Condition-2:
-      Id: tco_02 
+    Test-Condition-2: 
+      Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
-      Test: | 
+      Test: |
         contact = client.read_contact(con)           
             
       Validate: |
@@ -280,12 +273,11 @@ Test-Scenario-4:
     Name: tc_change_contact
     Desc: Change contact
   
-    Test-Condition-1:
-      Id: tco_01 
+    Test-Condition-1: 
+      Id: tco_01
       Name: tco_change_contact
       Desc: Change contact
-      Test: | 
-        print '\nchange_contact'
+      Test: |
         name = 'Charlie Bowman'
         phone = '123456'
         email = 'bbb@xxx.com'
@@ -298,7 +290,7 @@ Test-Scenario-4:
       Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
-      Test: | 
+      Test: |
         contact = client.read_contact(con)           
             
       Validate: |
@@ -315,8 +307,7 @@ Test-Scenario-4:
       Id: tco_01
       Name: tco_assign_contact_role
       Desc: Assign contact role
-      Test: | 
-        print '\nassign_contact_role'
+      Test: |
         res1 = client.assign_contact_role(con, 'contract', customer=cust)  
         res2 = client.assign_contact_role(con, 'invoicing', payer=pay) 
         res3 = client.assign_contact_role(con, 'contact', subscriber=subs)           
@@ -324,11 +315,11 @@ Test-Scenario-4:
       Validate: |
         assert [res1, res2, res3] == [True, True, True]                    
                     
-    Test-Condition-2:
-      Id: tco_02 
+    Test-Condition-2: 
+      Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
-      Test: | 
+      Test: |
         contact = client.read_contact(con)           
             
       Validate: |
@@ -341,11 +332,10 @@ Test-Scenario-4:
     Desc: Revoke contact role  
   
     Test-Condition-1: 
-      Id: tco_01
+      Id: tco_01 
       Name: tco_revoke_contact_role
       Desc: Revoke contact role
-      Test: | 
-        print '\nrevoke_contact_role'
+      Test: |
         res1 = client.revoke_contact_role(con, 'contract', customer=cust)  
         res2 = client.revoke_contact_role(con, 'invoicing', payer=pay) 
         res3 = client.revoke_contact_role(con, 'contact', subscriber=subs)           
@@ -353,11 +343,11 @@ Test-Scenario-4:
       Validate: |
         assert [res1, res2, res3] == [True, True, True]                    
                     
-    Test-Condition-2:
-      Id: tco_02 
+    Test-Condition-2: 
+      Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
-      Test: | 
+      Test: |
         contact = client.read_contact(con)           
             
       Validate: |
@@ -366,9 +356,9 @@ Test-Scenario-4:
      
 Test-Scenario-5:
   Id: ts_05
-  Path: testenv/soap.yoda
-  Name: Address SOAP operations
-  Desc: Test address operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Address REST operations
+  Desc: Test address operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
   Version: 0.1
 
@@ -381,8 +371,7 @@ Test-Scenario-5:
       Id: tco_01 
       Name: tco_create_address
       Desc: Create address
-      Test: | 
-        print '\ncreate_address'
+      Test: |
         street = 'Tomickova'
         street_no = '2144/1'
         city = 'Praha'
@@ -392,16 +381,16 @@ Test-Scenario-5:
       Validate: |
         assert addr != None
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_address
       Desc: Read address
-      Test: | 
+      Test: |
         address = client.read_address(addr)           
             
       Validate: |
         assert address != None         
-        assert ([street, street_no, city, zip] == 
+        assert ([street, street_no, city, str(zip)] == 
                 [address.street, address.street_no, address.city, address.zip])    
                     
   Test-Case-2:
@@ -413,8 +402,7 @@ Test-Scenario-5:
       Id: tco_01 
       Name: tco_change_address
       Desc: Change address
-      Test: | 
-        print '\nchange_address'
+      Test: |
         street = 'Babakova'
         street_no = '2152/6'
         city = 'Praha 4'
@@ -424,16 +412,16 @@ Test-Scenario-5:
       Validate: |
         assert res == True
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_address
       Desc: Read address
-      Test: | 
+      Test: |
         address = client.read_address(addr)           
             
       Validate: |
         assert address != None       
-        assert ([street, street_no, city, zip] == 
+        assert ([street, street_no, city, str(zip)] == 
                 [address.street, address.street_no, address.city, address.zip])       
                    
   Test-Case-3:
@@ -441,12 +429,11 @@ Test-Scenario-5:
     Name: tc_assign_address_role
     Desc: Assign address role  
   
-    Test-Condition-1: 
-      Id: tco_01
+    Test-Condition-1:
+      Id: tco_01 
       Name: tco_assign_address_role
       Desc: Assign address role
-      Test: | 
-        print '\nassign_address_role'
+      Test: |
         res1 = client.assign_address_role(addr, 'contract', customer=cust)  
         res2 = client.assign_address_role(addr, 'invoicing', payer=pay) 
         res3 = client.assign_address_role(addr, 'contact', subscriber=subs) 
@@ -455,11 +442,11 @@ Test-Scenario-5:
       Validate: |
         assert [res1, res2, res3, res4] == [True, True, True, True]                  
                     
-    Test-Condition-2: 
-      Id: tco_02
+    Test-Condition-2:
+      Id: tco_02 
       Name: tco_read_address
       Desc: Read address
-      Test: | 
+      Test: |
         address = client.read_address(addr)           
             
       Validate: |
@@ -468,15 +455,14 @@ Test-Scenario-5:
             
   Test-Case-4:
     Id: tc_04
-    Name: tc_reoke_address_role
+    Name: tc_revoke_address_role
     Desc: Revoke address role  
   
     Test-Condition-1:
       Id: tco_01 
       Name: tco_revoke_address_role
       Desc: Revoke address role
-      Test: | 
-        print '\nrevoke_address_role'
+      Test: |
         res1 = client.revoke_address_role(addr, 'contract', customer=cust)  
         res2 = client.revoke_address_role(addr, 'invoicing', payer=pay) 
         res3 = client.revoke_address_role(addr, 'contact', subscriber=subs)  
@@ -489,7 +475,7 @@ Test-Scenario-5:
       Id: tco_02 
       Name: tco_read_address
       Desc: Read address
-      Test: | 
+      Test: |
         address = client.read_address(addr)           
             
       Validate: |
@@ -498,9 +484,9 @@ Test-Scenario-5:
             
 Test-Scenario-6:
   Id: ts_06
-  Path: testenv/soap.yoda
-  Name: Service SOAP operations
-  Desc: Test service operations via SOAP interface
+  Path: testenv/rest.jedi
+  Name: Service REST operations
+  Desc: Test service operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
   Version: 0.1   
   
@@ -513,8 +499,7 @@ Test-Scenario-6:
       Id: tco_01 
       Name: tco_create_service
       Desc: Create service
-      Test: | 
-        print '\ncreate_service'
+      Test: |
         service = 615
         subscriber = subs
         status = 'active'
@@ -525,11 +510,11 @@ Test-Scenario-6:
       Validate: |
         assert res == True
                     
-    Test-Condition-2:
-      Id: tco_02 
+    Test-Condition-2: 
+      Id: tco_02
       Name: tco_read_services
       Desc: Read services
-      Test: | 
+      Test: |
         srv = client.read_services(subscriber=subscriber)[0]           
             
       Validate: |
@@ -541,7 +526,7 @@ Test-Scenario-6:
       Id: tco_03
       Name: tco_create_service
       Desc: Create service
-      Test: | 
+      Test: |
         service = 619
         subscriber = subs
         status = 'active'
@@ -557,7 +542,7 @@ Test-Scenario-6:
       Id: tco_04 
       Name: tco_read_services
       Desc: Read services
-      Test: | 
+      Test: |
         srv = client.read_services(subscriber=subscriber, service=service)[0]           
             
       Validate: |
@@ -574,8 +559,7 @@ Test-Scenario-6:
       Id: tco_01 
       Name: tco_change_service
       Desc: Change service
-      Test: | 
-        print '\nchange_service'
+      Test: |
         service = 615
         subscriber = subs
         status = 'deactive'
@@ -590,10 +574,10 @@ Test-Scenario-6:
       Id: tco_02 
       Name: tco_read_services
       Desc: Read services
-      Test: | 
+      Test: |
         srv = client.read_services(subscriber=subscriber, service=service)[0]           
             
       Validate: |
         assert srv != None   
         assert ([status, params[121]] ==
-                [srv.status, srv.params[121]])                                
+                [srv.status, srv.params[121]])                                 

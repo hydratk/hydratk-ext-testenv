@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Web server
 
-.. module:: testenv.application.web_server
+.. module:: testenv.web_server
    :platform: Unix
    :synopsis: Web server
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -9,8 +9,8 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-from hydratk.extensions.testenv.application.rest_handler import RestHandler
-from hydratk.extensions.testenv.application.soap_handler import SoapHandler
+from hydratk.extensions.testenv.rest_handler import RestHandler
+from hydratk.extensions.testenv.soap_handler import SoapHandler
 from web import application, httpserver, input, data, NotFound, header, ctx
 from os import path
 

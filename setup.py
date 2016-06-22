@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 
-with open("README.md", "r") as f:
+with open("README.rst", "r") as f:
     readme = f.readlines()
     
 classifiers = [
@@ -29,8 +29,10 @@ packages=[
          ]
          
 requires = [
+            'web.py>=0.37',            
             'hydratk',
-            'web.py'
+            'hydratk-lib-network',
+            'hydratk-ext-yoda'
            ]  
            
 data_files=[
@@ -38,17 +40,28 @@ data_files=[
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/install_db.sql']),
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.wsdl']),
             ('/var/local/hydratk/testenv', ['var/local/hydratk/testenv/crm.xsd']),
-            ('/var/local/hydratk/yoda/helpers', ['var/local/hydratk/yoda/helpers/testenv_helpers.py']),
-            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/db.yoda']),
-            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/rest.yoda']),
-            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/soap.yoda'])   
-           ]                    
+            ('/var/local/hydratk/yoda/lib/yodalib/testenv', ['var/local/hydratk/yoda/lib/yodalib/testenv/__init__.py']),
+            ('/var/local/hydratk/yoda/lib/yodalib/testenv', ['var/local/hydratk/yoda/lib/yodalib/testenv/db_int.py']),
+            ('/var/local/hydratk/yoda/lib/yodalib/testenv', ['var/local/hydratk/yoda/lib/yodalib/testenv/rest_int.py']),
+            ('/var/local/hydratk/yoda/lib/yodalib/testenv', ['var/local/hydratk/yoda/lib/yodalib/testenv/soap_int.py']),
+            ('/var/local/hydratk/yoda/helpers/yodahelpers/testenv', ['var/local/hydratk/yoda/helpers/yodahelpers/testenv/__init__.py']),
+            ('/var/local/hydratk/yoda/helpers/yodahelpers/testenv', ['var/local/hydratk/yoda/helpers/yodahelpers/testenv/helpers.py']),
+            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/db.jedi']),
+            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/rest.jedi']),
+            ('/var/local/hydratk/yoda/yoda-tests/testenv', ['var/local/hydratk/yoda/yoda-tests/testenv/soap.jedi'])   
+           ]  
+
+entry_points = {
+                'console_scripts': [
+                    'testenv = hydratk.extensions.testenv.bootstrapper:run_app'                               
+                ]
+               }                      
                 
 setup(name='hydratk-ext-testenv',
-      version='0.2.0a',
+      version='0.2.0',
       description='Test environment for test automation exercises',
       long_description=readme,
-      author='Petr Raöek',
+      author='Petr Ra≈°ek',
       author_email='bowman@hydratk.org',
       url='http://extensions.hydratk.org/testenv',
       license='BSD',
@@ -56,5 +69,6 @@ setup(name='hydratk-ext-testenv',
       install_requires=requires,
       package_dir={'' : 'src'},
       classifiers=classifiers,
-      data_files=data_files 
+      data_files=data_files,
+      entry_points=entry_points   
      )

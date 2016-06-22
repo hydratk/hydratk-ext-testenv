@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Handles REST operations
 
-.. module:: testenv.application.rest_handler
+.. module:: testenv.rest_handler
    :platform: Unix
    :synopsis: Handles REST operations
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
@@ -9,7 +9,7 @@
 """
 
 from hydratk.core.masterhead import MasterHead
-from hydratk.extensions.testenv.interfaces.db_int import DB_INT
+from hydratk.extensions.testenv.db_handler import DbHandler
 from web import OK, NotFound, BadRequest
 from jsonlib2 import read, write
 
@@ -42,7 +42,7 @@ class RestHandler:
                 
         """              
     
-        db = DB_INT()
+        db = DbHandler()
         db.connect()
         return db
 

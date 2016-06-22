@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 """REST interface methods to be used in helpers
 
-.. module:: testenv.interfaces.rest_int
+.. module:: yodalib.testenv.rest_int
    :platform: Unix
-   :synopsis: REST interface methods to be used in helpers
+   :synopsis: REST interface methods
 .. moduleauthor:: Petr Rašek <bowman@hydratk.org>
 
 """
 
 from hydratk.core.masterhead import MasterHead
-from hydratk.extensions.testenv.entities.crm_entities import Customer, Payer, Subscriber, Service, ServiceOperation
-from hydratk.extensions.testenv.entities.crm_entities import Contact, ContactRole, Address, AddressRole
-from httplib2 import Http
-from urllib import urlencode
+from hydratk.lib.network.rest.client import RESTClient
+from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Service, ServiceOperation
+from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 from jsonlib2 import read
 
 class REST_INT():
@@ -38,7 +37,7 @@ class REST_INT():
         ip = self._mh.cfg['Extensions']['TestEnv']['server_ip']
         port = self._mh.cfg['Extensions']['TestEnv']['server_port']  
         self._url = 'http://{0}:{1}/rs/'.format(ip, port)
-        self._client = Http()            
+        self._client = RESTClient()            
         
     def read_customer(self, id):
         """Method reads customer
@@ -55,13 +54,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_customer', msg), 
                       self._mh.fromhere())
         
-        path = 'customer'
         params = {'id' : id}
-        url = self._url + path + '?' + urlencode(params)
-        headers = {'Accept' : 'application/json'}
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'customer'
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
             customer = Customer(doc['id'], doc['name'], doc['status'], doc['segment'], 
@@ -72,7 +69,7 @@ class REST_INT():
             return customer
             
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None
         
     def create_customer(self, name, segment, status='active', birth_no=None, reg_no=None, tax_no=None):
@@ -96,19 +93,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_customer', msg), 
                       self._mh.fromhere())  
         
-        path = 'customer'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}        
+        url = self._url + 'customer'       
         customer = Customer(None, name, status, segment, birth_no, reg_no, tax_no)                        
         body = customer.tojson()         
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'customer', customer), 
+        if (status == 200):
+            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'customer', body), 
                           self._mh.fromhere())
             return content
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None   
         
     def change_customer(self, id, name=None, status=None, segment=None, birth_no=None, reg_no=None, tax_no=None):
@@ -133,21 +128,19 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_customer', msg), 
                       self._mh.fromhere())
                  
-        path = 'customer'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}        
+        url = self._url + 'customer'    
         customer = Customer(id, name, status, segment, birth_no, reg_no, tax_no)
         body = customer.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'customer', id), 
                           self._mh.fromhere())    
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False   
-        
+       
     def read_payer(self, id):
         """Method reads payer
         
@@ -163,13 +156,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_Payer', msg), 
                       self._mh.fromhere()) 
         
-        path = 'payer'
         params = {'id' : id}
-        url = self._url + path + '?' + urlencode(params)
-        headers = {'Accept' : 'application/json'}
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'payer'
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
             payer = Payer(doc['id'], doc['name'], doc['status'], doc['billcycle'], 
@@ -180,7 +171,7 @@ class REST_INT():
             return payer
             
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None 
         
     def create_payer(self, name, billcycle, customer, status='active', bank_account=None):
@@ -203,19 +194,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_payer', msg), 
                       self._mh.fromhere())
             
-        path = 'payer'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'payer'
         payer = Payer(None, name, status, billcycle, customer, bank_account)
         body = payer.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'payer', payer), 
                           self._mh.fromhere())
             return content
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None   
         
     def change_payer(self, id, name=None, status=None, billcycle=None, bank_account=None, customer=None):
@@ -239,19 +228,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_payer', msg), 
                       self._mh.fromhere()) 
             
-        path = 'payer'
-        url = self._url + path        
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'payer'
         payer = Payer(id, name, status, billcycle, customer, bank_account)
         body = payer.tojson()        
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'payer', id), 
                           self._mh.fromhere())    
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False  
         
     def read_subscriber(self, id):
@@ -269,13 +256,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_subscriber', msg), 
                       self._mh.fromhere())
         
-        path = 'subscriber'
         params = {'id' : id}
-        url = self._url + path + '?' + urlencode(params)
-        headers = {'Accept' : 'application/json'}
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'subscriber'        
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
             subscriber = Subscriber(doc['id'], doc['name'], doc['msisdn'], doc['status'], doc['market'], 
@@ -286,7 +271,7 @@ class REST_INT():
             return subscriber
             
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None  
         
     def create_subscriber(self, name, msisdn, market, tariff, customer, payer, status='active'):
@@ -310,20 +295,18 @@ class REST_INT():
                name, msisdn, status, market, tariff, customer, payer)
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_subscriber', msg), 
                       self._mh.fromhere()) 
-            
-        path = 'subscriber'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+                    
+        url = self._url + 'subscriber'
         subscriber = Subscriber(None, name, msisdn, status, market, tariff, customer, payer)
         body = subscriber.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'subscriber', content), 
                           self._mh.fromhere())
             return content
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None  
         
     def change_subscriber(self, id, name=None, msisdn=None, status=None, market=None, tariff=None, customer=None, payer=None):
@@ -349,19 +332,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_subscriber', msg), 
                       self._mh.fromhere())
             
-        path = 'subscriber'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'subscriber'
         subscriber = Subscriber(id, name, msisdn, status, market, tariff, customer, payer)
         body = subscriber.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'subscriber', id), 
                           self._mh.fromhere())    
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False  
         
     def read_contact(self, id):
@@ -379,13 +360,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_contact', msg), 
                       self._mh.fromhere())
         
-        path = 'contact'
         params = {'id' : id}
-        url = self._url + path + '?' + urlencode(params)
-        headers = {'Accept' : 'application/json'}
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'contact'
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
             roles = []
@@ -401,7 +380,7 @@ class REST_INT():
             return contact
             
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None   
         
     def create_contact(self, name, phone=None, email=None):
@@ -421,19 +400,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_contact', msg), 
                       self._mh.fromhere())                   
         
-        path = 'contact'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'contact'
         contact = Contact(None, name, phone, email)
         body = contact.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'contact', content), 
                           self._mh.fromhere())
             return content
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None    
         
     def change_contact(self, id, name=None, phone=None, email=None):
@@ -454,19 +431,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_contact', msg), 
                       self._mh.fromhere())                    
         
-        path = 'contact'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'contact'
         contact = Contact(id, name, phone, email)
         body = contact.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'contact', id), 
                           self._mh.fromhere())    
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False    
         
     def assign_contact_role(self, id, role, customer=None, payer=None, subscriber=None):
@@ -489,19 +464,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'assign_contact_role', msg), 
                       self._mh.fromhere())                   
         
-        path = 'contact/role'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'contact/role'
         contact_role = ContactRole(id, role, customer, payer, subscriber)
         body = contact_role.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_role_assigned', 'contact'), 
                           self._mh.fromhere())  
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False        
         
     def revoke_contact_role(self, id, role, customer=None, payer=None, subscriber=None):
@@ -524,19 +497,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'revoke_contact_role', msg), 
                       self._mh.fromhere())
             
-        path = 'contact/role'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'contact/role'
         contact_role = ContactRole(id, role, customer, payer, subscriber)
         body = contact_role.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_role_revoked', 'contact'), 
                           self._mh.fromhere())  
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False               
         
     def read_address(self, id):
@@ -554,13 +525,11 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_address', msg), 
                       self._mh.fromhere())
         
-        path = 'address'
         params = {'id' : id}
-        url = self._url + path + '?' + urlencode(params)
-        headers = {'Accept' : 'application/json'}
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'address'
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
                 
@@ -577,7 +546,7 @@ class REST_INT():
             return address
             
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None  
         
     def create_address(self, street, street_no, city, zip):
@@ -598,19 +567,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_address', msg), 
                       self._mh.fromhere())                   
         
-        path = 'address'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'address'
         address = Address(None, street, street_no, city, zip)
         body = address.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'address', content), 
                           self._mh.fromhere())
             return content
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None    
         
     def change_address(self, id, street=None, street_no=None, city=None, zip=None):
@@ -632,19 +599,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_address', msg), 
                       self._mh.fromhere())                   
         
-        path = 'address'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'address'
         address = Address(id, street, street_no, city, zip)
         body = address.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'address', id), 
                           self._mh.fromhere())    
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False                 
         
     def assign_address_role(self, id, role, contact=None, customer=None, payer=None, subscriber=None):
@@ -668,19 +633,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'assign_address_role', msg), 
                       self._mh.fromhere())
             
-        path = 'address/role'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'address/role'
         address_role = AddressRole(id, role, contact, customer, payer, subscriber)
         body = address_role.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_role_assigned', 'address'), 
                           self._mh.fromhere())  
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False     
         
     def revoke_address_role(self, id, role, contact=None, customer=None, payer=None, subscriber=None):
@@ -704,19 +667,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'revoke_address_role', msg), 
                       self._mh.fromhere())
             
-        path = 'address/role'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'address/role'
         address_role = AddressRole(id, role, contact, customer, payer, subscriber)
         body = address_role.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_role_revoked', 'address'), 
                           self._mh.fromhere())  
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False   
         
     def read_services(self, customer=None, payer=None, subscriber=None, service=None):
@@ -738,8 +699,6 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'read_services', msg), 
                       self._mh.fromhere())
             
-        path = 'service'        
-        headers = {'Accept' : 'application/json'}
         params = {}
         if (customer != None):
             params['customer'] = customer
@@ -750,10 +709,10 @@ class REST_INT():
         if (service != None):
             params['service'] = service                                    
         
-        url = self._url + path + '?' + urlencode(params) 
-        response, content = self._client.request(url, method='GET', headers=headers)
+        url = self._url + 'service'
+        status, content = self._client.send_request(url, method='GET', params=params)
 
-        if (response.status == 200):
+        if (status == 200):
             
             doc = read(content)
              
@@ -773,7 +732,7 @@ class REST_INT():
             return services                
                 
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return None              
         
     def create_service(self, service, customer=None, payer=None, subscriber=None, status='active', params={}):  
@@ -797,19 +756,17 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'create_service', msg), 
                       self._mh.fromhere())
             
-        path = 'service'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'service'
         service_operation = ServiceOperation(service, customer, payer, subscriber, status, params)
         body = service_operation.tojson()
-        response, content = self._client.request(url, method='POST', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='POST', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_created', 'service', service), 
                           self._mh.fromhere())
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
             return False             
         
     def change_service(self, service, customer=None, payer=None, subscriber=None, status=None, params={}): 
@@ -833,17 +790,16 @@ class REST_INT():
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_func', 'change_service', msg), 
                       self._mh.fromhere())
             
-        path = 'service'
-        url = self._url + path
-        headers = {'Content-Type' : 'application/json'}
+        url = self._url + 'service'
         service_operation = ServiceOperation(service, customer, payer, subscriber, status, params)
         body = service_operation.tojson()
-        response, content = self._client.request(url, method='PUT', headers=headers, body=body)              
+        status, content = self._client.send_request(url, method='PUT', body=body, content_type='json')              
 
-        if (response.status == 200):
+        if (status == 200):
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_changed', 'service', service), 
                           self._mh.fromhere())
             return True
         else:
-            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(response.status, content), self._mh.fromhere())
-            return False                    
+            self._mh.dmsg('htk_on_extension_error', 'status:{0}, content:{1}'.format(status, content), self._mh.fromhere())
+            return False       
+                
