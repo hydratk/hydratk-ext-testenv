@@ -11,6 +11,6 @@
 from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 from hydratk.extensions.testenv.entities import Service, ServiceOperation
-from yodalib.testenv.db_int import DB_INT as db
-from yodalib.testenv.rest_int import REST_INT as rest
-from yodalib.testenv.soap_int import SOAP_INT as soap
+from yodalib.hydratk.extensions.testenv.db_int import DB_INT as db
+from yodalib.hydratk.extensions.testenv.rest_int import REST_INT as rest
+from yodalib.hydratk.extensions.testenv.soap_int import SOAP_INT as soap

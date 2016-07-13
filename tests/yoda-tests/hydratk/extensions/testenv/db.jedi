@@ -1,13 +1,13 @@
 Test-Scenario-1:
   Id: ts_01
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Customer DB operations
   Desc: Test customer operations via DB interface
   Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
   
   Pre-Req: |
-    import yodahelpers.testenv.helpers as hlp
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
     
     client = hlp.db()
     res = client.connect()
@@ -83,7 +83,7 @@ Test-Scenario-1:
      
 Test-Scenario-2:
   Id: ts_02
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Payer DB operations
   Desc: Test payer operations via DB interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -156,7 +156,7 @@ Test-Scenario-2:
      
 Test-Scenario-3:
   Id: ts_03
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Subscriber DB operations
   Desc: Test subscriber operations via DB interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -234,7 +234,7 @@ Test-Scenario-3:
      
 Test-Scenario-4:
   Id: ts_04
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Contact DB operations
   Desc: Test contact operations via DB interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -358,7 +358,7 @@ Test-Scenario-4:
      
 Test-Scenario-5:
   Id: ts_05
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Address DB operations
   Desc: Test address operations via DB interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -486,7 +486,7 @@ Test-Scenario-5:
             
 Test-Scenario-6:
   Id: ts_06
-  Path: testenv/db.jedi
+  Path: hydratk/extensions/testenv/db.jedi
   Name: Service DB operations
   Desc: Test service operations via DB interface
   Author: Petr Rasek <pr@hydratk.org>

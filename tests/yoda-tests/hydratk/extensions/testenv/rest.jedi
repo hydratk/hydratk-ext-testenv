@@ -1,13 +1,13 @@
 Test-Scenario-1:
   Id: ts_01
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Customer REST operations
   Desc: Test customer operations via REST interface
   Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
   
   Pre-Req: |
-    import yodahelpers.testenv.helpers as hlp
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
     
     client = hlp.rest()
     
@@ -81,7 +81,7 @@ Test-Scenario-1:
      
 Test-Scenario-2:
   Id: ts_02
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Payer REST operations
   Desc: Test payer operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -154,7 +154,7 @@ Test-Scenario-2:
      
 Test-Scenario-3:
   Id: ts_03
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Subscriber REST operations
   Desc: Test subscriber operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -232,7 +232,7 @@ Test-Scenario-3:
      
 Test-Scenario-4:
   Id: ts_04
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Contact REST operations
   Desc: Test contact operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -356,7 +356,7 @@ Test-Scenario-4:
      
 Test-Scenario-5:
   Id: ts_05
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Address REST operations
   Desc: Test address operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>
@@ -484,7 +484,7 @@ Test-Scenario-5:
             
 Test-Scenario-6:
   Id: ts_06
-  Path: testenv/rest.jedi
+  Path: hydratk/extensions/testenv/rest.jedi
   Name: Service REST operations
   Desc: Test service operations via REST interface
   Author: Petr Rasek <pr@hydratk.org>

@@ -34,19 +34,19 @@ requires = [
            ]  
            
 files = {
-          'etc/hydratk/conf.d/hydratk-ext-testenv.conf'                    : '/etc/hydratk/conf.d',
-          'var/local/hydratk/testenv/install_db.sql'                       : '/var/local/hydratk/testenv',
-          'var/local/hydratk/testenv/crm.wsdl'                             : '/var/local/hydratk/testenv',
-          'var/local/hydratk/testenv/crm.xsd'                              : '/var/local/hydratk/testenv',
-          'var/local/hydratk/yoda/lib/yodalib/testenv/__init__.py'         : '/var/local/hydratk/yoda/lib/yodalib/testenv',
-          'var/local/hydratk/yoda/lib/yodalib/testenv/db_int.py'           : '/var/local/hydratk/yoda/lib/yodalib/testenv',
-          'var/local/hydratk/yoda/lib/yodalib/testenv/rest_int.py'         : '/var/local/hydratk/yoda/lib/yodalib/testenv',
-          'var/local/hydratk/yoda/lib/yodalib/testenv/soap_int.py'         : '/var/local/hydratk/yoda/lib/yodalib/testenv',
-          'var/local/hydratk/yoda/helpers/yodahelpers/testenv/__init__.py' : '/var/local/hydratk/yoda/helpers/yodahelpers/testenv',
-          'var/local/hydratk/yoda/helpers/yodahelpers/testenv/helpers.py'  : '/var/local/hydratk/yoda/helpers/yodahelpers/testenv',
-          'var/local/hydratk/yoda/yoda-tests/testenv/db.jedi'              : '/var/local/hydratk/yoda/yoda-tests/testenv',
-          'var/local/hydratk/yoda/yoda-tests/testenv/rest.jedi'            : '/var/local/hydratk/yoda/yoda-tests/testenv',
-          'var/local/hydratk/yoda/yoda-tests/testenv/soap.jedi'            : '/var/local/hydratk/yoda/yoda-tests/testenv' 
+          'etc/hydratk/conf.d/hydratk-ext-testenv.conf'              : '/etc/hydratk/conf.d',
+          'var/local/hydratk/testenv/install_db.sql'                 : '/var/local/hydratk/testenv',
+          'var/local/hydratk/testenv/crm.wsdl'                       : '/var/local/hydratk/testenv',
+          'var/local/hydratk/testenv/crm.xsd'                        : '/var/local/hydratk/testenv',
+          'tests/yodalib/hydratk/extensions/testenv/__init__.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+          'tests/yodalib/hydratk/extensions/testenv/db_int.py'       : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+          'tests/yodalib/hydratk/extensions/testenv/rest_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+          'tests/yodalib/hydratk/extensions/testenv/soap_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+          'tests/yodahelpers/hydratk/extensions/testenv/__init__.py' : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
+          'tests/yodahelpers/hydratk/extensions/testenv/helpers.py'  : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
+          'tests/yoda-tests/hydratk/extensions/testenv/db.jedi'      : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
+          'tests/yoda-tests/hydratk/extensions/testenv/rest.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
+          'tests/yoda-tests/hydratk/extensions/testenv/soap.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv' 
         }  
 
 entry_points = {
