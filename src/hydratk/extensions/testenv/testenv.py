@@ -141,7 +141,7 @@ class Extension(extension.Extension):
             else:
                 self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_unknown_install'), self._mh.fromhere())
                     
-        except Error, ex:
+        except Error as ex:
             self._mh.dmsg('htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
        
     def start_fc(self):

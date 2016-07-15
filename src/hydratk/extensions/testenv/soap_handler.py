@@ -108,7 +108,7 @@ class SoapHandler():
         
         try:
             
-            action = headers['HTTP_SOAPACTION'] if headers.has_key('HTTP_SOAPACTION') else None
+            action = headers['HTTP_SOAPACTION'] if 'HTTP_SOAPACTION' in headers else None
             doc = objectify.fromstring(data)
             el_action = self._ns1+action
             
@@ -161,7 +161,7 @@ class SoapHandler():
             else:
                 return self._fault('Invalid SOAPAction {0}'.format(action))
             
-        except XMLSyntaxError, ex:
+        except XMLSyntaxError as ex:
             self._mh.dmsg('htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere())
             return self._fault('Invalid XML - ' + ex)
         

@@ -368,7 +368,7 @@ class REST_INT():
             
             doc = read(content)
             roles = []
-            if (doc.has_key('roles')):                    
+            if ('roles' in doc):                    
                 for role in doc['roles']['role']:
                     roles.append(ContactRole(role['id'], role['title'], role['customer'],
                                              role['payer'], role['subscriber']))
@@ -534,7 +534,7 @@ class REST_INT():
             doc = read(content)
                 
             roles = []
-            if (doc.has_key('roles')):
+            if ('roles' in doc):
                 for role in doc['roles']['role']:
                     roles.append(AddressRole(role['id'], role['title'], role['contact'],
                                              role['customer'], role['payer'], role['subscriber']))

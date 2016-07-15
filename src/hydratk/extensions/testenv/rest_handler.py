@@ -76,7 +76,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_customer', data), 
                       self._mh.fromhere())
         
-        if (data.has_key('id')):
+        if ('id' in data):
         
             db = self._get_db()            
             customer = db.read_customer(data.id)
@@ -119,12 +119,12 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        name = doc['name'] if doc.has_key('name') else None
-        status = doc['status'] if doc.has_key('status') else 'active'
-        segment = doc['segment'] if doc.has_key('segment') else None
-        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None
-        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None
-        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None
+        name = doc['name'] if 'name' in doc else None
+        status = doc['status'] if 'status' in doc else 'active'
+        segment = doc['segment'] if 'segment' in doc else None
+        birth_no = doc['birth_no'] if 'birth_no' in doc else None
+        reg_no = doc['reg_no'] if 'reg_no' in doc else None
+        tax_no = doc['tax_no'] if 'tax_no' in doc else None
         
         db = self._get_db()
         id = db.create_customer(name, segment, status, birth_no, reg_no, tax_no)
@@ -165,13 +165,13 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        name = doc['name'] if doc.has_key('name') else None
-        status = doc['status'] if doc.has_key('status') else None
-        segment = doc['segment'] if doc.has_key('segment') else None
-        birth_no = doc['birth_no'] if doc.has_key('birth_no') else None
-        reg_no = doc['reg_no'] if doc.has_key('reg_no') else None
-        tax_no = doc['tax_no'] if doc.has_key('tax_no') else None
+        id = doc['id'] if 'id' in doc else None
+        name = doc['name'] if 'name' in doc else None
+        status = doc['status'] if 'status' in doc else None
+        segment = doc['segment'] if 'segment' in doc else None
+        birth_no = doc['birth_no'] if 'birth_no' in doc else None
+        reg_no = doc['reg_no'] if 'reg_no' in doc else None
+        tax_no = doc['tax_no'] if 'tax_no' in doc else None
         
         db = self._get_db()
         res = db.change_customer(id, name, status, segment, birth_no, reg_no, tax_no)
@@ -211,7 +211,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_payer', data), 
                       self._mh.fromhere())        
         
-        if (data.has_key('id')):
+        if ('id' in data):
         
             db = self._get_db()            
             payer = db.read_payer(data.id)
@@ -253,11 +253,11 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        name = doc['name'] if doc.has_key('name') else None
-        status = doc['status'] if doc.has_key('status') else 'active'
-        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None
-        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
+        name = doc['name'] if 'name' in doc else None
+        status = doc['status'] if 'status' in doc else 'active'
+        billcycle = doc['billcycle'] if 'billcycle' in doc else None
+        bank_account = doc['bank_account'] if 'bank_account' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
         
         db = self._get_db()
         id = db.create_payer(name, billcycle, customer, status, bank_account)
@@ -297,12 +297,12 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        name = doc['name'] if doc.has_key('name') else None
-        status = doc['status'] if doc.has_key('status') else None
-        billcycle = doc['billcycle'] if doc.has_key('billcycle') else None
-        bank_account = doc['bank_account'] if doc.has_key('bank_account') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
+        id = doc['id'] if 'id' in doc else None
+        name = doc['name'] if 'name' in doc else None
+        status = doc['status'] if 'status' in doc else None
+        billcycle = doc['billcycle'] if 'billcycle' in doc else None
+        bank_account = doc['bank_account'] if 'bank_account' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
         
         db = self._get_db()
         res = db.change_payer(id, name, status, billcycle, bank_account, customer)
@@ -344,7 +344,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_subscriber', data), 
                       self._mh.fromhere())        
         
-        if (data.has_key('id')):
+        if ('id' in data):
         
             db = self._get_db()            
             subscriber = db.read_subscriber(data.id)
@@ -388,13 +388,13 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        name = doc['name'] if doc.has_key('name') else None
-        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
-        status = doc['status'] if doc.has_key('status') else 'active'
-        market = doc['market'] if doc.has_key('market') else None
-        tariff = doc['tariff'] if doc.has_key('tariff') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
+        name = doc['name'] if 'name' in doc else None
+        msisdn = doc['msisdn'] if 'msisdn' in doc else None
+        status = doc['status'] if 'status' in doc else 'active'
+        market = doc['market'] if 'market' in doc else None
+        tariff = doc['tariff'] if 'tariff' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
         
         db = self._get_db()
         id = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status)
@@ -436,14 +436,14 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        name = doc['name'] if doc.has_key('name') else None
-        msisdn = doc['msisdn'] if doc.has_key('msisdn') else None
-        status = doc['status'] if doc.has_key('status') else None
-        market = doc['market'] if doc.has_key('market') else None
-        tariff = doc['tariff'] if doc.has_key('tariff') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
+        id = doc['id'] if 'id' in doc else None
+        name = doc['name'] if 'name' in doc else None
+        msisdn = doc['msisdn'] if 'msisdn' in doc else None
+        status = doc['status'] if 'status' in doc else None
+        market = doc['market'] if 'market' in doc else None
+        tariff = doc['tariff'] if 'tariff' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
         
         db = self._get_db()
         res = db.change_subscriber(id, name, msisdn, status, market, tariff, customer, payer)
@@ -491,7 +491,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_contact', data), 
                       self._mh.fromhere())        
         
-        if (data.has_key('id')):
+        if ('id' in data):
         
             db = self._get_db()            
             contact = db.read_contact(data.id)
@@ -531,9 +531,9 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        name = doc['name'] if doc.has_key('name') else None
-        phone = doc['phone'] if doc.has_key('phone') else None
-        email = doc['email'] if doc.has_key('email') else None
+        name = doc['name'] if 'name' in doc else None
+        phone = doc['phone'] if 'phone' in doc else None
+        email = doc['email'] if 'email' in doc else None
         
         db = self._get_db()
         id = db.create_contact(name, phone, email)
@@ -571,10 +571,10 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        name = doc['name'] if doc.has_key('name') else None
-        phone = doc['phone'] if doc.has_key('phone') else None
-        email = doc['email'] if doc.has_key('email') else None
+        id = doc['id'] if 'id' in doc else None
+        name = doc['name'] if 'name' in doc else None
+        phone = doc['phone'] if 'phone' in doc else None
+        email = doc['email'] if 'email' in doc else None
         
         db = self._get_db()
         res = db.change_contact(id, name, phone, email)
@@ -613,11 +613,11 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        role = doc['title'] if doc.has_key('title') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        id = doc['id'] if 'id' in doc else None
+        role = doc['title'] if 'title' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
         
         db = self._get_db()
         res = db.assign_contact_role(id, role, customer, payer, subscriber)
@@ -656,11 +656,11 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        role = doc['title'] if doc.has_key('title') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        id = doc['id'] if 'id' in doc else None
+        role = doc['title'] if 'title' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
         
         db = self._get_db()
         res = db.revoke_contact_role(id, role, customer, payer, subscriber)
@@ -710,7 +710,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_address', data), 
                       self._mh.fromhere())        
         
-        if (data.has_key('id')):
+        if ('id' in data):
         
             db = self._get_db()            
             address = db.read_address(data.id)
@@ -751,10 +751,10 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        street = doc['street'] if doc.has_key('street') else None
-        street_no = doc['street_no'] if doc.has_key('street_no') else None
-        city = doc['city'] if doc.has_key('city') else None
-        zip = doc['zip'] if doc.has_key('zip') else None
+        street = doc['street'] if 'street' in doc else None
+        street_no = doc['street_no'] if 'street_no' in doc else None
+        city = doc['city'] if 'city' in doc else None
+        zip = doc['zip'] if 'zip' in doc else None
         
         db = self._get_db()
         id = db.create_address(street, street_no, city, zip)
@@ -793,11 +793,11 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        street = doc['street'] if doc.has_key('street') else None
-        street_no = doc['street_no'] if doc.has_key('street_no') else None
-        city = doc['city'] if doc.has_key('city') else None
-        zip = doc['zip'] if doc.has_key('zip') else None
+        id = doc['id'] if 'id' in doc else None
+        street = doc['street'] if 'street' in doc else None
+        street_no = doc['street_no'] if 'street_no' in doc else None
+        city = doc['city'] if 'city' in doc else None
+        zip = doc['zip'] if 'zip' in doc else None
         
         db = self._get_db()
         res = db.change_address(id, street, street_no, city, zip)
@@ -837,12 +837,12 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        role = doc['title'] if doc.has_key('title') else None
-        contact = doc['contact'] if doc.has_key('contact') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        id = doc['id'] if 'id' in doc else None
+        role = doc['title'] if 'title' in doc else None
+        contact = doc['contact'] if 'contact' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
         
         db = self._get_db()
         res = db.assign_address_role(id, role, contact, customer, payer, subscriber)
@@ -882,12 +882,12 @@ class RestHandler:
                       self._mh.fromhere())        
         
         doc = read(data)
-        id = doc['id'] if doc.has_key('id') else None
-        role = doc['title'] if doc.has_key('title') else None
-        contact = doc['contact'] if doc.has_key('contact') else None
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
+        id = doc['id'] if 'id' in doc else None
+        role = doc['title'] if 'title' in doc else None
+        contact = doc['contact'] if 'contact' in doc else None
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
         
         db = self._get_db()
         res = db.revoke_address_role(id, role, contact, customer, payer, subscriber)
@@ -942,10 +942,10 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_services', data), 
                       self._mh.fromhere())               
         
-        customer = data['customer'] if data.has_key('customer') else None
-        payer = data['payer'] if data.has_key('payer') else None
-        subscriber = data['subscriber'] if data.has_key('subscriber') else None
-        service = data['service'] if data.has_key('service') else None
+        customer = data['customer'] if 'customer' in data else None
+        payer = data['payer'] if 'payer' in data else None
+        subscriber = data['subscriber'] if 'subscriber' in data else None
+        service = data['service'] if 'service' in data else None
         
         if (customer == None and payer == None and subscriber == None):
             return BadRequest()
@@ -1014,11 +1014,11 @@ class RestHandler:
                       self._mh.fromhere())                  
         
         doc = read(data)
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
-        service = doc['service'] if doc.has_key('service') else None
-        status = doc['status'] if doc.has_key('status') else 'active' 
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
+        service = doc['service'] if 'service' in doc else None
+        status = doc['status'] if 'status' in doc else 'active' 
         
         params = {}
         for param in doc['params']['entry']:
@@ -1071,11 +1071,11 @@ class RestHandler:
                       self._mh.fromhere())                
         
         doc = read(data)
-        customer = doc['customer'] if doc.has_key('customer') else None
-        payer = doc['payer'] if doc.has_key('payer') else None
-        subscriber = doc['subscriber'] if doc.has_key('subscriber') else None
-        service = doc['service'] if doc.has_key('service') else None
-        status = doc['status'] if doc.has_key('status') else None 
+        customer = doc['customer'] if 'customer' in doc else None
+        payer = doc['payer'] if 'payer' in doc else None
+        subscriber = doc['subscriber'] if 'subscriber' in doc else None
+        service = doc['service'] if 'service' in doc else None
+        status = doc['status'] if 'status' in doc else None 
         
         params = {}
         for param in doc['params']['entry']:
