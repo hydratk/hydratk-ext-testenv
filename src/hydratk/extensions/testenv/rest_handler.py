@@ -11,7 +11,7 @@
 from hydratk.core.masterhead import MasterHead
 from hydratk.extensions.testenv.db_handler import DbHandler
 from web import OK, NotFound, BadRequest
-from jsonlib2 import read, write
+from simplejson import loads, dumps
 
 class RestHandler:
     """Class RestHandler
@@ -118,7 +118,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_customer', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         name = doc['name'] if 'name' in doc else None
         status = doc['status'] if 'status' in doc else 'active'
         segment = doc['segment'] if 'segment' in doc else None
@@ -164,7 +164,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_customer', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         name = doc['name'] if 'name' in doc else None
         status = doc['status'] if 'status' in doc else None
@@ -252,7 +252,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_payer', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         name = doc['name'] if 'name' in doc else None
         status = doc['status'] if 'status' in doc else 'active'
         billcycle = doc['billcycle'] if 'billcycle' in doc else None
@@ -296,7 +296,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_payer', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         name = doc['name'] if 'name' in doc else None
         status = doc['status'] if 'status' in doc else None
@@ -387,7 +387,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_subscriber', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         name = doc['name'] if 'name' in doc else None
         msisdn = doc['msisdn'] if 'msisdn' in doc else None
         status = doc['status'] if 'status' in doc else 'active'
@@ -435,7 +435,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_subscriber', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         name = doc['name'] if 'name' in doc else None
         msisdn = doc['msisdn'] if 'msisdn' in doc else None
@@ -530,7 +530,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_contact', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         name = doc['name'] if 'name' in doc else None
         phone = doc['phone'] if 'phone' in doc else None
         email = doc['email'] if 'email' in doc else None
@@ -570,7 +570,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_contact', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         name = doc['name'] if 'name' in doc else None
         phone = doc['phone'] if 'phone' in doc else None
@@ -612,7 +612,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_contact_role', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         role = doc['title'] if 'title' in doc else None
         customer = doc['customer'] if 'customer' in doc else None
@@ -655,7 +655,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_contat_role', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         role = doc['title'] if 'title' in doc else None
         customer = doc['customer'] if 'customer' in doc else None
@@ -750,7 +750,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_address', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         street = doc['street'] if 'street' in doc else None
         street_no = doc['street_no'] if 'street_no' in doc else None
         city = doc['city'] if 'city' in doc else None
@@ -792,7 +792,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_address', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         street = doc['street'] if 'street' in doc else None
         street_no = doc['street_no'] if 'street_no' in doc else None
@@ -836,7 +836,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_address_role', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         role = doc['title'] if 'title' in doc else None
         contact = doc['contact'] if 'contact' in doc else None
@@ -881,7 +881,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_address_role', data), 
                       self._mh.fromhere())        
         
-        doc = read(data)
+        doc = loads(data)
         id = doc['id'] if 'id' in doc else None
         role = doc['title'] if 'title' in doc else None
         contact = doc['contact'] if 'contact' in doc else None
@@ -971,7 +971,7 @@ class RestHandler:
             
             root['services'] = {'service': services}
             
-            return write(root)
+            return dumps(root)
             
         else:
             return NotFound    
@@ -1013,7 +1013,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_service', data), 
                       self._mh.fromhere())                  
         
-        doc = read(data)
+        doc = loads(data)
         customer = doc['customer'] if 'customer' in doc else None
         payer = doc['payer'] if 'payer' in doc else None
         subscriber = doc['subscriber'] if 'subscriber' in doc else None
@@ -1070,7 +1070,7 @@ class RestHandler:
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_service', data), 
                       self._mh.fromhere())                
         
-        doc = read(data)
+        doc = loads(data)
         customer = doc['customer'] if 'customer' in doc else None
         payer = doc['payer'] if 'payer' in doc else None
         subscriber = doc['subscriber'] if 'subscriber' in doc else None

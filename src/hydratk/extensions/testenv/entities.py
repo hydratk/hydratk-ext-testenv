@@ -9,7 +9,7 @@
 """
 
 from lxml.etree import Element, SubElement
-from jsonlib2 import write
+from simplejson import dumps
 
 class Customer:   
     """Class Customer
@@ -83,7 +83,7 @@ class Customer:
         if (self.tax_no != None):
             root['tax_no'] = self.tax_no
 
-        return write(root)           
+        return dumps(root)           
     
 class Payer:  
     """Class Payer
@@ -149,7 +149,7 @@ class Payer:
             root['bank_account'] = self.bank_account
         root['customer'] = self.customer
 
-        return write(root)            
+        return dumps(root)            
             
 class Subscriber: 
     """Class Subscriber
@@ -221,7 +221,7 @@ class Subscriber:
         root['customer'] = self.customer
         root['payer'] = self.payer
 
-        return write(root)    
+        return dumps(root)    
             
 class Contact:    
     """Class Contact
@@ -305,7 +305,7 @@ class Contact:
   
             root['roles'] = {'role' : el_roles}              
 
-        return write(root)      
+        return dumps(root)      
         
 class ContactRole:  
     """Class ContactRole
@@ -371,7 +371,7 @@ class ContactRole:
         if (self.subscriber != None):
             root['subscriber'] = self.subscriber
 
-        return write(root)               
+        return dumps(root)               
         
 class Address:      
     """Class Address
@@ -456,7 +456,7 @@ class Address:
   
             root['roles'] = {'role' : el_roles}                   
 
-        return write(root)     
+        return dumps(root)     
             
 class AddressRole: 
     """Class AddressRole
@@ -528,7 +528,7 @@ class AddressRole:
         if (self.subscriber != None):
             root['subscriber'] = self.subscriber
 
-        return write(root)         
+        return dumps(root)         
     
 class Service:   
     """Class Service
@@ -603,7 +603,7 @@ class Service:
   
         root['params'] = {'entry' : el_params} 
         
-        return write(root)        
+        return dumps(root)        
     
 class ServiceOperation: 
     """Class ServiceOperation
@@ -697,4 +697,4 @@ class ServiceOperation:
   
         root['params'] = {'entry' : el_params} 
         
-        return write(root)                                          
+        return dumps(root)                                          

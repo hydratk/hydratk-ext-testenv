@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from sys import argv
-from os import path
+from sys import argv, version_info
+from os import path, system
 from subprocess import call
 
 with open("README.rst", "r") as f:
@@ -27,7 +27,7 @@ classifiers = [
 ]
          
 requires = [
-            'web.py>=0.37',            
+            'web.py>=0.37',           
             'hydratk',
             'hydratk-lib-network',
             'hydratk-ext-yoda'
@@ -54,6 +54,10 @@ entry_points = {
                     'testenv = hydratk.extensions.testenv.bootstrapper:run_app'                               
                 ]
                }                      
+              
+if (version_info[0] == 3):
+    del requires[0]
+    system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
                 
 setup(
       name='hydratk-ext-testenv',

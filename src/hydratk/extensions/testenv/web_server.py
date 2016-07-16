@@ -250,7 +250,7 @@ class SoapService():
         
     def GET(self):
         
-        key = input().keys()[0]
+        key = list(input().keys())[0]
         ext_dir = mh.cfg['Extensions']['TestEnv']['ext_dir'] 
         
         if (key == 'wsdl'):

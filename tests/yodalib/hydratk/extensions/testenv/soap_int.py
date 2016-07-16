@@ -51,7 +51,8 @@ class SOAP_INT():
                 
         """         
         
-        return isinstance(res, unicode)        
+        allowed = ['int', 'bool', 'customer', 'payer', 'subscriber', 'contact', 'address', 'services']
+        return (res.__class__.__name__ not in allowed)        
     
     def read_customer(self, id):
         """Method reads customer

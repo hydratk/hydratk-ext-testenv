@@ -12,7 +12,7 @@ from hydratk.core.masterhead import MasterHead
 from hydratk.lib.network.rest.client import RESTClient
 from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Service, ServiceOperation
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
-from jsonlib2 import read
+from simplejson import loads
 
 class REST_INT():
     """Class REST_INT
@@ -60,7 +60,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
             customer = Customer(doc['id'], doc['name'], doc['status'], doc['segment'], 
                                 doc['birth_no'], doc['reg_no'], doc['tax_no'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'customer', customer),
@@ -162,7 +162,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
             payer = Payer(doc['id'], doc['name'], doc['status'], doc['billcycle'], 
                           doc['customer'], doc['bank_account'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'payer', payer),
@@ -262,7 +262,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
             subscriber = Subscriber(doc['id'], doc['name'], doc['msisdn'], doc['status'], doc['market'], 
                                     doc['tariff'], doc['customer'], doc['payer'])
             self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_entity_found', 'subscriber', subscriber),
@@ -366,7 +366,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
             roles = []
             if ('roles' in doc):                    
                 for role in doc['roles']['role']:
@@ -531,7 +531,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
                 
             roles = []
             if ('roles' in doc):
@@ -714,7 +714,7 @@ class REST_INT():
 
         if (status == 200):
             
-            doc = read(content)
+            doc = loads(content)
              
             services = []
             for service in doc['services']['service']:
