@@ -1,7 +1,7 @@
 <definitions targetNamespace="http://hydratk.org/" name="crm" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://hydratk.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
    <types>
       <xsd:schema>
-         <xsd:import namespace="http://hydratk.org/" schemaLocation="http://0.0.0.0:8888/ws/crm?xsd"/>
+         <xsd:import namespace="http://hydratk.org/" schemaLocation="crm?xsd"/>
       </xsd:schema>
    </types> 
    <message name="SoapFault">

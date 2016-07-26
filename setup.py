@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 from sys import argv, version_info
 from os import path, system
 from subprocess import call
+from pkgutil import find_loader
 
 with open("README.rst", "r") as f:
     readme = f.read()
@@ -57,7 +58,8 @@ entry_points = {
               
 if (version_info[0] == 3):
     del requires[0]
-    system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
+    if (find_loader('web') == None):
+        system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
                 
 setup(
       name='hydratk-ext-testenv',
