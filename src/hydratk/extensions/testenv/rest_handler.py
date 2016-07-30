@@ -13,7 +13,7 @@ from hydratk.extensions.testenv.db_handler import DbHandler
 from web import OK, NotFound, BadRequest
 from simplejson import loads, dumps
 
-class RestHandler:
+class RestHandler(object):
     """Class RestHandler
     """
     

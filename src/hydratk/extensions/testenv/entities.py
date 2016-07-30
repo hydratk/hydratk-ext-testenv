@@ -11,7 +11,7 @@
 from lxml.etree import Element, SubElement
 from simplejson import dumps
 
-class Customer:   
+class Customer(object):   
     """Class Customer
     """
     
@@ -85,7 +85,7 @@ class Customer:
 
         return dumps(root)           
     
-class Payer:  
+class Payer(object):  
     """Class Payer
     """   
     
@@ -151,7 +151,7 @@ class Payer:
 
         return dumps(root)            
             
-class Subscriber: 
+class Subscriber(object): 
     """Class Subscriber
     """     
     
@@ -223,7 +223,7 @@ class Subscriber:
 
         return dumps(root)    
             
-class Contact:    
+class Contact(object):    
     """Class Contact
     """ 
     
@@ -307,7 +307,7 @@ class Contact:
 
         return dumps(root)      
         
-class ContactRole:  
+class ContactRole(object):  
     """Class ContactRole
     """    
     
@@ -373,7 +373,7 @@ class ContactRole:
 
         return dumps(root)               
         
-class Address:      
+class Address(object):      
     """Class Address
     """ 
     
@@ -458,7 +458,7 @@ class Address:
 
         return dumps(root)     
             
-class AddressRole: 
+class AddressRole(object): 
     """Class AddressRole
     """
     
@@ -530,7 +530,7 @@ class AddressRole:
 
         return dumps(root)         
     
-class Service:   
+class Service(object):   
     """Class Service
     """   
     
@@ -605,7 +605,7 @@ class Service:
         
         return dumps(root)        
     
-class ServiceOperation: 
+class ServiceOperation(object): 
     """Class ServiceOperation
     """    
     

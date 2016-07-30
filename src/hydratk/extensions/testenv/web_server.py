@@ -29,7 +29,7 @@ urls = (
         
 mh = None
 
-class Server:   
+class Server(object):   
     """Class Server
     """ 
         
@@ -64,13 +64,13 @@ class Server:
         self._server = application(urls, globals())
         httpserver.runsimple(self._server.wsgifunc(), (str(ip), port))    
         
-class Index:
+class Index(object):
     
     def GET(self):
         
         return 'Hello, World'
     
-class Customer():
+class Customer(object):
     """Handles requests on /rs/customer                           
     """     
     
@@ -92,7 +92,7 @@ class Customer():
         
         return self._rest.change_customer(data())
     
-class Payer():
+class Payer(object):
     """Handles requests on /rs/payer                           
     """       
     
@@ -114,7 +114,7 @@ class Payer():
         
         return self._rest.change_payer(data())    
     
-class Subscriber():
+class Subscriber(object):
     """Handles requests on /rs/subscriber                           
     """       
     
@@ -136,7 +136,7 @@ class Subscriber():
         
         return self._rest.change_subscriber(data())  
     
-class Contact():
+class Contact(object):
     """Handles requests on /rs/contact                           
     """       
     
@@ -158,7 +158,7 @@ class Contact():
         
         return self._rest.change_contact(data())  
     
-class ContactRole():
+class ContactRole(object):
     """Handles requests on /rs/contact/role                           
     """       
     
@@ -176,7 +176,7 @@ class ContactRole():
         
         return self._rest.revoke_contact_role(data())       
     
-class Address():
+class Address(object):
     """Handles requests on /rs/address                           
     """       
     
@@ -198,7 +198,7 @@ class Address():
         
         return self._rest.change_address(data()) 
     
-class AddressRole():
+class AddressRole(object):
     """Handles requests on /rs/address/role                           
     """       
     
@@ -216,7 +216,7 @@ class AddressRole():
         
         return self._rest.revoke_address_role(data())  
     
-class Service():
+class Service(object):
     """Handles requests on /rs/service                           
     """       
     
@@ -238,7 +238,7 @@ class Service():
         
         return self._rest.change_service(data())           
     
-class SoapService():
+class SoapService(object):
     """Handles requests on /ws/crm                           
     """      
     

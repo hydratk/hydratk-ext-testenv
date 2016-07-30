@@ -12,7 +12,7 @@ from hydratk.extensions.testenv.db_handler import DbHandler
 from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Service
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 
-class DB_INT():
+class DB_INT(object):
     
     _db = None
     

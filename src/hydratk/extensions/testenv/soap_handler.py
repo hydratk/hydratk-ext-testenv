@@ -13,7 +13,7 @@ from hydratk.extensions.testenv.db_handler import DbHandler
 from lxml.etree import Element, SubElement, tostring, XMLSyntaxError
 from lxml import objectify
 
-class SoapHandler():
+class SoapHandler(object):
     """Class SoapHandler
     """
 

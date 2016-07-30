@@ -14,7 +14,7 @@ from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Ser
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 from simplejson import loads
 
-class REST_INT():
+class REST_INT(object):
     """Class REST_INT
     """
     

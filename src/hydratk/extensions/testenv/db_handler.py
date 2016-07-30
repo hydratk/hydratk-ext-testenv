@@ -14,7 +14,7 @@ from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Ser
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 from os import path
 
-class DbHandler():
+class DbHandler(object):
     """Class DbHandler
     """
     

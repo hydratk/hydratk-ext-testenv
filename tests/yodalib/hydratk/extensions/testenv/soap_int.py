@@ -14,7 +14,7 @@ from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Ser
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
 from lxml.etree import Element, SubElement, tostring
 
-class SOAP_INT():
+class SOAP_INT(object):
     """Class SOAP_INT
     """
     

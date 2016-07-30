@@ -9,7 +9,7 @@ with open("README.rst", "r") as f:
     readme = f.read()
     
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Environment :: Other Environment",
     "Intended Audience :: Developers",
@@ -17,16 +17,17 @@ classifiers = [
     "Operating System :: OS Independent",   
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",    
+    "Programming Language :: Python :: 2.6",
     "Programming Language :: Python :: 2.7",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: Implementation",
-    "Programming Language :: Python :: Implementation :: CPython",    
-    "Programming Language :: Python :: Implementation :: PyPy",    
+    "Programming Language :: Python :: Implementation :: CPython", 
     "Topic :: Software Development :: Libraries :: Application Frameworks",
     "Topic :: Utilities"
 ]
-         
+      
 requires = [
             'web.py>=0.37',           
             'hydratk',
@@ -39,10 +40,14 @@ files = {
           'var/local/hydratk/testenv/install_db.sql'                 : '/var/local/hydratk/testenv',
           'var/local/hydratk/testenv/crm.wsdl'                       : '/var/local/hydratk/testenv',
           'var/local/hydratk/testenv/crm.xsd'                        : '/var/local/hydratk/testenv',
+          'tests/yodalib/hydratk/__init__.py'                        : '/var/local/hydratk/yoda/lib/yodalib/hydratk',
+          'tests/yodalib/hydratk/extensions/__init__.py'             : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions',
           'tests/yodalib/hydratk/extensions/testenv/__init__.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
           'tests/yodalib/hydratk/extensions/testenv/db_int.py'       : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
           'tests/yodalib/hydratk/extensions/testenv/rest_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
           'tests/yodalib/hydratk/extensions/testenv/soap_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+          'tests/yodahelpers/hydratk/__init__.py'                    : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk',
+          'tests/yodahelpers/hydratk/extensions/__init__.py'         : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions',
           'tests/yodahelpers/hydratk/extensions/testenv/__init__.py' : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
           'tests/yodahelpers/hydratk/extensions/testenv/helpers.py'  : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
           'tests/yoda-tests/hydratk/extensions/testenv/db.jedi'      : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
@@ -58,7 +63,7 @@ entry_points = {
               
 if (version_info[0] == 3):
     del requires[0]
-    if (find_loader('web') == None):
+    if (find_loader('web') == None and ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv)):
         system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
                 
 setup(
