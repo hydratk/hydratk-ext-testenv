@@ -28,8 +28,7 @@ classifiers = [
     "Topic :: Utilities"
 ]
       
-requires = [
-            'web.py>=0.37',           
+requires = [         
             'hydratk',
             'hydratk-lib-network',
             'hydratk-ext-yoda'
@@ -60,10 +59,11 @@ entry_points = {
                     'testenv = hydratk.extensions.testenv.bootstrapper:run_app'                               
                 ]
                }                      
-              
-if (version_info[0] == 3):
-    del requires[0]
-    if (find_loader('web') == None and ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv)):
+   
+if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):   
+    if (version_info[0] == 2):    
+        system('pip install web.py>=0.37')          
+    elif (version_info[0] == 3 and find_loader('web') == None):
         system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
                 
 setup(
