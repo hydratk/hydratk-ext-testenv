@@ -68,7 +68,7 @@ if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
                 
 setup(
       name='hydratk-ext-testenv',
-      version='0.2.0',
+      version='0.2.1a.dev1',
       description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek',
@@ -93,3 +93,4 @@ if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
         
     call('chmod -R a+r /etc/hydratk', shell=True)
     call('chmod -R a+rwx /var/local/hydratk', shell=True)
+    call('gzip -c doc/testenv.1 > /usr/local/share/man/man1/testenv.1', shell=True)
