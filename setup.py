@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from sys import argv, version_info
-from os import path, system
+from sys import argv, version_info, exit
+from os import path
 from subprocess import call
 from pkgutil import find_loader
 
@@ -24,6 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: Implementation",
     "Programming Language :: Python :: Implementation :: CPython", 
+    "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
     "Topic :: Utilities"
 ]
@@ -60,11 +61,18 @@ entry_points = {
                 ]
                }                      
    
-if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):   
-    if (version_info[0] == 2):    
-        system('pip install web.py>=0.37')          
+if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
+    module = None   
+    if (version_info[0] == 2):  
+        module = 'web.py>=0.37'
     elif (version_info[0] == 3 and find_loader('web') == None):
-        system('pip install git+https://github.com/webpy/webpy.git@py3#egg=webpy')              
+        module = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'
+        
+    if (module != None):
+        print('Installing module {0}'.format(module))
+        if (call('pip install {0}'.format(module), shell=True) != 0):
+            print('Failed to install {0}, hydratk-ext-yoda installation failed.'.format(module))
+            exit(-1)                      
                 
 setup(
       name='hydratk-ext-testenv',
