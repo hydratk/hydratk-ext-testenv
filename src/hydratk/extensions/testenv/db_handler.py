@@ -49,7 +49,6 @@ class DbHandler(object):
         """        
         
         result = self._client.connect(self._db_file)
-        self._client.exec_query('PRAGMA foreign_keys = ON')
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_connected'), self._mh.fromhere())
         return result       
 
@@ -1248,4 +1247,4 @@ class DbHandler(object):
                       self._mh.fromhere())      
             
         return True
-                 
+    
