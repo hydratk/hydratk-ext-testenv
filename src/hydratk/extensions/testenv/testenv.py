@@ -31,7 +31,7 @@ class Extension(extension.Extension):
         self._ext_id   = 'testenv'
         self._ext_name = 'TestEnv'
         self._ext_version = '0.2.1'
-        self._ext_author = 'Petr Rašek <bowman@hydratk.org>'
+        self._ext_author = 'Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>'
         self._ext_year = '2015-2016'  
         
     def _register_actions(self):
