@@ -8,7 +8,7 @@
 
 """
 
-from hydratk.core import extension
+from hydratk.core import extension, bootstrapper
 from hydratk.extensions.testenv.web_server import Server
 from os import path, remove
 from sqlite3 import Error, connect
@@ -32,7 +32,42 @@ class Extension(extension.Extension):
         self._ext_name = 'TestEnv'
         self._ext_version = '0.2.1'
         self._ext_author = 'Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>'
-        self._ext_year = '2015-2016'  
+        self._ext_year = '2015-2016'
+        
+        if (not self._check_dependencies()):
+            exit(0)    
+            
+    def _check_dependencies(self):
+        """Method checks dependent modules
+        
+        Args:            
+           none
+           
+        Returns:
+           bool    
+                
+        """         
+        
+        dep_modules = {
+          'hydratk'                 : {
+                                       'min-version' : '0.4.0', 
+                                       'package'     : 'hydratk'
+                                      },
+          'hydratk.lib.network'     : {
+                                       'min-version' : '0.2.0',
+                                       'package'     : 'hydratk-lib-network'
+                                      },
+          'hydratk.extensions.yoda' : {
+                                       'min-version' : '0.2.2',
+                                       'package'     : 'hydratk-ext-yoda'
+                                      },
+          'web'                     : {
+                                       'min-version' : '0.37',
+                                       'package'     : 'web.py'
+                                      }
+        }  
+        
+        return bootstrapper._check_dependencies(dep_modules, 'hydratk-ext-testenv')                        
         
     def _register_actions(self):
         """Method registers command hooks

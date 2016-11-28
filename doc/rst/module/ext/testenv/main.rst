@@ -24,6 +24,10 @@ Unit tests available at hydratk/extensions/testenv/testenv/01_methods_ut.jedi
 
 Method sets extension metadata (id, name, version, author, year). 
 
+* _check_dependencies
+
+Method checks if all required modules are installed.
+
 * _register_actions
 
 Methods registers actions hooks according to profile htk (default mode) or testenv (standalone mode)

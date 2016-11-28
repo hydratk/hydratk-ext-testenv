@@ -76,7 +76,7 @@ if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
                 
 setup(
       name='hydratk-ext-testenv',
-      version='0.2.1',
+      version='0.2.2a.dev1',
       description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek, HydraTK team',
@@ -88,7 +88,10 @@ setup(
       package_dir={'' : 'src'},
       classifiers=classifiers,
       zip_safe=False, 
-      entry_points=entry_points   
+      entry_points=entry_points,
+      keywords='hydratk,testing,test environment,web server,database',
+      requires_python='>=2.6,!=3.0.*,!=3.1.*,!=3.2.*',
+      platforms='Linux'   
      )
 
 if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
