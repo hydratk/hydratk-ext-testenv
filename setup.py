@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from sys import argv, version_info, exit
-from os import path
-from subprocess import call
-from pkgutil import find_loader
+from sys import argv, version_info
+import hydratk.lib.install.command as cmd
+import hydratk.lib.install.task as task
 
 with open("README.rst", "r") as f:
     readme = f.read()
@@ -28,55 +27,72 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Application Frameworks",
     "Topic :: Utilities"
 ]
-      
-requires = [         
-            'hydratk',
-            'hydratk-lib-network',
-            'hydratk-ext-yoda'
-           ]  
-           
-files = {
-          'etc/hydratk/conf.d/hydratk-ext-testenv.conf'              : '/etc/hydratk/conf.d',
-          'var/local/hydratk/testenv/install_db.sql'                 : '/var/local/hydratk/testenv',
-          'var/local/hydratk/testenv/crm.wsdl'                       : '/var/local/hydratk/testenv',
-          'var/local/hydratk/testenv/crm.xsd'                        : '/var/local/hydratk/testenv',
-          'tests/yodalib/hydratk/__init__.py'                        : '/var/local/hydratk/yoda/lib/yodalib/hydratk',
-          'tests/yodalib/hydratk/extensions/__init__.py'             : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions',
-          'tests/yodalib/hydratk/extensions/testenv/__init__.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
-          'tests/yodalib/hydratk/extensions/testenv/db_int.py'       : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
-          'tests/yodalib/hydratk/extensions/testenv/rest_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
-          'tests/yodalib/hydratk/extensions/testenv/soap_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
-          'tests/yodahelpers/hydratk/__init__.py'                    : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk',
-          'tests/yodahelpers/hydratk/extensions/__init__.py'         : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions',
-          'tests/yodahelpers/hydratk/extensions/testenv/__init__.py' : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
-          'tests/yodahelpers/hydratk/extensions/testenv/helpers.py'  : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
-          'tests/yoda-tests/hydratk/extensions/testenv/db.jedi'      : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
-          'tests/yoda-tests/hydratk/extensions/testenv/rest.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
-          'tests/yoda-tests/hydratk/extensions/testenv/soap.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv' 
-        }  
+   
+def version_update(cfg):
+       
+    if (version_info[0] == 3):
+        cfg[-1]['modules'] = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'       
+   
+config = {
+  'pre_tasks' : [
+                 version_update,
+                 task.install_modules
+                ],
+
+  'post_tasks' : [
+                  task.set_config,
+                  task.set_access_rights,
+                  task.set_manpage
+                 ],
+          
+  'modules' : [    
+               'hydratk',
+               'hydratk-ext-yoda',
+               'hydratk-lib-network',
+               'web.py>=0.37'                                               
+              ],
+          
+  'files' : {
+             'config'  : {
+                          'etc/hydratk/conf.d/hydratk-ext-testenv.conf' : '/etc/hydratk/conf.d'
+                         },
+             'data'    : {
+                          'var/local/hydratk/testenv/install_db.sql'                 : '/var/local/hydratk/testenv',
+                          'var/local/hydratk/testenv/crm.wsdl'                       : '/var/local/hydratk/testenv',
+                          'var/local/hydratk/testenv/crm.xsd'                        : '/var/local/hydratk/testenv',
+                          'tests/yodalib/hydratk/__init__.py'                        : '/var/local/hydratk/yoda/lib/yodalib/hydratk',
+                          'tests/yodalib/hydratk/extensions/__init__.py'             : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions',
+                          'tests/yodalib/hydratk/extensions/testenv/__init__.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+                          'tests/yodalib/hydratk/extensions/testenv/db_int.py'       : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+                          'tests/yodalib/hydratk/extensions/testenv/rest_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+                          'tests/yodalib/hydratk/extensions/testenv/soap_int.py'     : '/var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv',
+                          'tests/yodahelpers/hydratk/__init__.py'                    : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk',
+                          'tests/yodahelpers/hydratk/extensions/__init__.py'         : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions',
+                          'tests/yodahelpers/hydratk/extensions/testenv/__init__.py' : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
+                          'tests/yodahelpers/hydratk/extensions/testenv/helpers.py'  : '/var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv',
+                          'tests/yoda-tests/hydratk/extensions/testenv/db.jedi'      : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
+                          'tests/yoda-tests/hydratk/extensions/testenv/rest.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv',
+                          'tests/yoda-tests/hydratk/extensions/testenv/soap.jedi'    : '/var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv'                  
+                         },
+             'manpage' : 'doc/testenv.1'         
+            },
+          
+  'rights' : {
+              '/var/local/hydratk' : 'a+rwx'
+             }                                       
+}    
+
+task.run_pre_install(argv, config)
 
 entry_points = {
                 'console_scripts': [
                     'testenv = hydratk.extensions.testenv.bootstrapper:run_app'                               
                 ]
-               }                      
-   
-if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
-    module = None   
-    if (version_info[0] == 2):  
-        module = 'web.py>=0.37'
-    elif (version_info[0] == 3 and find_loader('web') == None):
-        module = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'
-        
-    if (module != None):
-        print('Installing module {0}'.format(module))
-        if (call('pip install {0}'.format(module), shell=True) != 0):
-            print('Failed to install {0}, hydratk-ext-yoda installation failed.'.format(module))
-            exit(-1)                      
+               }                                         
                 
 setup(
       name='hydratk-ext-testenv',
-      version='0.2.2a.dev1',
+      version='0.2.2a.dev2',
       description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek, HydraTK team',
@@ -84,7 +100,6 @@ setup(
       url='http://extensions.hydratk.org/testenv',
       license='BSD',
       packages=find_packages('src'),
-      install_requires=requires,
       package_dir={'' : 'src'},
       classifiers=classifiers,
       zip_safe=False, 
@@ -94,14 +109,4 @@ setup(
       platforms='Linux'   
      )
 
-if ('install' in argv or 'bdist_egg' in argv or 'bdist_wheel' in argv):
-    
-    for file, dir in files.items():    
-        if (not path.exists(dir)):
-            call('mkdir -p {0}'.format(dir), shell=True)
-            
-        call('cp {0} {1}'.format(file, dir), shell=True) 
-        
-    call('chmod -R a+r /etc/hydratk', shell=True)
-    call('chmod -R a+rwx /var/local/hydratk', shell=True)
-    call('gzip -c doc/testenv.1 > /usr/share/man/man1/testenv.1', shell=True)
+task.run_post_install(argv, config)
