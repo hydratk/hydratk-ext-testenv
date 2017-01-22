@@ -181,3 +181,13 @@ You can run TestEnv also in standalone mode.
         -l, --language <language> - sets the text output language, the list of available languages is specified in the docs
         -m, --run-mode <mode> - sets the running mode, the list of available modes is specified in the docs
                          
+Upgrade
+=======
+
+Use same procedure as for installation. Command options --upgrade (pip, easy_install) or --force (setup.py) are not necessary.
+If configuration file differs from default settings the file is backuped (extension _old) and replaced by default. Adapt the configuration if needed.
+
+Uninstall
+=========    
+
+Run command htkuninstall testenv.                           

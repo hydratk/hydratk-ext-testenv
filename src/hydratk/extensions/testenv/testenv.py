@@ -32,7 +32,7 @@ class Extension(extension.Extension):
         self._ext_name = 'TestEnv'
         self._ext_version = '0.2.1'
         self._ext_author = 'Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>'
-        self._ext_year = '2015-2016'
+        self._ext_year = '2015-2017'
         
         if (not self._check_dependencies()):
             exit(0)    
@@ -67,7 +67,29 @@ class Extension(extension.Extension):
                                       }
         }  
         
-        return bootstrapper._check_dependencies(dep_modules, 'hydratk-ext-testenv')                        
+        return bootstrapper._check_dependencies(dep_modules, 'hydratk-ext-testenv')    
+    
+    def _uninstall(self):
+        """Method returns additional uninstall data 
+        
+        Args:            
+           none
+           
+        Returns:
+           list: files to delete    
+                
+        """            
+        
+        files = [
+                 '/usr/share/man/man1/testenv.1',
+                 '/etc/hydratk/conf.d/hydratk-ext-testenv.conf',
+                 '/var/local/hydratk/testenv'
+                ]
+        
+        if (self._mh.cfg['Extensions']['TestEnv']['ext_dir'] != '/var/local/hydratk/testenv'):
+            files.append(self._mh.cfg['Extensions']['TestEnv']['ext_dir'])        
+            
+        return files                        
         
     def _register_actions(self):
         """Method registers command hooks

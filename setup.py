@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 from sys import argv, version_info
-import hydratk.lib.install.command as cmd
 import hydratk.lib.install.task as task
 
 with open("README.rst", "r") as f:
@@ -31,7 +30,7 @@ classifiers = [
 def version_update(cfg):
        
     if (version_info[0] == 3):
-        cfg[-1]['modules'] = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'       
+        cfg['modules'][-1] = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'       
    
 config = {
   'pre_tasks' : [
@@ -41,6 +40,7 @@ config = {
 
   'post_tasks' : [
                   task.set_config,
+                  task.copy_files,
                   task.set_access_rights,
                   task.set_manpage
                  ],

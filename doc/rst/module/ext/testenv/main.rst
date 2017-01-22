@@ -28,6 +28,10 @@ Method sets extension metadata (id, name, version, author, year).
 
 Method checks if all required modules are installed.
 
+* _uninstall
+
+Method returns additional uninstall data.
+
 * _register_actions
 
 Methods registers actions hooks according to profile htk (default mode) or testenv (standalone mode)
