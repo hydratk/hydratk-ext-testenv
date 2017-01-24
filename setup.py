@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.3",
     "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: Implementation",
     "Programming Language :: Python :: Implementation :: CPython", 
     "Programming Language :: Python :: Implementation :: PyPy",
@@ -92,7 +93,7 @@ entry_points = {
                 
 setup(
       name='hydratk-ext-testenv',
-      version='0.2.2a.dev2',
+      version='0.2.2a.dev3',
       description='Test environment for test automation exercises',
       long_description=readme,
       author='Petr Rašek, HydraTK team',
