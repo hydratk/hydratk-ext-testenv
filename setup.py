@@ -28,10 +28,10 @@ classifiers = [
     "Topic :: Utilities"
 ]
    
-def version_update(cfg):
+def version_update(cfg, *args):
        
     if (version_info[0] == 3):
-        cfg['modules'][-1] = 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'       
+        cfg['modules'][-1] = {'module': 'git+https://github.com/webpy/webpy.git@py3#egg=webpy'}       
    
 config = {
   'pre_tasks' : [
@@ -47,10 +47,10 @@ config = {
                  ],
           
   'modules' : [    
-               'hydratk',
-               'hydratk-ext-yoda',
-               'hydratk-lib-network',
-               'web.py>=0.37'                                               
+               {'module': 'hydratk',             'version': '>=0.4.0'},
+               {'module': 'hydratk-ext-yoda',    'version': '>=0.2.2'},
+               {'module': 'hydratk-lib-network', 'version': '>=0.2.0'},
+               {'module': 'web.py',              'version': '>=0.37'}                                               
               ],
           
   'files' : {

@@ -13,6 +13,25 @@ from hydratk.extensions.testenv.web_server import Server
 from os import path, remove
 from sqlite3 import Error, connect
 
+dep_modules = {
+  'hydratk'                 : {
+                               'min-version' : '0.4.0', 
+                               'package'     : 'hydratk'
+                              },
+  'hydratk.lib.network'     : {
+                               'min-version' : '0.2.0',
+                               'package'     : 'hydratk-lib-network'
+                              },
+  'hydratk.extensions.yoda' : {
+                               'min-version' : '0.2.2',
+                               'package'     : 'hydratk-ext-yoda'
+                              },
+  'web'                     : {
+                               'min-version' : '0.37',
+                               'package'     : 'web.py'
+                              }
+}  
+
 class Extension(extension.Extension):
     """Class Extension
     """
@@ -46,26 +65,7 @@ class Extension(extension.Extension):
         Returns:
            bool    
                 
-        """         
-        
-        dep_modules = {
-          'hydratk'                 : {
-                                       'min-version' : '0.4.0', 
-                                       'package'     : 'hydratk'
-                                      },
-          'hydratk.lib.network'     : {
-                                       'min-version' : '0.2.0',
-                                       'package'     : 'hydratk-lib-network'
-                                      },
-          'hydratk.extensions.yoda' : {
-                                       'min-version' : '0.2.2',
-                                       'package'     : 'hydratk-ext-yoda'
-                                      },
-          'web'                     : {
-                                       'min-version' : '0.37',
-                                       'package'     : 'web.py'
-                                      }
-        }  
+        """                 
         
         return bootstrapper._check_dependencies(dep_modules, 'hydratk-ext-testenv')    
     
@@ -76,7 +76,7 @@ class Extension(extension.Extension):
            none
            
         Returns:
-           list: files to delete    
+           tuple: list (files), list (modules)    
                 
         """            
         
@@ -89,7 +89,7 @@ class Extension(extension.Extension):
         if (self._mh.cfg['Extensions']['TestEnv']['ext_dir'] != '/var/local/hydratk/testenv'):
             files.append(self._mh.cfg['Extensions']['TestEnv']['ext_dir'])        
             
-        return files                        
+        return files, dep_modules                        
         
     def _register_actions(self):
         """Method registers command hooks
