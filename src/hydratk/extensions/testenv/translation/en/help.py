@@ -9,21 +9,20 @@
 
 """
 language = {
-  'name' : 'English',
-  'ISO-639-1' : 'en'
-} 
+    'name': 'English',
+    'ISO-639-1': 'en'
+}
 
 ''' TestEnv Commands '''
 help_cmd = {
-    'te-install'  : 'install testing environment database',
-    'te-run'      : 'start testing environment',
-    
-    #standalone with option profile testenv
-    'install'     : 'install testing environment database',
-    'run'         : 'start testing environment'
+    'te-install': 'install testing environment database',
+    'te-run': 'start testing environment',
+
+    # standalone with option profile testenv
+    'install': 'install testing environment database',
+    'run': 'start testing environment'
 }
 
 ''' TestEnv Options '''
-help_opt = { 
+help_opt = {
 }
-
