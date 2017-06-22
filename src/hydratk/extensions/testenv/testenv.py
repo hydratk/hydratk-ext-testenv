@@ -10,6 +10,7 @@
 
 from hydratk.core import extension, bootstrapper
 from hydratk.extensions.testenv.web_server import Server
+import hydratk.lib.system.config as syscfg
 from os import path, remove
 from sqlite3 import Error, connect
 
@@ -83,12 +84,12 @@ class Extension(extension.Extension):
 
         files = [
             '/usr/share/man/man1/testenv.1',
-            '/etc/hydratk/conf.d/hydratk-ext-testenv.conf',
-            '/var/local/hydratk/testenv'
+            '{0}/hydratk/conf.d/hydratk-ext-testenv.conf'.format(syscfg.HTK_ETC_DIR),
+            '{0}/hydratk/testenv'.format(syscfg.HTK_VAR_DIR)
         ]
 
-        if (self._mh.cfg['Extensions']['TestEnv']['ext_dir'] != '/var/local/hydratk/testenv'):
-            files.append(self._mh.cfg['Extensions']['TestEnv']['ext_dir'])
+        if (self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR) != '{0}/hydratk/testenv'.format(syscfg.HTK_VAR_DIR)):
+            files.append(self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR))
 
         return files, dep_modules
 
@@ -186,7 +187,7 @@ class Extension(extension.Extension):
                 self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
                     'te_received_cmd', 'te-install-db'), self._mh.fromhere())
 
-            ext_dir = self._mh.cfg['Extensions']['TestEnv']['ext_dir']
+            ext_dir = self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR)
             db_file = path.join(
                 ext_dir, self._mh.cfg['Extensions']['TestEnv']['db_file'])
             if (path.exists(db_file)):
@@ -234,8 +235,8 @@ class Extension(extension.Extension):
         self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
             'te_received_cmd', 'te-start'), self._mh.fromhere())
 
-        db_file = path.join(self._mh.cfg['Extensions']['TestEnv'][
-                            'ext_dir'], self._mh.cfg['Extensions']['TestEnv']['db_file'])
+        db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR),
+                            self._mh.cfg['Extensions']['TestEnv']['db_file'])
         if (not path.exists(db_file)):
             self.install_db_fc(False)
 

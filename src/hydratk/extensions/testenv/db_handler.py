@@ -12,6 +12,7 @@ from hydratk.core.masterhead import MasterHead
 from hydratk.lib.network.dbi.client import DBClient
 from hydratk.extensions.testenv.entities import Customer, Payer, Subscriber, Service
 from hydratk.extensions.testenv.entities import Contact, ContactRole, Address, AddressRole
+import hydratk.lib.system.config as syscfg
 from os import path
 
 
@@ -34,7 +35,7 @@ class DbHandler(object):
         """
 
         self._mh = MasterHead.get_head()
-        self._db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'],
+        self._db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR),
                                   self._mh.cfg['Extensions']['TestEnv']['db_file'])
         self._client = DBClient('SQLITE')
 

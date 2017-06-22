@@ -64,12 +64,23 @@ See installation example, Python 2.7.
 
   .. code-block:: bash
   
+     **************************************
+     *     Running pre-install tasks      *
+     **************************************
+     
+     *** Running task: version_update ***
+     
+     *** Running task: install_modules ***
+     Module hydratk already installed with version 0.5.0rc1
+     Module hydratk-ext-yoda already installed with version 0.2.3rc1
+     Module hydratk-lib-network already installed with version 0.2.1rc1
      Installing module web.py>=0.37
+     pip install "web.py>=0.37"
+     
      running install
      running bdist_egg
      running egg_info
      creating src/hydratk_ext_testenv.egg-info
-     writing requirements to src/hydratk_ext_testenv.egg-info/requires.txt
      writing src/hydratk_ext_testenv.egg-info/PKG-INFO
      writing top-level names to src/hydratk_ext_testenv.egg-info/top_level.txt
      writing dependency_links to src/hydratk_ext_testenv.egg-info/dependency_links.txt
@@ -84,40 +95,68 @@ See installation example, Python 2.7.
      creating build
      creating build/lib.linux-x86_64-2.7
      creating build/lib.linux-x86_64-2.7/hydratk
-     copying src/hydratk/__init__.py -> build/lib.linux-x86_64-2.7/hydratk
-     creating build/lib.linux-x86_64-2.7/hydratk/extensions
-     copying src/hydratk/extensions/__init__.py -> build/lib.linux-x86_64-2.7/hydratk/extensions
-     creating build/lib.linux-x86_64-2.7/hydratk/extensions/testenv
+     ...
+     creating build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/entry_points.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/not-zip-safe -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_testenv.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     creating dist
+     creating 'dist/hydratk_ext_testenv-0.2.2rc1-py2.7.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+     removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+     Processing hydratk_ext_testenv-0.2.2rc1-py2.7.egg
+     creating /usr/local/lib/python2.7/dist-packages/hydratk_ext_testenv-0.2.2rc1-py2.7.egg
+     Extracting hydratk_ext_testenv-0.2.2rc1-py2.7.egg to /usr/local/lib/python2.7/dist-packages
+     Adding hydratk-ext-testenv 0.2.2rc1 to easy-install.pth file
+     Installing testenv script to /usr/local/bin
+     Installed /usr/local/lib/python2.7/dist-packages/hydratk_ext_testenv-0.2.2rc1-py2.7.egg
+     Processing dependencies for hydratk-ext-testenv==0.2.2rc1
+     Finished processing dependencies for hydratk-ext-testenv==0.2.2rc1
+     
+     **************************************
+     *     Running post-install tasks     *
+     **************************************
 
-     Installed /usr/local/lib/python2.7/dist-packages/hydratk_ext_testenv-0.2.1-py2.7.egg
-     Processing dependencies for hydratk-ext-testenv==0.2.1
-     Searching for hydratk-ext-yoda==0.2.2a0.dev2
-     Best match: hydratk-ext-yoda 0.2.2a0.dev2
-     Processing hydratk_ext_yoda-0.2.2a0.dev2-py2.7.egg
-     hydratk-ext-yoda 0.2.2a0.dev2 is already the active version in easy-install.pth
-     Installing yoda script to /usr/local/bin
+     *** Running task: set_config ***
 
-     Using /usr/local/lib/python2.7/dist-packages/hydratk_ext_yoda-0.2.2a0.dev2-py2.7.egg
-     Searching for hydratk-lib-network==0.2.0
-     Best match: hydratk-lib-network 0.2.0
-     Processing hydratk_lib_network-0.2.0-py2.7.egg
-     hydratk-lib-network 0.2.0 is already the active version in easy-install.pth
+     Copying file etc/hydratk/conf.d/hydratk-ext-testenv.conf to /etc/hydratk/conf.d
 
-     Using /usr/local/lib/python2.7/dist-packages/hydratk_lib_network-0.2.0-py2.7.egg
-     Searching for hydratk==0.4.0
-     Best match: hydratk 0.4.0
-     Processing hydratk-0.4.0-py2.7.egg
-     hydratk 0.4.0 is already the active version in easy-install.pth
-     Installing htkprof script to /usr/local/bin
-     Installing htk script to /usr/local/bin
+     *** Running task: copy_files ***
 
-     Using /usr/local/lib/python2.7/dist-packages/hydratk-0.4.0-py2.7.egg
-     Finished processing dependencies for hydratk-ext-testenv==0.2.1
+     Creating directory /var/local/hydratk/testenv
+     Copying file var/local/hydratk/testenv/install_db.sql to /var/local/hydratk/testenv
+     Creating directory /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv
+     Copying file tests/yodalib/hydratk/extensions/testenv/__init__.py to /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv
+     Creating directory /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv
+     Copying file tests/yoda-tests/hydratk/extensions/testenv/soap.jedi to /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv
+     Creating directory /var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv
+     Copying file tests/yodahelpers/hydratk/extensions/testenv/helpers.py to /var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv
+     Copying file tests/yoda-tests/hydratk/extensions/testenv/rest.jedi to /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv
+     Copying file tests/yodahelpers/hydratk/__init__.py to /var/local/hydratk/yoda/helpers/yodahelpers/hydratk
+     Copying file tests/yodalib/hydratk/extensions/testenv/db_int.py to /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv
+     Copying file var/local/hydratk/testenv/crm.wsdl to /var/local/hydratk/testenv
+     Copying file tests/yodahelpers/hydratk/extensions/testenv/__init__.py to /var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions/testenv
+     Copying file tests/yodahelpers/hydratk/extensions/__init__.py to /var/local/hydratk/yoda/helpers/yodahelpers/hydratk/extensions
+     Copying file var/local/hydratk/testenv/crm.xsd to /var/local/hydratk/testenv
+     Copying file tests/yodalib/hydratk/extensions/testenv/soap_int.py to /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv
+     Copying file tests/yoda-tests/hydratk/extensions/testenv/db.jedi to /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv
+     Copying file tests/yodalib/hydratk/__init__.py to /var/local/hydratk/yoda/lib/yodalib/hydratk
+     Copying file tests/yodalib/hydratk/extensions/testenv/rest_int.py to /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions/testenv
+     Copying file tests/yodalib/hydratk/extensions/__init__.py to /var/local/hydratk/yoda/lib/yodalib/hydratk/extensions
+
+     *** Running task: set_access_rights ***
+
+     Setting rights a+rwx for /var/local/hydratk
+
+     *** Running task: set_manpage ***     
+  
 
 Application installs following (paths depend on your OS configuration)
 
 * testenv command in /usr/local/bin/testenv
-* modules in /usr/local/lib/python2.7/dist-packages/hydratk-ext-testenv-0.2.1-py2.7egg
+* modules in /usr/local/lib/python2.7/dist-packages/hydratk-ext-testenv-0.2.2-py2.7egg
 * configuration file in /etc/hydratk/conf.d/hydratk-ext-testenv.conf 
 * application folder in /var/local/hydratk/testenv 
 * yoda scripts in /var/local/hydratk/yoda  
@@ -133,7 +172,7 @@ Check hydratk-ext-testenv module is installed.
   
      $ pip list | grep hydratk-ext-testenv
      
-     hydratk-ext-testenv (0.2.1)
+     hydratk-ext-testenv (0.2.2)
 
 Check installed extensions
 
@@ -141,7 +180,7 @@ Check installed extensions
   
      $ htk list-extensions
      
-     TestEnv: TestEnv v0.2.1 (c) [2015-2016 Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>]
+     TestEnv: TestEnv v0.2.2 (c) [2015-2017 Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>]
      
 Type command htk help and detailed info is displayed.
 Type man testenv to display manual page. 
@@ -160,8 +199,7 @@ You can run TestEnv also in standalone mode.
   
      $ testenv help        
        
-     TestEnv v0.2.1
-     (c) 2015-2016 Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>
+     TestEnv v0.2.2 (c) 2015-2017 [Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>]
      Usage: testenv [options] command
 
      Commands:

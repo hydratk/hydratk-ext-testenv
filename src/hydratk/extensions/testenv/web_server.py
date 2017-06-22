@@ -11,6 +11,7 @@
 from hydratk.core.masterhead import MasterHead
 from hydratk.extensions.testenv.rest_handler import RestHandler
 from hydratk.extensions.testenv.soap_handler import SoapHandler
+import hydratk.lib.system.config as syscfg
 from web import application, httpserver, input, data, NotFound, header, ctx
 from os import path
 
@@ -262,7 +263,7 @@ class SoapService(object):
     def GET(self):
 
         key = list(input().keys())[0]
-        ext_dir = mh.cfg['Extensions']['TestEnv']['ext_dir']
+        ext_dir = mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR)
 
         if (key == 'wsdl'):
             soap_file = path.join(ext_dir, 'crm.wsdl')
