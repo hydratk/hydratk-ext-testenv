@@ -169,6 +169,8 @@ class Extension(extension.Extension):
             ('f', 'force'), False, 'force', False, option_profile)
         self._mh.match_cli_option(
             ('i', 'interactive'), False, 'interactive', False, option_profile)
+        self._mh.match_cli_option(
+            ('h', 'home'), False, 'home', False, option_profile)
 
     def install_db_fc(self, ext_call=True):
         """Method handles command te-install    
