@@ -60,7 +60,7 @@ config = {
     ],
 
     'modules': [
-        {'module': 'hydratk',             'version': '>=0.4.0'},
+        {'module': 'hydratk', 'version': '>=0.5.0'},
         {'module': 'hydratk-ext-yoda',    'version': '>=0.2.2'},
         {'module': 'hydratk-lib-network', 'version': '>=0.2.0'},
         {'module': 'web.py',              'version': '>=0.37'}

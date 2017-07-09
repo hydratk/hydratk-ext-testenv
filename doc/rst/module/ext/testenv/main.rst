@@ -48,7 +48,7 @@ Method registers action hooks for standalone mode.
 
 commands - install, help, help
 long options - spec, input, output, action, element, envelope
-blobal options - config, debug, debug-channel, language, run-mode, force, interactive
+global options - config, debug, debug-channel, language, run-mode, force, interactive, home
 
 * install_db_fc
 

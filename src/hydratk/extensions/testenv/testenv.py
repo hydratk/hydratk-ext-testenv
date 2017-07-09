@@ -16,7 +16,7 @@ from sqlite3 import Error, connect
 
 dep_modules = {
     'hydratk': {
-        'min-version': '0.4.0',
+        'min-version': '0.5.0',
         'package': 'hydratk'
     },
     'hydratk.lib.network': {

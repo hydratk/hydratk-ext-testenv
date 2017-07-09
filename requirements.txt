@@ -1,5 +1,5 @@
 web.py>=0.37 ; python_version < '3.0'
 git+https://github.com/webpy/webpy.git@python3#egg=webpy ; python_version >= '3.0'
-hydratk>=0.4.0
+hydratk>=0.5.0
 hydratk-lib-network>=0.2.0
 hydratk-ext-yoda>=0.2.2
