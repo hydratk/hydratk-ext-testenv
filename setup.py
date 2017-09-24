@@ -120,7 +120,7 @@ st_setup(
     entry_points=entry_points,
     keywords='hydratk,testing,test environment,web server,database',
     requires_python='>=2.6,!=3.0.*,!=3.1.*,!=3.2.*',
-    platforms='Linux'
+    platforms='Linux,FreeBSD'
 )
 
 task.run_post_install(argv, config)
