@@ -1,6 +1,6 @@
 Test-Scenario-1:
   Id: ts_01
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Customer DB operations
   Desc: Test customer operations via DB interface
   Author: Petr Rasek <bowman@hydratk.org>
@@ -9,8 +9,8 @@ Test-Scenario-1:
   Pre-Req: |
     import yodahelpers.hydratk.extensions.testenv.helpers as hlp
     
-    client = hlp.db()
-    res = client.connect()
+    db = hlp.db()
+    res = db.connect()
     assert res == True
     
   Test-Case-1:
@@ -29,23 +29,25 @@ Test-Scenario-1:
         birth_no = '700101/0001'
         reg_no = '12345'
         tax_no = 'CZ12345'
-        cust = client.create_customer(name, segment, status, birth_no, reg_no, tax_no)  
+        cust = db.create_customer(name, segment, status, birth_no, reg_no, tax_no)  
                                   
-      Validate: |            
-        assert cust != None
+      Validate: |       
+        this.test_result = cust     
+        assert (cust != None), 'Customer not created'
 
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_customer
       Desc: Read customer
       Test: |
-        customer = client.read_customer(cust)           
+        customer = db.read_customer(cust)           
             
       Validate: |
-        assert customer != None                                 
+        this.test_result = str(customer)
+        assert (customer != None), 'Customer not read'                                 
         assert ([name, status, segment, birth_no, reg_no, tax_no] == 
                 [customer.name, customer.status, customer.segment, customer.birth_no, 
-                customer.reg_no, customer.tax_no])    
+                customer.reg_no, customer.tax_no]), 'Incorrect customer settings'    
                     
   Test-Case-2:
     Id: tc_02
@@ -63,31 +65,44 @@ Test-Scenario-1:
         birth_no = '700101/0002'
         reg_no = '1234'
         tax_no = 'CZ1234'
-        res = client.change_customer(cust, name, status, segment, birth_no, reg_no, tax_no)            
+        res = db.change_customer(cust, name, status, segment, birth_no, reg_no, tax_no)            
             
-      Validate: |            
-        assert res == True
+      Validate: |        
+        this.test_result = res    
+        assert (res == True), 'Customer not changed'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_customer
       Desc: Read customer
       Test: |
-        customer = client.read_customer(cust)           
+        customer = db.read_customer(cust)           
             
       Validate: |
-        assert customer != None                                   
+        this.test_result = str(customer)
+        assert (customer != None), 'Customer not read'                                   
         assert ([name, status, segment, birth_no, reg_no, tax_no] == 
                 [customer.name, customer.status, customer.segment, 
-                 customer.birth_no, customer.reg_no, customer.tax_no])                   
+                 customer.birth_no, customer.reg_no, customer.tax_no]), 'Incorrect customer settings'
+                 
+  Post-Req: |
+    res = db.disconnect()
+    assert res == True                                       
      
 Test-Scenario-2:
   Id: ts_02
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Payer DB operations
   Desc: Test payer operations via DB interface
-  Author: Petr Rasek <pr@hydratk.org>
+  Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    db = hlp.db()
+    res = db.connect()
+    assert res == True  
     
   Test-Case-1:
     Id: tc_01
@@ -104,23 +119,25 @@ Test-Scenario-2:
         billcycle = 1
         bank_account = '123456/0100'
         customer = cust
-        pay = client.create_payer(name, billcycle, customer, status, bank_account)          
+        pay = db.create_payer(name, billcycle, customer, status, bank_account)          
             
       Validate: |
-        assert pay != None
+        this.test_result = pay
+        assert (pay != None), 'Payer not created'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_payer
       Desc: Read payer
       Test: |
-        payer = client.read_payer(pay)           
+        payer = db.read_payer(pay)           
             
       Validate: |
-        assert payer != None         
+        this.test_result = str(payer)
+        assert (payer != None), 'Payer not read'         
         assert ([name, status, billcycle, bank_account, customer] == 
                 [payer.name, payer.status, payer.billcycle,
-                 payer.bank_account, payer.customer])    
+                 payer.bank_account, payer.customer]), 'Incorrect payer settings'    
                  
   Test-Case-2:
     Id: tc_02
@@ -136,31 +153,44 @@ Test-Scenario-2:
         status = 'suspend'
         billcycle = 2
         bank_account = '654321/0800'
-        res = client.change_payer(pay, name, status, billcycle, bank_account)            
+        res = db.change_payer(pay, name, status, billcycle, bank_account)            
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Payer not changed'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_payer
       Desc: Read payer
       Test: |
-        payer = client.read_payer(pay)           
+        payer = db.read_payer(pay)           
             
       Validate: |
-        assert payer != None           
+        this.test_result = str(payer)
+        assert (payer != None), 'Payer not read'           
         assert ([name, status, billcycle, bank_account, customer] == 
                 [payer.name, payer.status, payer.billcycle,
-                 payer.bank_account, payer.customer])                                         
+                 payer.bank_account, payer.customer]), 'Incorrect payer settings'
+                 
+  Post-Req: |
+    res = db.disconnect()
+    assert res == True                                                             
      
 Test-Scenario-3:
   Id: ts_03
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Subscriber DB operations
   Desc: Test subscriber operations via DB interface
-  Author: Petr Rasek <pr@hydratk.org>
+  Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    db = hlp.db()
+    res = db.connect()
+    assert res == True  
     
   Test-Case-1:
     Id: tc_01
@@ -179,24 +209,26 @@ Test-Scenario-3:
         tariff = 433
         customer = cust
         payer = pay
-        subs = client.create_subscriber(name, msisdn, market, tariff, customer, payer, status)          
+        subs = db.create_subscriber(name, msisdn, market, tariff, customer, payer, status)          
             
       Validate: |
-        assert subs != None
+        this.test_result = subs
+        assert (subs != None), 'Subscriber not created'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_subscriber
       Desc: Read subscriber
       Test: |
-        subscriber = client.read_subscriber(subs)           
+        subscriber = db.read_subscriber(subs)           
             
-      Validate: |
-        assert subscriber != None           
+      Validate: | 
+        this.test_result = str(subscriber)
+        assert (subscriber != None), 'Subscriber not read'           
         assert ([name, msisdn, status, market, tariff, customer, payer] == 
                 [subscriber.name, subscriber.msisdn, subscriber.status,
                  subscriber.market, subscriber.tariff, subscriber.customer,
-                 subscriber.payer])    
+                 subscriber.payer]), 'Incorrect subscriber settings'    
                     
   Test-Case-2:
     Id: tc_02
@@ -213,32 +245,45 @@ Test-Scenario-3:
         status = 'suspend'
         market = 2
         tariff = 434
-        res = client.change_subscriber(subs, name, msisdn, status, market, tariff)            
+        res = db.change_subscriber(subs, name, msisdn, status, market, tariff)            
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Subscriber not changed'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_subscriber
       Desc: Read subscriber
       Test: |
-        subscriber = client.read_subscriber(subs)           
+        subscriber = db.read_subscriber(subs)           
             
-      Validate: |
-        assert subscriber != None          
+      Validate: | 
+        this.test_result = str(subscriber)
+        assert (subscriber != None), 'Subscriber not read'          
         assert ([name, msisdn, status, market, tariff, customer, payer] == 
                 [subscriber.name, subscriber.msisdn, subscriber.status,
                  subscriber.market, subscriber.tariff, subscriber.customer,
-                 subscriber.payer])            
+                 subscriber.payer]), 'Incorrect subscriber settings'
+                 
+  Post-Req: |
+    res = db.disconnect()
+    assert res == True                                
      
 Test-Scenario-4:
   Id: ts_04
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Contact DB operations
   Desc: Test contact operations via DB interface
-  Author: Petr Rasek <pr@hydratk.org>
+  Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    db = hlp.db()
+    res = db.connect()
+    assert res == True  
     
   Test-Case-1:
     Id: tc_01
@@ -253,22 +298,24 @@ Test-Scenario-4:
         name = 'Vince Neil'
         phone = '12345'
         email = 'aaa@xxx.com'
-        con = client.create_contact(name, phone, email)          
+        con = db.create_contact(name, phone, email)          
             
       Validate: |
-        assert con != None
+        this.test_result = con
+        assert (con != None), 'Contact not created'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
       Test: |
-        contact = client.read_contact(con)           
+        contact = db.read_contact(con)           
             
       Validate: |
-        assert contact != None          
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'          
         assert ([name, phone, email] == 
-                [contact.name, contact.phone, contact.email])    
+                [contact.name, contact.phone, contact.email]), 'Incorrect contact settings'    
                     
   Test-Case-2:
     Id: tc_02
@@ -283,22 +330,24 @@ Test-Scenario-4:
         name = 'Charlie Bowman'
         phone = '123456'
         email = 'bbb@xxx.com'
-        res = client.change_contact(con, name, phone, email)            
+        res = db.change_contact(con, name, phone, email)            
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Contact not changed'
                     
     Test-Condition-2:
       Id: tco_02 
       Name: tco_read_contact
       Desc: Read contact
       Test: | 
-        contact = client.read_contact(con)           
+        contact = db.read_contact(con)           
             
       Validate: |
-        assert contact != None         
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'         
         assert ([name, phone, email] == 
-               [contact.name, contact.phone, contact.email])       
+               [contact.name, contact.phone, contact.email]), 'Incorrect contact settings'       
                    
   Test-Case-3:
     Id: tc_03
@@ -310,23 +359,25 @@ Test-Scenario-4:
       Name: tco_assign_contact_role
       Desc: Assign contact role
       Test: |
-        res1 = client.assign_contact_role(con, 'contract', customer=cust)  
-        res2 = client.assign_contact_role(con, 'invoicing', payer=pay) 
-        res3 = client.assign_contact_role(con, 'contact', subscriber=subs)           
+        res1 = db.assign_contact_role(con, 'contract', customer=cust)  
+        res2 = db.assign_contact_role(con, 'invoicing', payer=pay) 
+        res3 = db.assign_contact_role(con, 'contact', subscriber=subs)           
             
       Validate: |
-        assert [res1, res2, res3] == [True, True, True]                    
+        this.test_result = str([res1, res2, res3])
+        assert ([res1, res2, res3] == [True, True, True]), 'Contact roles not assigned'                    
                     
     Test-Condition-2:  
       Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
       Test: |
-        contact = client.read_contact(con)           
+        contact = db.read_contact(con)           
             
       Validate: |
-        assert contact != None
-        assert len(contact.roles) == 3                                         
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'
+        assert (len(contact.roles) == 3), 'Contact roles not assigned'                                         
             
   Test-Case-4:
     Id: tc_04
@@ -338,31 +389,44 @@ Test-Scenario-4:
       Name: tco_revoke_contact_role
       Desc: Revoke contact role
       Test: |
-        res1 = client.revoke_contact_role(con, 'contract', customer=cust)  
-        res2 = client.revoke_contact_role(con, 'invoicing', payer=pay) 
-        res3 = client.revoke_contact_role(con, 'contact', subscriber=subs)           
+        res1 = db.revoke_contact_role(con, 'contract', customer=cust)  
+        res2 = db.revoke_contact_role(con, 'invoicing', payer=pay) 
+        res3 = db.revoke_contact_role(con, 'contact', subscriber=subs)           
             
       Validate: |
-        assert [res1, res2, res3] == [True, True, True]                    
+        this.test_result = str([res1, res2, res3])
+        assert ([res1, res2, res3] == [True, True, True]), 'Contact roles not revoked'                    
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_contact
       Desc: Read contact
       Test: |
-        contact = client.read_contact(con)           
+        contact = db.read_contact(con)           
             
       Validate: |
-        assert contact != None
-        assert len(contact.roles) == 0          
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'
+        assert (len(contact.roles) == 0), 'Contact roles not revoked'
+        
+  Post-Req: |
+    res = db.disconnect()
+    assert res == True                     
      
 Test-Scenario-5:
   Id: ts_05
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Address DB operations
   Desc: Test address operations via DB interface
-  Author: Petr Rasek <pr@hydratk.org>
+  Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    db = hlp.db()
+    res = db.connect()
+    assert res == True  
 
   Test-Case-1:
     Id: tc_01
@@ -378,22 +442,24 @@ Test-Scenario-5:
         street_no = '2144/1'
         city = 'Praha'
         zip = 14900
-        addr = client.create_address(street, street_no, city, zip)          
+        addr = db.create_address(street, street_no, city, zip)          
             
       Validate: |
-        assert addr != None
+        this.test_result = addr
+        assert (addr != None), 'Address not created'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_address
       Desc: Read address
       Test: |
-        address = client.read_address(addr)           
+        address = db.read_address(addr)           
             
       Validate: |
-        assert address != None         
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'         
         assert ([street, street_no, city, zip] == 
-               [address.street, address.street_no, address.city, int(address.zip)])    
+               [address.street, address.street_no, address.city, int(address.zip)]), 'Incorrect address settings'    
                     
   Test-Case-2:
     Id: tc_02
@@ -409,22 +475,24 @@ Test-Scenario-5:
         street_no = '2152/6'
         city = 'Praha 4'
         zip = 14800
-        res = client.change_address(addr, street, street_no, city, zip)            
+        res = db.change_address(addr, street, street_no, city, zip)            
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Address not changed'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_address
       Desc: Read address
       Test: |
-        address = client.read_address(addr)           
+        address = db.read_address(addr)           
             
       Validate: |
-        assert address != None       
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'       
         assert ([street, street_no, city, zip] == 
-                [address.street, address.street_no, address.city, int(address.zip)])       
+                [address.street, address.street_no, address.city, int(address.zip)]), 'Incorrect address settings'       
                    
   Test-Case-3:
     Id: tc_03
@@ -436,24 +504,26 @@ Test-Scenario-5:
       Name: tco_assign_address_role
       Desc: Assign address role
       Test: |
-        res1 = client.assign_address_role(addr, 'contract', customer=cust)  
-        res2 = client.assign_address_role(addr, 'invoicing', payer=pay) 
-        res3 = client.assign_address_role(addr, 'contact', subscriber=subs) 
-        res4 = client.assign_address_role(addr, 'delivery', contact=con)          
+        res1 = db.assign_address_role(addr, 'contract', customer=cust)  
+        res2 = db.assign_address_role(addr, 'invoicing', payer=pay) 
+        res3 = db.assign_address_role(addr, 'contact', subscriber=subs) 
+        res4 = db.assign_address_role(addr, 'delivery', contact=con)          
             
       Validate: |
-        assert [res1, res2, res3, res4] == [True, True, True, True]                  
+        this.test_result = str([res1, res2, res3, res4])
+        assert ([res1, res2, res3, res4] == [True, True, True, True]), 'Address roles not assigned'                  
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_address
       Desc: Read address
       Test: |
-        address = client.read_address(addr)           
+        address = db.read_address(addr)           
             
       Validate: |
-        assert address != None
-        assert len(address.roles) == 4                                                 
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'
+        assert (len(address.roles) == 4), 'Address roles not assigned'                                                 
             
   Test-Case-4:
     Id: tc_04
@@ -465,32 +535,45 @@ Test-Scenario-5:
       Name: tco_revoke_address_role
       Desc: Revoke address role
       Test: |
-        res1 = client.revoke_address_role(addr, 'contract', customer=cust)  
-        res2 = client.revoke_address_role(addr, 'invoicing', payer=pay) 
-        res3 = client.revoke_address_role(addr, 'contact', subscriber=subs)  
-        res4 = client.revoke_address_role(addr, 'delivery', contact=con)         
+        res1 = db.revoke_address_role(addr, 'contract', customer=cust)  
+        res2 = db.revoke_address_role(addr, 'invoicing', payer=pay) 
+        res3 = db.revoke_address_role(addr, 'contact', subscriber=subs)  
+        res4 = db.revoke_address_role(addr, 'delivery', contact=con)         
             
       Validate: |
-        assert [res1, res2, res3, res4] == [True, True, True, True]                  
+        this.test_result = str([res1, res2, res3, res4])
+        assert ([res1, res2, res3, res4] == [True, True, True, True]), 'Address roles not revoked'                  
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_address
       Desc: Read address
       Test: |
-        address = client.read_address(addr)           
+        address = db.read_address(addr)           
             
-      Validate: |
-        assert address != None
-        assert len(address.roles) == 0               
+      Validate: | 
+        this.test_result = str(address) 
+        assert (address != None), 'Address not read'
+        assert (len(address.roles) == 0), 'Address roles not revoked'
+        
+  Post-Req: |
+    res = db.disconnect()
+    assert res == True                          
             
 Test-Scenario-6:
   Id: ts_06
-  Path: hydratk/extensions/testenv/db.jedi
+  Path: hydratk/extensions/testenv/sys_db.jedi
   Name: Service DB operations
   Desc: Test service operations via DB interface
-  Author: Petr Rasek <pr@hydratk.org>
-  Version: 0.1   
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    db = hlp.db()
+    res = db.connect()
+    assert res == True     
   
   Test-Case-1:
     Id: tc_01
@@ -507,22 +590,24 @@ Test-Scenario-6:
         status = 'active'
         params = {}
         params[121] = '123456'
-        res = client.create_service(service, subscriber=subscriber, status=status, params=params)      
+        res = db.create_service(service, subscriber=subscriber, status=status, params=params)      
             
       Validate: |
-        assert res == True
+        this.test_result = res 
+        assert (res == True), 'Service not created'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_services
       Desc: Read services
       Test: |
-        srv = client.read_services(subscriber=subscriber)[0]           
+        srv = db.read_services(subscriber=subscriber)[0]           
             
       Validate: |
-        assert srv != None
+        this.test_result = str(srv)
+        assert (srv != None), 'Service not read'
         assert ([service, 'Telefonni cislo', status, params[121]] ==
-                [srv.id, srv.name, srv.status, srv.params[121]])  
+                [srv.id, srv.name, srv.status, srv.params[121]]), 'Incorrect service settings'  
             
     Test-Condition-3: 
       Id: tco_03
@@ -535,22 +620,24 @@ Test-Scenario-6:
         params = {}
         params[122] = '700101/0001' 
         params[123] = '23001123456' 
-        res = client.create_service(service, subscriber=subscriber, status=status, params=params)      
+        res = db.create_service(service, subscriber=subscriber, status=status, params=params)      
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Service not created'
                     
     Test-Condition-4: 
       Id: tco_04
       Name: tco_read_services
       Desc: Read services
       Test: |
-        srv = client.read_services(subscriber=subscriber, service=service)[0]           
+        srv = db.read_services(subscriber=subscriber, service=service)[0]           
             
       Validate: |
-        assert srv != None  
+        this.test_result = str(srv)
+        assert (srv != None), 'Service not read'  
         assert ([service, 'SIM karta', status, params[122], params[123]] ==
-                [srv.id, srv.name, srv.status, srv.params[122], srv.params[123]])
+                [srv.id, srv.name, srv.status, srv.params[122], srv.params[123]]), 'Incorrect service settings'
             
   Test-Case-2:
     Id: tc_02
@@ -567,23 +654,25 @@ Test-Scenario-6:
         status = 'deactive'
         params = {}
         params[121] = '603404746' 
-        res = client.change_service(service, subscriber=subscriber, status=status, params=params)      
+        res = db.change_service(service, subscriber=subscriber, status=status, params=params)      
             
       Validate: |
-        assert res == True
+        this.test_result = res
+        assert (res == True), 'Service not changed'
                     
     Test-Condition-2: 
       Id: tco_02
       Name: tco_read_services
       Desc: Read services
       Test: |
-        srv = client.read_services(subscriber=subscriber, service=service)[0]           
+        srv = db.read_services(subscriber=subscriber, service=service)[0]           
             
       Validate: |
-        assert srv != None   
+        this.test_result = str(srv)
+        assert (srv != None), 'Service not read'   
         assert ([status, params[121]] ==
-                [srv.status, srv.params[121]])       
+                [srv.status, srv.params[121]]), 'Incorrect service settings'       
   
   Post-Req: |
-    res = client.disconnect()
+    res = db.disconnect()
     assert res == True                                

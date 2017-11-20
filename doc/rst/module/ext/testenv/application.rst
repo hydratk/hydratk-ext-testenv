@@ -469,6 +469,94 @@ id  title    service mandatory
 123 IMSI     619         1
 === ======== ======= =========
 
+GUI application
+^^^^^^^^^^^^^^^
+
+**Customer structure**
+
+  .. image:: fig/01_customer_structure.png
+  
+== ========================== ===================================================
+id element id                 description
+== ========================== ===================================================
+1  customerId                 Mandatory for read, change. Stored in CUSTOMER.ID
+2  customerName               Mandatory for create. Stored in CUSTOMER.NAME
+3  customerStatus             Mandatory for create. Stored in CUSTOMER.STATUS
+4  customerSegment            Mandatory for create. Stored in CUSTOMER.SEGMENT
+5  customerBirthNumber        Optional. Stored in CUSTOMER.BIRTH_NO
+6  customerRegistrationNumber Optional. Stored in CUSTOMER.REG_NO
+7  customerTaxNumber          Optional. Stored in CUSTOMER.TAX_NO
+8  customerError              Filled if any error occurs.
+9  customerRead               Calls read_customer and fills elements.
+10 customerCreate             Calls create_customer and fills customerId.
+11 customerChange             Calls change_customer.
+12 payerId                    Mandatory for read, change. Stored in PAYER.ID
+13 payerName                  Mandatory for create. Stored in PAYER.NAME
+14 payerStatus                Mandatory for create. Stored in PAYER.STATUS
+15 payerBillcycle             Mandatory for create. Stored in PAYER.BILLCYCLE
+16 payerBankAccount           Optional. Stored in PAYER.BANK_ACCOUNT
+17 payerCustomer              Mandatory for create. Stored in PAYER.CUSTOMER
+18 payerError                 Filled if any error occurs.
+19 payerRead                  Calls read_payer and fills elements.
+20 payerCreate                Calls create_payer and fills payerId.
+21 payerChange                Calls change_payer.
+22 subscriberId               Mandatory for read, change. Stored in SUBSCRIBER.ID
+23 subscriberName             Mandatory for create. Stored in SUBSCRIBER.NAME
+24 subscriberMsisdn           Mandatory for create. Stored in SUBCSRIBER.MSISDN
+25 subscriberStatus           Mandatory for create. Stored in SUBSCRIBER.STATUS
+26 subscriberMarket           Mandatory for create. Stored in SUBSCRIBER.MARKET
+27 subscriberTariff           Mandatory for create. Stored in SUBSCRIBER.TARIFF
+28 subscriberCustomer         Mandatory for create. Stored in SUBSCRIBER.CUSTOMER
+29 subscriberPayer            Mandatory for create. Stored in SUBSCRIBER.PAYER
+30 subscriberError            Filled if any error occurs.
+31 subscriberRead             Calls read_subscriber and fills elements.
+32 subscriberCreate           Calls create_subscriber and fills subscriberId.
+33 susbcriberChange           Calls change_subscriber.
+== ========================== ===================================================
+  
+**Contact and address**  
+  
+  .. image:: fig/02_contact_address.png
+  
+== ===================== ==========================================================================
+id element id            description
+== ===================== ==========================================================================
+1  contactId             Mandatory for read, change. Stored in CONTACT.ID, CONTACT_ROLE.CONTACT    
+2  contactName           Mandatory for create. Stores in CONTACT.NAME    
+3  contactPhone          Optional. Stored in CONTACT.PHONE   
+4  contactEmail          Optional. Stored in CONTACT.EMAIL  
+5  contactError          Filled if any error occurs.
+6  contactRead           Calls read_contact and fills elements.
+7  contactCreate         Calls create_contact and fills contactId. 
+8  contactChange         Calls change_contact.     
+9  contactRoleTitle      Mandatory for assign, revoke. Stored in CONTACT_ROLE.CONTACT_ROLE          
+10 contactRoleCustomer   Optional. Stored in CONTACT_ROLE.CUSTOMER          
+11 contactRolePayer      Optional. Stored in CONTACT_ROLE.PAYER       
+12 contactRoleSubscriber Optional. Stored in CONTACT_ROLE.SUBSCRIBER                   
+13 contactRoleError      Filled if any error occurs.             
+14 contactRoleAssign     Calls assign_contact_role and updates contactRoles.           
+15 contactRoleRevoke     Calls revoke_contact_role and updates contactRoles.        
+16 contactRoles          Display CONTACT_ROLE content. Click cell event fills contactRole elements. 
+17 addressId             Mandatory for read, change. Stored in ADDRESS.ID   
+18 addressStreet         Mandatory for create. Stored in ADDRESS.STREET                  
+19 addressStreetNumber   Mandatory for create. Stored in ADDRESS.STREET_NO                  
+20 addressCity           Mandatory for create. Stored in ADDRESS.CITY                
+21 addressZip            Mandatory for create. Stored in ADDRESS.ZIP                
+22 addressError          Filled if any error occurs.               
+23 addressRead           Calls read_address and fills elements.             
+24 addressCreate         Calls create_address and fills addressId.  
+25 addressChange         Calls change_address.  
+26 addressRoleTitle      Mandatory for assign, revoke. Stored in ADRESS_ROLE.ADDRESS_ROLE     
+27 addressRoleContact    Optional. Stored in ADDRESS_ROLE.CONTACT      
+28 addressRoleCustomer   Optional. Stored in ADDRESS_ROLE.CUSTOMER      
+29 addressRolePayer      Optional. Stored in ADDRESS_ROLE.PAYER      
+30 addressRoleSubscriber Optional. Stored in ADDRESS_ROLE.SUBSCRIBER         
+31 addressRoleError      Filled if any error occurs.        
+32 addressRoleAssign     Calls assign_address_role and updates addressRoles.      
+33 addressRoleRevoke     Calls revoke_address_role and updates addressRoles.      
+34 addressRoles          Display ADDRESS_ROLE content. Click cell event fills addressRole elements.
+== ===================== ==========================================================================  
+
 entities
 ^^^^^^^^
 
@@ -512,6 +600,10 @@ Method connects to database.
 * disconnect 
 
 Method disconnect from database.
+
+* get_lov
+
+Method reads LOV from database.
 
 * customer
 
@@ -560,7 +652,7 @@ Starts web server on configured IP address (0.0.0.0) and port (default 8888) usi
 
 * Index
 
-Handles GET request on / and returns Hello, World.
+Handles GET, POST requests on / and routes them to GuiHandler.
 
 * Customer
 
@@ -702,6 +794,94 @@ Methods for manipulation with address entity - read_address, create_address, cha
 
 Methods for manipulation with service entity - read_services, create_service, change_service.
 
+GuiHandler
+^^^^^^^^^^
+
+Module provides class GuiHandler with GUI application. Each entity method uses appropriate method in DbHandler.
+It uses lxml method objectify.fromstring to read XML entity method toxml and lxml method tostring to write XML. 
+
+**Attributes** :
+
+* _mh - MasterHead reference
+* _tmpl - html template
+* _lovs - loaded database LOVs
+* _data - current form data (used to fill forms after action)
+* _current_tab - current tab
+
+**Methods** :
+
+* __init__
+
+Method sets MasterHead reference and namespaces.
+
+* _get_db
+
+Method gets initializes DbHandler and connects to database.
+
+* _init_data
+
+Method sets initial form data.
+
+* _store_data
+
+Method sets current form data updated after each action.
+
+* _translate_lov
+
+Method translates record ID <-> title.
+
+* render_page
+
+Method renders application page and fills forms with current data (updated after each action).
+
+* _init_customer_form
+
+Method prepares customer form.
+
+* _init_payer_form
+
+Method prepares payer form.
+
+* _init_subscriber_form
+
+Method prepares subscriber form.
+
+* _init_contact_form
+
+Method prepares contact form.
+
+* _init_contact_role_form
+
+Method prepares contact roles form.
+
+* _init_address_form
+
+Method prepares address form.
+
+* _init_address_role_form
+
+Method prepares address roles form.
+
+* customer
+
+Methods for manipulation with customer entity - read_customer, create_customer, change_customer.
+
+* payer
+
+Methods for manipulation with payer entity - read_payer, create_payer, change_payer.
+
+* subscriber
+
+Methods for manipulation with subscriber entity - read_subscriber, create_subscriber, change_subscriber.
+
+* contact
+
+Methods for manipulation with contact entity - read_contact, create_contact, change_contact, assign_contact_role, revoke_contact_role.
+
+* address
+
+Methods for manipulation with address entity - read_address, create_address, change_address, assign_address_role, revoke_address_role.
+
 Unit tests
 ^^^^^^^^^^
 
@@ -713,6 +893,10 @@ These scripts are used as unit tests.
 * db_int
 
 Module provides class DB_INT with methods to test all operations in database. The methods directly call appropriate DBHandler methods.
+
+* gui_int
+
+Module provides class GUI_INT with methods to test all operations in GUI application. It uses hydratk.lib.bridge.selen.SeleniumBridge.
 
 * rest_int
 
@@ -726,7 +910,7 @@ Module provides class SOAP_INT with methods to test all operations in SOAP servi
 
 * helpers
 
-Imports libraries DB_INT, REST_INT, SOAP_INT to be accessible in test scripts.
+Imports libraries DB_INT, GUI_INT, REST_INT, SOAP_INT to be accessible in test scripts.
 
 **tests** :
 
@@ -784,4 +968,23 @@ Imports libraries DB_INT, REST_INT, SOAP_INT to be accessible in test scripts.
      reg_no = '12345'
      tax_no = 'CZ12345'
      cust = client.create_customer(name, segment, status, birth_no, reg_no, tax_no) 
-     customer = client.read_customer(cust)      
+     customer = client.read_customer(cust)
+     
+* gui
+
+  .. code-block:: python      
+  
+    # initialize client 
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    client = hlp.gui()
+    res = client.open()
+    
+    # create customer
+    name = 'Vince Neil'
+    status = 'active'
+    segment = 'RES'
+    birth_no = '700101/0001'
+    reg_no = '12345'
+    tax_no = 'CZ12345'
+    cust = client.create_customer(name, segment, status, birth_no, reg_no, tax_no)   
+    customer = client.read_customer(cust)             

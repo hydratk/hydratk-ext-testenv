@@ -3,7 +3,9 @@
 Tutorial 2: REST interface
 ==========================
 
-Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/rest.jedi.
+Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/sys_rest.jedi.
+Sample smoke test is located in smoke.jedi.
+Sample integration test (REST+DB) in located in int_rest.jedi, it uses inline testing.
 
 Important snippets are commented.
 

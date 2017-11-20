@@ -1,0 +1,243 @@
+$def with (kwargs)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<?xml version="1.0" encoding="UTF-8"?> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"> 
+  <head>
+    <title>TestEnv</title> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta name="description" content="Template page" /> 
+    <meta name="author" content="bowman@hydratk.otg" /> 
+  </head>
+  
+  <body>
+    <div class="tab">
+      <button class="tablinks" onclick="showTab(event, 'tabCustomer')", id="tCustomer">Customer structure</button>
+      <button class="tablinks" onclick="showTab(event, 'tabContact')", id="tContact">Contact and address</button>
+    </div>
+    
+    <div id="tabCustomer" class="tabcontent">
+      <div class="row">
+      
+        <div class="column">
+          <h3>Customer</h3>
+          <form method="POST">
+            $:kwargs['customer']['form'].render()
+            $for btn in kwargs['customer']['buttons']: 
+                $:btn.render()
+          </form>
+        </div>
+        
+        <div class="column">
+          <h3>Payer</h3>
+          <form method="POST">
+            $:kwargs['payer']['form'].render()
+            $for btn in kwargs['payer']['buttons']: 
+                $:btn.render()            
+          </form>
+        </div>        
+        
+        <div class="column">
+          <h3>Subscriber</h3>
+          <form method="POST">
+            $:kwargs['subscriber']['form'].render()
+            $for btn in kwargs['subscriber']['buttons']: 
+                $:btn.render()            
+          </form>
+        </div>        
+        
+      </div>
+    </div>
+
+    <div id="tabContact" class="tabcontent">
+      <div class="row">
+    
+        <div class="column">
+          <h3>Contact</h3>
+          <form method="POST">
+            $:kwargs['contact']['form'].render()
+            $for btn in kwargs['contact']['buttons']: 
+                $:btn.render()            
+          
+            <h3>Contact roles</h3>
+            $:kwargs['contactRole']['form'].render()
+            $for btn in kwargs['contactRole']['buttons']: 
+                $:btn.render()
+                
+            <table class="mytable" id="contactRoles">
+              <thead>
+                <tr class="myth">
+                  <th class="mytd"><b>Title</b></th>
+                  <th class="mytd"><b>Customer</b></th>
+                  <th class="mytd"><b>Payer</b></th>
+                  <th class="mytd"><b>Subscriber</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                $for row in kwargs['contactRole']['roles']:
+                  <tr class="mytr" style="cursor: pointer;" onclick="fillContactRoleForm(this)">
+                    <td class="mytd">$:row['title']</td>
+                    <td class="mytd">$:row['customer']</td>
+                    <td class="mytd">$:row['payer']</td>
+                    <td class="mytd">$:row['subscriber']</td>
+                  </tr>
+              </tbody>
+            </table>            
+          </form>          
+        </div>
+        
+        <div class="column">
+          <h3>Address</h3>
+          <form method="POST">
+            $:kwargs['address']['form'].render()
+            $for btn in kwargs['address']['buttons']: 
+                $:btn.render()            
+          
+          <h3>Address roles</h3>
+          <form method="POST">
+            $:kwargs['addressRole']['form'].render()
+            $for btn in kwargs['addressRole']['buttons']: 
+                $:btn.render() 
+                
+            <table class="mytable" id="addressRoles">
+              <thead>
+                <tr class="myth">
+                  <th class="mytd"><b>Title</b></th>
+                  <th class="mytd"><b>Contact</b></th>
+                  <th class="mytd"><b>Customer</b></th>
+                  <th class="mytd"><b>Payer</b></th>
+                  <th class="mytd"><b>Subscriber</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                $for row in kwargs['addressRole']['roles']:
+                  <tr class="mytr" style="cursor: pointer;" onclick="fillAddressRoleForm(this)">
+                    <td class="mytd">$:row['title']</td>
+                    <td class="mytd">$:row['contact']</td>
+                    <td class="mytd">$:row['customer']</td>
+                    <td class="mytd">$:row['payer']</td>
+                    <td class="mytd">$:row['subscriber']</td>
+                  </tr>
+              </tbody>
+            </table>                             
+          </form>                    
+        </div>            
+    
+      </div>
+    </div>
+       
+    <style>
+* {
+    box-sizing: border-box;
+}
+    
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+div.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.mytable, .myth, .mytd{
+    border: 1px solid black;
+}
+
+th {
+  text-align: left;
+}    
+    </style>
+    
+    <script>
+document.getElementById("$:kwargs['currentTab']").click();    
+    
+function showTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+function fillContactRoleForm(row) {
+    var cells = row.cells;
+    document.getElementById("contactRoleCustomer").value = cells[1].innerHTML;
+    document.getElementById("contactRolePayer").value = cells[2].innerHTML;
+    document.getElementById("contactRoleSubscriber").value = cells[3].innerHTML;
+    
+    sel = document.getElementById("contactRoleTitle");
+    title = cells[0].innerHTML;    
+    for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].text == title) {
+            sel.selectedIndex = i;
+            return;
+        }
+    }    
+}
+
+function fillAddressRoleForm(row) {
+    var cells = row.cells;
+    document.getElementById("addressRoleContact").value = cells[1].innerHTML;
+    document.getElementById("addressRoleCustomer").value = cells[2].innerHTML;
+    document.getElementById("addressRolePayer").value = cells[3].innerHTML;
+    document.getElementById("addressRoleSubscriber").value = cells[4].innerHTML;
+    
+    sel = document.getElementById("addressRoleTitle");
+    title = cells[0].innerHTML;    
+    for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].text == title) {
+            sel.selectedIndex = i;
+            return;
+        }
+    }    
+}    
+    </script>   
+                            
+  </body>
+</html> 

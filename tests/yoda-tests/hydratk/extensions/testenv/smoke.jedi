@@ -1,0 +1,195 @@
+Test-Scenario-1:
+  Id: ts_01
+  Path: hydratk/extensions/testenv/smoke.jedi
+  Name: Smoke
+  Desc: Smoke tests
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_db
+    Desc: DB interface
+
+    Test-Condition-1:
+      Id: tco_01
+      Name: tco_connect
+      Desc: Connect to database
+
+      Test: |
+        db = hlp.db()
+        res = db.connect()
+
+      Validate: |
+        this.test_result = res
+        assert (res), 'Connect failed'
+
+    Test-Condition-2:
+      Id: tco_02
+      Name: tco_query
+      Desc: Execute query
+
+      Test: |
+        query = 'SELECT count(*) as cnt FROM lov_status'
+        res, rows = db.exec_query(query)
+
+      Validate: |
+        this.test_result = str(rows)
+        assert (res), 'Query failed'
+        this.test_result = cnt = len(rows)
+        assert (cnt > 0), 'Empty table'
+        
+    Test-Condition-3:
+      Id: tco_03
+      Name: tco_disconnect
+      Desc: Disconnect from database
+
+      Test: |
+        res = db.disconnect()
+
+      Validate: |
+        this.test_result = res
+        assert (res), 'Disconnect failed'
+        
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_rest
+    Desc: REST interface
+
+    Test-Condition-1:
+      Id: tco_01
+      Name: tco_customer
+      Desc: Customer URL
+
+      Test: |
+        rest = hlp.rest()
+        url = 'http://localhost:8888/rs/'
+        status, body = rest.get(url+'customer')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 400), 'status = {0}'.format(status)
+        
+    Test-Condition-2:
+      Id: tco_02
+      Name: tco_payer
+      Desc: Payer URL
+
+      Test: |
+        status, body = rest.get(url+'payer')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 400), 'status = {0}'.format(status) 
+        
+    Test-Condition-3:
+      Id: tco_03
+      Name: tco_subscriber
+      Desc: Subscriber URL
+
+      Test: |
+        status, body = rest.get(url+'subscriber')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 400), 'status = {0}'.format(status)
+        
+    Test-Condition-4:
+      Id: tco_04
+      Name: tco_contact
+      Desc: Contact URL
+
+      Test: |
+        status, body = rest.get(url+'contact')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 400), 'status = {0}'.format(status)
+        
+    Test-Condition-5:
+      Id: tco_05
+      Name: tco_contact_role
+      Desc: Contact role URL
+
+      Test: |
+        status, body = rest.get(url+'contact/role')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 405), 'status = {0}'.format(status)            
+        
+    Test-Condition-6:
+      Id: tco_06
+      Name: tco_address
+      Desc: Address URL
+
+      Test: |
+        status, body = rest.get(url+'address')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 400), 'status = {0}'.format(status)
+        
+    Test-Condition-7:
+      Id: tco_07
+      Name: tco_address_role
+      Desc: Address role URL
+
+      Test: |
+        status, body = rest.get(url+'address/role')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 405), 'status = {0}'.format(status)
+        
+  Test-Case-3:
+    Id: tc_03
+    Name: tc_soap
+    Desc: SOAP interface
+
+    Test-Condition-1:
+      Id: tco_01
+      name: tco_wsdl
+      Desc: WSDL URL
+
+      Test: |
+        rest = hlp.rest()
+        url = 'http://localhost:8888/ws/crm?'
+        status, body = rest.get(url+'wsdl')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 200), 'status = {0}'.format(status)
+        
+    Test-Condition-2:
+      Id: tco_02
+      name: tco_xsd
+      Desc: XSD URL
+
+      Test: |
+        status, body = rest.get(url+'xsd')
+
+      Validate: |
+        this.test_result = status
+        assert (status == 200), 'status = {0}'.format(status)
+        
+  Test-Case-4:
+    Id: tc_04
+    Name: tc_gui
+    Desc: GUI interface
+
+    Test-Condition-1:
+      Id: tco_01
+      name: tco_gui
+      Desc: GUI URL
+
+      Test: |
+        url = 'http://localhost:8888'
+        status, body = rest.get(url)
+
+      Validate: |
+        this.test_result = status
+        assert (status == 200), 'status = {0}'.format(status)                                                                                        

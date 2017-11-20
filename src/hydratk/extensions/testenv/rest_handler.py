@@ -39,7 +39,7 @@ class RestHandler(object):
            none
 
         Returns:
-           DB_INT: DB client                 
+           obj: DB client
 
         """
 

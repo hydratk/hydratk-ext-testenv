@@ -3,7 +3,8 @@
 Tutorial 1: DB interface
 ========================
 
-Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/db.jedi.
+Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/sys_db.jedi.
+Sample smoke test is located in smoke.jedi.
 
 Important snippets are commented.
 

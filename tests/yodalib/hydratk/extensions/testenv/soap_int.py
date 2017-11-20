@@ -63,7 +63,7 @@ class SOAP_INT(object):
            id (int): customer id           
 
         Returns:
-           obj: crm_entities.Customer
+           obj: entities.Customer
 
         """
 
@@ -192,7 +192,7 @@ class SOAP_INT(object):
            id (int): payer id          
 
         Returns:
-           obj: crm_entities.Payer
+           obj: entities.Payer
 
         """
 
@@ -314,7 +314,7 @@ class SOAP_INT(object):
            id (int): subscriber id           
 
         Returns:
-           obj: crm_entities.Subscriber
+           obj: entities.Subscriber
 
         """
 
@@ -442,7 +442,7 @@ class SOAP_INT(object):
            id (int): contact id         
 
         Returns:
-           obj: crm_entities.Contact
+           obj: entities.Contact
 
         """
 
@@ -648,7 +648,7 @@ class SOAP_INT(object):
            id (int): address id         
 
         Returns:
-           obj: crm_entities.Address 
+           obj: entities.Address
 
         """
 
@@ -868,7 +868,7 @@ class SOAP_INT(object):
            service (int): service id, lov_service.id, default empty, read all services for entity     
 
         Returns:
-           list: list of crm_entities.Service
+           list: entities.Service
 
         """
 

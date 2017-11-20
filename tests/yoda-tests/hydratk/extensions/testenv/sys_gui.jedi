@@ -1,0 +1,511 @@
+Test-Scenario-1:
+  Id: ts_01
+  Path: hydratk/extensions/testenv/sys_gui.jedi
+  Name: Customer GUI operations
+  Desc: Test customer operations via GUI interface
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+  
+  Pre-Req: |
+    import yodahelpers.hydratk.extensions.testenv.helpers as hlp
+    
+    gui = hlp.gui()
+    res = gui.open()
+    assert res
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_customer
+    Desc: Create customer
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_customer
+      Desc: Create customer
+      Test: |
+        gui.switch_tab('tCustomer')
+        name = 'Vince Neil'
+        status = 'active'
+        segment = 'RES'
+        birth_no = '700101/0001'
+        reg_no = '12345'
+        tax_no = 'CZ12345'
+        cust = gui.create_customer(name, status, segment, birth_no, reg_no, tax_no)  
+                                  
+      Validate: |            
+        assert (cust != None), 'Customer not created'
+        
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_customer
+      Desc: Read customer
+      Test: 
+        customer = gui.read_customer(cust)           
+            
+      Validate: |
+        assert (customer != None), 'Customer not read'                                 
+        assert ([name, status, segment, birth_no, reg_no, tax_no] == 
+                [customer.name, customer.status, customer.segment, 
+                 customer.birth_no, customer.reg_no, customer.tax_no]), 'Incorrect customer settings'
+                 
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_customer
+    Desc: Change customer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_customer
+      Desc: Change customer
+      Test: |
+        name = 'Charlie Bowman'
+        status = 'suspend'
+        segment = 'VSE'
+        birth_no = '700101/0002'
+        reg_no = '1234'
+        tax_no = 'CZ1234'
+        res = gui.change_customer(cust, name, status, segment, birth_no, reg_no, tax_no)            
+            
+      Validate: |            
+        assert (res == True), 'Customer not changed'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_customer
+      Desc: Read customer
+      Test: |
+        customer = gui.read_customer(cust)           
+            
+      Validate: |
+        assert (customer != None), 'Customer not read'                                   
+        assert ([name, status, segment, birth_no, reg_no, tax_no] == 
+                [customer.name, customer.status, customer.segment, 
+                 customer.birth_no, customer.reg_no, customer.tax_no]), 'Incorrect customer settings'
+                 
+Test-Scenario-2:
+  Id: ts_02
+  Path: hydratk/extensions/testenv/sys_gui.jedi
+  Name: Payer GUI operations
+  Desc: Test payer operations via GUI interface
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_payer
+    Desc: Create payer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_payer
+      Desc: Create payer
+      Test: |
+        name = 'Vince Neil'
+        status = 'active'
+        billcycle = '51'
+        bank_account = '123456/0100'
+        customer = cust
+        pay = gui.create_payer(name, status, billcycle, customer, bank_account)          
+            
+      Validate: |
+        assert (pay != None), 'Payer not created'
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_payer
+      Desc: Read payer
+      Test: |
+        payer = gui.read_payer(pay)           
+           
+      Validate: |
+        assert (payer != None), 'Payer not read'         
+        assert ([name, status, billcycle, bank_account, customer] == 
+                [payer.name, payer.status, payer.billcycle,
+                 payer.bank_account, payer.customer]), 'Incorrent payer settings'    
+                 
+  Test-Case-2: 
+    Id: tc_02
+    Name: tc_change_payer
+    Desc: Change_payer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_payer
+      Desc: Change payer
+      Test: |
+        name = 'Charlie Bowman'
+        status = 'suspend'
+        billcycle = '52'
+        bank_account = '654321/0800'
+        res = gui.change_payer(pay, name, status, billcycle, bank_account)            
+            
+      Validate: |
+        assert (res == True), 'Payer not changed'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_payer
+      Desc: Read payer
+      Test: |
+        payer = gui.read_payer(pay)           
+            
+      Validate: |
+        assert (payer != None), 'Payer not read'     
+        assert ([name, status, billcycle, bank_account, customer] == 
+                [payer.name, payer.status, payer.billcycle, 
+                 payer.bank_account, payer.customer]), 'Incorrect payer settings'
+                 
+Test-Scenario-3:
+  Id: ts_03
+  Path: hydratk/extensions/testenv/sys_gui.jedi
+  Name: Subscriber GUI operations
+  Desc: Test subscriber operations via GUI interface
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_subscriber
+    Desc: Create subscriber
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_create_subscriber
+      Desc: Create subscriber
+      Test: |
+        name = 'Vince Neil'
+        msisdn = '773592179'
+        status = 'active'
+        market = 'GSM'
+        tariff = 'S nami sit nesit'
+        customer = cust
+        payer = pay
+        subs = gui.create_subscriber(name, msisdn, status, market, tariff, customer, payer)          
+            
+      Validate: |
+        this.test_result = subs
+        assert (subs != None), 'Subscriber not created'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_subscriber
+      Desc: Read subscriber
+      Test: |
+        subscriber = gui.read_subscriber(subs)           
+            
+      Validate: |
+        this.test_result = str(subscriber)
+        assert (subscriber != None), 'Subscriber not read'           
+        assert ([name, msisdn, status, market, tariff, customer, payer] == 
+                [subscriber.name, subscriber.msisdn, subscriber.status,
+                 subscriber.market, subscriber.tariff, subscriber.customer,
+                 subscriber.payer]), 'Incorrect subscriber settings'    
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_subscriber
+    Desc: Change subscriber  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_subscriber
+      Desc: Change subscriber
+      Test: |
+        name = 'Charlie Bowman'
+        msisdn = '603404746'
+        status = 'suspend'
+        market = 'DSL'
+        tariff = 'S nami sit nesit v podnikani'
+        res = gui.change_subscriber(subs, name, msisdn, status, market, tariff)            
+            
+      Validate: |
+        this.test_result = res 
+        assert (res == True), 'Subscriber not changed'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_subscriber
+      Desc: Read subscriber
+      Test: |
+        subscriber = gui.read_subscriber(subs)           
+            
+      Validate: |
+        this.test_result = str(subscriber)
+        assert (subscriber != None), 'Subscriber not read'          
+        assert ([name, msisdn, status, market, tariff, customer, payer] == 
+                [subscriber.name, subscriber.msisdn, subscriber.status,
+                 subscriber.market, subscriber.tariff, subscriber.customer,
+                 subscriber.payer]), 'Incorrect subscriber settings'   
+                 
+Test-Scenario-4:
+  Id: ts_04
+  Path: hydratk/extensions/testenv/sys_rgui.jedi
+  Name: Contact GUI operations
+  Desc: Test contact operations via GUI interface
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_contact
+    Desc: Create contact
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_create_contact
+      Desc: Create contact
+      Test: |
+        gui.switch_tab('tContact')
+        name = 'Vince Neil'
+        phone = '12345'
+        email = 'aaa@xxx.com'
+        con = gui.create_contact(name, phone, email)          
+            
+      Validate: |
+        this.test_result = con
+        assert (con != None), 'Contact not created'
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        contact = gui.read_contact(con)           
+            
+      Validate: |
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'          
+        assert ([name, phone, email] == 
+                [contact.name, contact.phone, contact.email]), 'Incorrect contact settings'    
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_contact
+    Desc: Change contact
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_change_contact
+      Desc: Change contact
+      Test: |
+        name = 'Charlie Bowman'
+        phone = '123456'
+        email = 'bbb@xxx.com'
+        res = gui.change_contact(con, name, phone, email)            
+            
+      Validate: |
+        this.test_result = res
+        assert (res == True), 'Contact not changed'
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        contact = gui.read_contact(con)           
+            
+      Validate: |
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'         
+        assert ([name, phone, email] == 
+                [contact.name, contact.phone, contact.email]), 'Incorrect contact settings'
+                
+  Test-Case-3:
+    Id: tc_03
+    Name: tc_assign_contact_role
+    Desc: Assign contact role  
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_assign_contact_role
+      Desc: Assign contact role
+      Test: |
+        res1 = gui.assign_contact_role(con, 'contract', customer=cust)  
+        res2 = gui.assign_contact_role(con, 'invoicing', payer=pay) 
+        res3 = gui.assign_contact_role(con, 'contact', subscriber=subs)           
+            
+      Validate: |
+        this.test_result = str([res1, res2, res3])
+        assert ([res1, res2, res3] == [True, True, True]), 'Contact roles not assigned'                    
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        contact = gui.read_contact(con)           
+            
+      Validate: | 
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'
+        assert (len(contact.roles) == 3), 'Contact roles not assigned'                                         
+            
+  Test-Case-4:
+    Id: tc_04
+    Name: tc_revoke_contact_role
+    Desc: Revoke contact role  
+  
+    Test-Condition-1: 
+      Id: tco_01 
+      Name: tco_revoke_contact_role
+      Desc: Revoke contact role
+      Test: |
+        res1 = gui.revoke_contact_role(con, 'contract', customer=cust)  
+        res2 = gui.revoke_contact_role(con, 'invoicing', payer=pay) 
+        res3 = gui.revoke_contact_role(con, 'contact', subscriber=subs)           
+            
+      Validate: |
+        this.test_result = str([res1, res2, res3]) 
+        assert ([res1, res2, res3] == [True, True, True]), 'Contact roles not revoked'                    
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        contact = gui.read_contact(con)           
+            
+      Validate: |
+        this.test_result = str(contact)
+        assert (contact != None), 'Contact not read'
+        assert (len(contact.roles) == 0), 'Contact roles not revoked'                        
+                
+Test-Scenario-5:
+  Id: ts_05
+  Path: hydratk/extensions/testenv/sys_gui.jedi
+  Name: Address GUI operations
+  Desc: Test address operations via GUI interface
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_address
+    Desc: Create address
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_address
+      Desc: Create address
+      Test: |
+        street = 'Tomickova'
+        street_no = '2144/1'
+        city = 'Praha'
+        zip = 14900
+        addr = gui.create_address(street, street_no, city, zip)          
+            
+      Validate: |
+        this.test_result = addr
+        assert (addr != None), 'Address not created'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        address = gui.read_address(addr)           
+            
+      Validate: |
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'         
+        assert ([street, street_no, city, str(zip)] == 
+                [address.street, address.street_no, address.city, address.zip]), 'Incorrect address settings'    
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_address
+    Desc: Change address  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_address
+      Desc: Change address
+      Test: |
+        street = 'Babakova'
+        street_no = '2152/6'
+        city = 'Praha 4'
+        zip = 14800
+        res = gui.change_address(addr, street, street_no, city, zip)            
+            
+      Validate: |
+        this.test_result = res
+        assert (res == True), 'Address not changed'
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        address = gui.read_address(addr)           
+            
+      Validate: |
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'       
+        assert ([street, street_no, city, str(zip)] == 
+                [address.street, address.street_no, address.city, address.zip]), 'Incorrect address settings'
+                
+  Test-Case-3:
+    Id: tc_03
+    Name: tc_assign_address_role
+    Desc: Assign address role  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_assign_address_role
+      Desc: Assign address role
+      Test: |
+        res1 = gui.assign_address_role(addr, 'contract', customer=cust)  
+        res2 = gui.assign_address_role(addr, 'invoicing', payer=pay) 
+        res3 = gui.assign_address_role(addr, 'contact', subscriber=subs) 
+        res4 = gui.assign_address_role(addr, 'delivery', contact=con)          
+            
+      Validate: |
+        this.test_result = str([res1, res2, res3, res4])
+        assert ([res1, res2, res3, res4] == [True, True, True, True]), 'Address roles not assigned'                  
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        address = gui.read_address(addr)           
+            
+      Validate: |
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'
+        assert (len(address.roles) == 4), 'Address roles not assigned'                                                  
+            
+  Test-Case-4:
+    Id: tc_04
+    Name: tc_revoke_address_role
+    Desc: Revoke address role  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_revoke_address_role
+      Desc: Revoke address role
+      Test: |
+        res1 = gui.revoke_address_role(addr, 'contract', customer=cust)  
+        res2 = gui.revoke_address_role(addr, 'invoicing', payer=pay) 
+        res3 = gui.revoke_address_role(addr, 'contact', subscriber=subs)  
+        res4 = gui.revoke_address_role(addr, 'delivery', contact=con)         
+            
+      Validate: | 
+        this.test_result = str([res1, res2, res3, res4])
+        assert ([res1, res2, res3, res4] == [True, True, True, True]), 'Address roles not revoked'                  
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        address = gui.read_address(addr)           
+            
+      Validate: |
+        this.test_result = str(address)
+        assert (address != None), 'Address not read'
+        assert (len(address.roles) == 0), 'Address roles not revoked'                                                                                                                          
+        
+  Post-Req: |
+    res = gui.close()
+    assert res

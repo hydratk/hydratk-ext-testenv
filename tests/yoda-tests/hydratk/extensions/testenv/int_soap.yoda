@@ -1,0 +1,83 @@
+#=======================
+#   Customer operations
+#=======================
+# Create customer
+hydratk/extensions/testenv/sys_soap.jedi:ts_01:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_01:tc_01:tco_02
+
+# Change customer
+hydratk/extensions/testenv/sys_soap.jedi:ts_01:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_01:tc_02:tco_02
+
+#=======================
+#   Payer operations
+#=======================
+# Create payer
+hydratk/extensions/testenv/sys_soap.jedi:ts_02:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_02:tc_01:tco_02
+
+# Change payer
+hydratk/extensions/testenv/sys_soap.jedi:ts_02:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_02:tc_02:tco_02
+
+#=======================
+#  Subscriber operations
+#=======================
+# Create subscriber
+hydratk/extensions/testenv/sys_soap.jedi:ts_03:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_03:tc_01:tco_02
+
+# Change subscriber
+hydratk/extensions/testenv/sys_soap.jedi:ts_03:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_03:tc_02:tco_02
+
+#=======================
+#   Contact operations
+#=======================
+# Create contact
+hydratk/extensions/testenv/sys_soap.jedi:ts_04:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_01:tco_02
+
+# Change contact
+hydratk/extensions/testenv/sys_soap.jedi:ts_04:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_02:tco_02
+
+# Assign contact role
+hydratk/extensions/testenv/sys_soap.jedi:ts_04:tc_03:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_03:tco_02
+
+# Revoke contact role
+hydratk/extensions/testenv/sys_soap.jedi:ts_04:tc_04:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_04:tco_02
+
+#=======================
+#   Address operations
+#=======================
+# Create address
+hydratk/extensions/testenv/sys_soap.jedi:ts_05:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_01:tco_02
+
+# Change address
+hydratk/extensions/testenv/sys_soap.jedi:ts_05:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_02:tco_02
+
+# Assign address role
+hydratk/extensions/testenv/sys_soap.jedi:ts_05:tc_03:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_03:tco_02
+
+# Revoke address role
+hydratk/extensions/testenv/sys_soap.jedi:ts_05:tc_04:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_04:tco_02
+
+#=======================
+#   Service operations
+#=======================
+# Create service
+hydratk/extensions/testenv/sys_soap.jedi:ts_06:tc_01:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_01:tco_02
+hydratk/extensions/testenv/sys_soap.jedi:ts_06:tc_01:tco_03
+hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_01:tco_04
+
+# Change service
+hydratk/extensions/testenv/sys_soap.jedi:ts_06:tc_02:tco_01
+hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_02:tco_02

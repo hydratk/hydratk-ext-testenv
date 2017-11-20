@@ -26,6 +26,10 @@ class DB_INT(object):
     def disconnect(self):
 
         return self._db.disconnect()
+    
+    def exec_query(self, query):
+
+        return self._db._client.exec_query(query)
 
     def read_customer(self, id):
 

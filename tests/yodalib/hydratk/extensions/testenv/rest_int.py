@@ -20,7 +20,6 @@ class REST_INT(object):
     """
 
     _mh = None
-    _ip = None
     _url = None
     _client = None
 
@@ -40,6 +39,19 @@ class REST_INT(object):
         self._url = 'http://{0}:{1}/rs/'.format(ip, port)
         self._client = RESTClient()
 
+    def get(self, url):
+        """Method performs HTTP GET
+
+        Args:
+           url (str): URL
+
+        Returns:
+           tuple: status (int), content (str)
+
+        """
+
+        return self._client.send_request(url, method='GET')
+
     def read_customer(self, id):
         """Method reads customer
 
@@ -47,7 +59,7 @@ class REST_INT(object):
            id (int): customer id           
 
         Returns:
-           obj: crm_entities.Customer
+           obj: entities.Customer
 
         """
 
@@ -157,7 +169,7 @@ class REST_INT(object):
            id (int): payer id          
 
         Returns:
-           obj: crm_entities.Payer
+           obj: entities.Payer
 
         """
 
@@ -263,7 +275,7 @@ class REST_INT(object):
            id (int): subscriber id           
 
         Returns:
-           obj: crm_entities.Subscriber
+           obj: entities.Subscriber
 
         """
 
@@ -375,7 +387,7 @@ class REST_INT(object):
            id (int): contact id         
 
         Returns:
-           obj: crm_entities.Contact
+           obj: entities.Contact
 
         """
 
@@ -552,7 +564,7 @@ class REST_INT(object):
            id (int): address id         
 
         Returns:
-           obj: crm_entities.Address 
+           obj: entities.Address
 
         """
 
@@ -740,7 +752,7 @@ class REST_INT(object):
            service (int): service id, lov_service.id, default empty, read all services for entity     
 
         Returns:
-           list: list of crm_entities.Service
+           list: entities.Service
 
         """
 

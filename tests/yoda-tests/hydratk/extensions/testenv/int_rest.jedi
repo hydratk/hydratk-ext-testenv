@@ -1,0 +1,467 @@
+Test-Scenario-1:
+  Id: ts_01
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Customer
+  Desc: Test customer operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_customer
+    Desc: Create customer
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_customer
+      Desc: Create customer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_01:tc_01:tco_01')  
+                                  
+      Validate: |            
+        assert cust != None
+
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_customer
+      Desc: Read customer
+      Test: 
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_01:tc_01:tco_02')           
+            
+      Validate: |
+        assert customer != None   
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_customer
+    Desc: Change customer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_customer
+      Desc: Change customer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_01:tc_02:tco_01')            
+            
+      Validate: |            
+        assert res == True
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_customer
+      Desc: Read customer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_01:tc_02:tco_02')           
+            
+      Validate: |
+        assert customer != None                                                     
+     
+Test-Scenario-2:
+  Id: ts_02
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Payer operations
+  Desc: Test payer operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_payer
+    Desc: Create payer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_payer
+      Desc: Create payer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_02:tc_01:tco_01')        
+            
+      Validate: |
+        assert pay != None
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_payer
+      Desc: Read payer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_02:tc_01:tco_02')           
+            
+      Validate: |
+        assert payer != None            
+                 
+  Test-Case-2: 
+    Id: tc_02
+    Name: tc_change_payer
+    Desc: Change_payer  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_payer
+      Desc: Change payer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_02:tc_02:tco_01')             
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_payer
+      Desc: Read payer
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_02:tc_02:tco_02')           
+            
+      Validate: |
+        assert payer != None                                              
+     
+Test-Scenario-3:
+  Id: ts_03
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Subscriber operations
+  Desc: Test subscriber operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_subscriber
+    Desc: Create subscriber
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_create_subscriber
+      Desc: Create subscriber
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_03:tc_01:tco_01')          
+            
+      Validate: |
+        assert subs != None
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_subscriber
+      Desc: Read subscriber
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_03:tc_01:tco_02')           
+            
+      Validate: |
+        assert subscriber != None              
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_subscriber
+    Desc: Change subscriber  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_subscriber
+      Desc: Change subscriber
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_03:tc_02:tco_01')            
+            
+      Validate: |
+       assert res == True
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_subscriber
+      Desc: Read subscriber
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_03:tc_02:tco_02')           
+            
+      Validate: |
+        assert subscriber != None              
+     
+Test-Scenario-4:
+  Id: ts_04
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Contact operations
+  Desc: Test contact operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+    
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_contact
+    Desc: Create contact
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_create_contact
+      Desc: Create contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_04:tc_01:tco_01')          
+            
+      Validate: |
+        assert con != None
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_01:tco_02')           
+            
+      Validate: |
+        assert contact != None            
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_contact
+    Desc: Change contact
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_change_contact
+      Desc: Change contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_04:tc_02:tco_01')          
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_02:tco_02')           
+            
+      Validate: |
+        assert contact != None             
+                   
+  Test-Case-3:
+    Id: tc_03
+    Name: tc_assign_contact_role
+    Desc: Assign contact role  
+  
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_assign_contact_role
+      Desc: Assign contact role
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_04:tc_03:tco_01')          
+            
+      Validate: |
+        assert [res1, res2, res3] == [True, True, True]                    
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_03:tco_02')           
+            
+      Validate: |
+        assert contact != None                                       
+            
+  Test-Case-4:
+    Id: tc_04
+    Name: tc_revoke_contact_role
+    Desc: Revoke contact role  
+  
+    Test-Condition-1: 
+      Id: tco_01 
+      Name: tco_revoke_contact_role
+      Desc: Revoke contact role
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_04:tc_04:tco_01')            
+            
+      Validate: |
+        assert [res1, res2, res3] == [True, True, True]                    
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_contact
+      Desc: Read contact
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_04:tc_04:tco_02')           
+            
+      Validate: |
+        assert contact != None      
+     
+Test-Scenario-5:
+  Id: ts_05
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Address operations
+  Desc: Test address operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_address
+    Desc: Create address
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_address
+      Desc: Create address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_05:tc_01:tco_01')   
+            
+      Validate: |
+        assert addr != None
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_01:tco_02')           
+            
+      Validate: |
+        assert address != None           
+                    
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_address
+    Desc: Change address  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_address
+      Desc: Change address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_05:tc_02:tco_01')           
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_02:tco_02')           
+            
+      Validate: |
+        assert address != None            
+                   
+  Test-Case-3:
+    Id: tc_03
+    Name: tc_assign_address_role
+    Desc: Assign address role  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_assign_address_role
+      Desc: Assign address role
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_05:tc_03:tco_01')           
+            
+      Validate: |
+        assert [res1, res2, res3, res4] == [True, True, True, True]                  
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_03:tco_02')           
+            
+      Validate: |
+        assert address != None                                                
+            
+  Test-Case-4:
+    Id: tc_04
+    Name: tc_revoke_address_role
+    Desc: Revoke address role  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_revoke_address_role
+      Desc: Revoke address role
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_05:tc_04:tco_01')          
+            
+      Validate: |
+        assert [res1, res2, res3, res4] == [True, True, True, True]                  
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_address
+      Desc: Read address
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_05:tc_04:tco_02')           
+            
+      Validate: |
+        assert address != None             
+            
+Test-Scenario-6:
+  Id: ts_06
+  Path: hydratk/extensions/testenv/int_rest.jedi
+  Name: Service operations
+  Desc: Test service operations
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1   
+  
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_create_service
+    Desc: Create service  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_create_service
+      Desc: Create service
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_06:tc_01:tco_01')       
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_read_services
+      Desc: Read services
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_01:tco_02')           
+            
+      Validate: |
+        assert srv != None  
+            
+    Test-Condition-3: 
+      Id: tco_03
+      Name: tco_create_service
+      Desc: Create service
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_06:tc_01:tco_03')      
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-4:
+      Id: tco_04 
+      Name: tco_read_services
+      Desc: Read services
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_01:tco_04')           
+            
+      Validate: |
+        assert srv != None
+            
+  Test-Case-2:
+    Id: tc_02
+    Name: tc_change_service
+    Desc: Change service  
+  
+    Test-Condition-1:
+      Id: tco_01 
+      Name: tco_change_service
+      Desc: Change service
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_rest.jedi:ts_06:tc_02:tco_01')      
+            
+      Validate: |
+        assert res == True
+                    
+    Test-Condition-2:
+      Id: tco_02 
+      Name: tco_read_services
+      Desc: Read services
+      Test: |
+        self.exec_test('hydratk/extensions/testenv/sys_db.jedi:ts_06:tc_02:tco_02')           
+            
+      Validate: |
+        assert srv != None                            

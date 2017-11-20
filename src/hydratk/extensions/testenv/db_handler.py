@@ -71,6 +71,26 @@ class DbHandler(object):
             'te_db_disconnected'), self._mh.fromhere())
         return result
 
+    def get_lov(self, title):
+        """Method reads LOV
+
+        Args:
+           none
+
+        Returns:
+           list
+
+        """
+
+        query = 'SELECT id, title FROM lov_{0}'.format(title)
+        res, rows = self._client.exec_query(query)
+
+        recs = []
+        for row in rows:
+            recs.append((row['id'], row['title']))
+
+        return recs
+
     def read_customer(self, id):
         """Method reads customer
 
@@ -78,7 +98,7 @@ class DbHandler(object):
            id (int): customer id           
 
         Returns:
-           obj: crm_entities.Customer
+           obj: entities.Customer
 
         """
 
@@ -221,7 +241,7 @@ class DbHandler(object):
            id (int): payer id          
 
         Returns:
-           obj: crm_entities.Payer
+           obj: entities.Payer
 
         """
 
@@ -358,7 +378,7 @@ class DbHandler(object):
            id (int): subscriber id           
 
         Returns:
-           obj: crm_entities.Subscriber
+           obj: entities.Subscriber
 
         """
 
@@ -504,7 +524,7 @@ class DbHandler(object):
            id (int): contact id         
 
         Returns:
-           obj: crm_entities.Contact
+           obj: entities.Contact
 
         """
 
@@ -749,7 +769,7 @@ class DbHandler(object):
            id (int): address id         
 
         Returns:
-           obj: crm_entities.Address 
+           obj: entities.Address
 
         """
 
@@ -1010,7 +1030,7 @@ class DbHandler(object):
            service (int): service id, lov_service.id, default empty, read all services for entity     
 
         Returns:
-           list: list of crm_entities.Service
+           list: entities.Service
 
         """
 
@@ -1203,7 +1223,7 @@ class DbHandler(object):
         res, row = self._client.exec_query(
             query, ['service', rec_id, 'create_service', log])
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'service', id),
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'service', rec_id),
                       self._mh.fromhere())
 
         return res

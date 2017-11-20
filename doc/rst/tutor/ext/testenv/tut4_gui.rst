@@ -1,33 +1,33 @@
-.. _tutor_testenv_tut3_soap:
+.. _tutor_testenv_tut4_gui:
 
-Tutorial 3: SOAP interface
-==========================
+Tutorial 4: GUI interface
+=========================
 
-Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/sys_soap.jedi.
+Sample Yoda script is located in /var/local/hydratk/yoda/yoda-tests/hydratk/extensions/testenv/sys_gui.jedi.
 Sample smoke test is located in smoke.jedi.
-Sample integration test (SOAP+DB) in located in int_soap.jedi, it uses archive.
+Sample integration test (GUI+DB) in located in int_gui.jedi, it uses helpers for different interfaces.
 
 Important snippets are commented.
 
-Connect
-^^^^^^^
+Open
+^^^^
 
   .. code-block:: python
   
      # import helpers
      import yodahelpers.hydratk.extensions.testenv.helpers as hlp
     
-     # create SOAP client instance and connect
-     client = hlp.soap()
-     res = client.connect() # returns bool
+     # create GUI client instance and open browser
+     client = hlp.db()
+     res = client.open() # returns bool
      
-Disconnect
-^^^^^^^^^^
+Close
+^^^^^
 
   .. code-block:: python
   
      # returns bool
-     client.disconnect()     
+     client.close()     
 
 Customer
 ^^^^^^^^
@@ -37,22 +37,22 @@ Customer
      # create customer
      name = 'Vince Neil'
      status = 'active'
-     segment = 2
+     segment = 'RES'
      birth_no = '700101/0001'
      reg_no = '12345'
      tax_no = 'CZ12345'
      
      # returns generated id
-     cust = client.create_customer(name, segment, status, birth_no, reg_no, tax_no)
+     cust = client.create_customer(name, status, segment, birth_no, reg_no, tax_no)
      
      # read created customer, returns Customer object
      print client.read_customer(cust) 
-     # id:1|name:Vince Neil|status:active|segment:2|birth_no:700101/0001|reg_no:12345|tax_no:CZ12345
+     # id:1|name:Vince Neil|status:active|segment:RES|birth_no:700101/0001|reg_no:12345|tax_no:CZ12345
      
      # change customer
      name = 'Charlie Bowman'
      status = 'suspend'
-     segment = 3
+     segment = 'VSE'
      birth_no = '700101/0002'
      reg_no = '1234'
      tax_no = 'CZ1234'
@@ -68,21 +68,21 @@ Payer
      # create payer
      name = 'Vince Neil'
      status = 'active'
-     billcycle = 1
+     billcycle = '51'
      bank_account = '123456/0100'
      customer = cust
      
      # returns generated id
-     pay = client.create_payer(name, billcycle, customer, status, bank_account) 
+     pay = client.create_payer(name, status, billcycle, customer, bank_account) 
      
      # read created payer, returns Payer object
      print client.read_payer(pay)
-     # id:1|name:Vince Neil|status:active|billcycle:1|bank_account:123456/0100|customer:1
+     # id:1|name:Vince Neil|status:active|billcycle:51|bank_account:123456/0100|customer:1
      
      # change payer
      name = 'Charlie Bowman'
      status = 'suspend'
-     billcycle = 2
+     billcycle = '52'
      bank_account = '654321/0800'
      
      # returns bool
@@ -97,8 +97,8 @@ Subscriber
      name = 'Vince Neil'
      msisdn = '773592179'
      status = 'active'
-     market = 1
-     tariff = 433
+     market = 'GSM'
+     tariff = 'S nami sit nesit'
      customer = cust
      payer = pay
      
@@ -107,14 +107,14 @@ Subscriber
      
      # read created subscriber, returns Subscriber object
      print client.read_subscriber(subs)                             
-     # id:1|name:Vince Neil|msisdn:773592179|status:active|market:1|tariff:433|customer:1|payer:1
+     # id:1|name:Vince Neil|msisdn:773592179|status:active|market:GSM|tariff:S nami sit nesit|customer:1|payer:1
      
      # change subscriber
      name = 'Charlie Bowman'
      msisdn = '603404746'
      status = 'suspend'
-     market = 2
-     tariff = 434
+     market = 'DSL'
+     tariff = 'S nami sit nesit v podnikani'
      
      # returns bool
      res = client.change_subscriber(subs, name, msisdn, status, market, tariff)
@@ -206,32 +206,4 @@ Address
      client.revoke_address_role(addr, 'invoicing', payer=pay) 
      client.revoke_address_role(addr, 'contact', subscriber=subs)  
      client.revoke_address_role(addr, 'delivery', contact=con)  
-     
-Service
-^^^^^^^
-
-  .. code-block:: python
-  
-     # create service
-     service = 615
-     subscriber = subs
-     status = 'active'
-     params = {}
-     params[121] = '123456'
-     
-     # returns bool
-     client.create_service(service, subscriber=subscriber, status=status, params=params)     
-     
-     # read service, returns list of Service object
-     print client.read_services(subscriber=subscriber)[0] 
-     # id:615|name:Telefonni cislo|status:active|params#121:123456#
-     
-     # change service
-     service = 615
-     subscriber = subs
-     status = 'deactive'
-     params = {}
-     params[121] = '603404746' 
-     
-     # returns bool
-     client.change_service(service, subscriber=subscriber, status=status, params=params)                 
+         

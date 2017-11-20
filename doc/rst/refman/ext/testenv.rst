@@ -36,6 +36,14 @@ entities
 
 .. automodule:: hydratk.extensions.testenv.entities
    :member-order: bysource
+
+.. _refman_ext_testenv_gui_handler:   
+   
+gui_handler
+^^^^^^^^^^^
+
+.. automodule:: hydratk.extensions.testenv.gui_handler
+   :member-order: bysource
    
 .. _refman_ext_testenv_rest_handler:   
    
