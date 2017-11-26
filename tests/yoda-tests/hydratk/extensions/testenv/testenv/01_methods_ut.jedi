@@ -42,6 +42,7 @@ Test-Scenario-2:
   Pre-Req: |
     from hydratk.core.masterhead import MasterHead
     from os import remove, path
+    from sys import prefix
     from time import time
   
   Test-Case-1:
@@ -59,7 +60,7 @@ Test-Scenario-2:
         ext = mh._ext['TestEnv']
         mh._config['Extensions']['TestEnv']['db_file'] = 'test.db3'
         ext.install_db_fc()
-        file = '/var/local/hydratk/testenv/test.db3'
+        file = prefix+'/var/local/hydratk/testenv/test.db3'
         res = (path.exists(file))
       
       Validate: |
