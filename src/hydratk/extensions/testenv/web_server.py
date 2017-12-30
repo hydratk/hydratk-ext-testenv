@@ -239,7 +239,7 @@ class SoapService(object):
                 header('Content-Type', 'text/xml')
                 return file.read()
         else:
-            mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_web_unknown_file', soap_file),
+            mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_web_unknown_file', soap_file),
                     self._mh.fromhere())
             return NotFound()
 

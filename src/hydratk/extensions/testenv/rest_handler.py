@@ -74,7 +74,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_customer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_customer', data),
                       self._mh.fromhere())
 
         if ('id' in data):
@@ -116,7 +116,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_customer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_customer', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -163,7 +163,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_customer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_customer', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -211,7 +211,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_payer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_payer', data),
                       self._mh.fromhere())
 
         if ('id' in data):
@@ -252,7 +252,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_payer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_payer', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -296,7 +296,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_payer', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_payer', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -345,7 +345,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_subscriber', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_subscriber', data),
                       self._mh.fromhere())
 
         if ('id' in data):
@@ -388,7 +388,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_subscriber', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_subscriber', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -437,7 +437,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_subscriber', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_subscriber', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -494,7 +494,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_contact', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_contact', data),
                       self._mh.fromhere())
 
         if ('id' in data):
@@ -533,7 +533,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_contact', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_contact', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -573,7 +573,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_contact', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_contact', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -615,7 +615,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_contact_role', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_contact_role', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -658,7 +658,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_contat_role', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_contat_role', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -713,7 +713,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_address', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_address', data),
                       self._mh.fromhere())
 
         if ('id' in data):
@@ -753,7 +753,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_address', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_address', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -795,7 +795,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_address', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_address', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -839,7 +839,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_address_role', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'assign_address_role', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -885,7 +885,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_address_role', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'revoke_address_role', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -947,7 +947,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_services', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'read_services', data),
                       self._mh.fromhere())
 
         customer = data['customer'] if 'customer' in data else None
@@ -1019,7 +1019,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_service', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'create_service', data),
                       self._mh.fromhere())
 
         doc = loads(data)
@@ -1077,7 +1077,7 @@ class RestHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_service', data),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_rest_request', 'change_service', data),
                       self._mh.fromhere())
 
         doc = loads(data)

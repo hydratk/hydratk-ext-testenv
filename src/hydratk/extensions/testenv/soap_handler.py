@@ -164,7 +164,7 @@ class SoapHandler(object):
                 return self._fault('Invalid SOAPAction {0}'.format(action))
 
         except XMLSyntaxError as ex:
-            self._mh.dmsg(
+            self._mh.demsg(
                 'htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere())
             return self._fault('Invalid XML - ' + ex)
 
@@ -200,7 +200,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_customer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_customer', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -243,7 +243,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_customer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_customer', tostring(doc)),
                       self._mh.fromhere())
 
         name = doc.find('name').text if doc.find('name') else None
@@ -295,7 +295,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_customer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_customer', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -349,7 +349,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_payer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_payer', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -391,7 +391,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_payer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_payer', tostring(doc)),
                       self._mh.fromhere())
 
         name = doc.find('name').text if doc.find('name') else None
@@ -442,7 +442,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_payer', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_payer', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -499,7 +499,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_subscriber', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_subscriber', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -543,7 +543,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_subscriber', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_subscriber', tostring(doc)),
                       self._mh.fromhere())
 
         name = doc.find('name').text if doc.find('name') else None
@@ -597,7 +597,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_subscriber', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_subscriber', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -659,7 +659,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_contact', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_contact', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -699,7 +699,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_contact', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_contact', tostring(doc)),
                       self._mh.fromhere())
 
         name = doc.find('name').text if doc.find('name') else None
@@ -744,7 +744,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_contact', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_contact', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -791,7 +791,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_contact_role', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_contact_role', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -840,7 +840,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_contact_role', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_contact_role', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -901,7 +901,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_address', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_address', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -942,7 +942,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_address', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_address', tostring(doc)),
                       self._mh.fromhere())
 
         street = doc.find('street').text if doc.find('street') else None
@@ -990,7 +990,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_address', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_address', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -1040,7 +1040,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_address_role', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'assign_address_role', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -1092,7 +1092,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_address_role', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'revoke_address_role', tostring(doc)),
                       self._mh.fromhere())
 
         id = doc.find('id').text if doc.find('id') else None
@@ -1154,7 +1154,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_services', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'read_services', tostring(doc)),
                       self._mh.fromhere())
 
         customer = doc.find('customer').text if doc.find('customer') else None
@@ -1211,7 +1211,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_service', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'create_service', tostring(doc)),
                       self._mh.fromhere())
 
         service = doc.find('service').text if doc.find('service') else None
@@ -1272,7 +1272,7 @@ class SoapHandler(object):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_service', tostring(doc)),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_soap_request', 'change_service', tostring(doc)),
                       self._mh.fromhere())
 
         service = doc.find('service').text if doc.find('service') else None

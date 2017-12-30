@@ -51,7 +51,7 @@ class DbHandler(object):
         """
 
         result = self._client.connect(self._db_file)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
             'te_db_connected'), self._mh.fromhere())
         return result
 
@@ -67,7 +67,7 @@ class DbHandler(object):
         """
 
         result = self._client.disconnect()
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
             'te_db_disconnected'), self._mh.fromhere())
         return result
 
@@ -103,7 +103,7 @@ class DbHandler(object):
         """
 
         msg = 'id:{0}'.format(id)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_customer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_customer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.id, a.name, b.title AS status, a.segment, a.birth_no, a.reg_no, a.tax_no ' + \
@@ -111,13 +111,13 @@ class DbHandler(object):
         res, row = self._client.exec_query(query, [id], True)
 
         if (row == None):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'customer', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'customer', id),
                           self._mh.fromhere())
             return None
 
         customer = Customer(row['id'], row['name'], row['status'], row['segment'],
                             row['birth_no'], row['reg_no'], row['tax_no'])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'customer', customer),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'customer', customer),
                       self._mh.fromhere())
 
         return customer
@@ -140,7 +140,7 @@ class DbHandler(object):
 
         msg = 'name:{0}, status:{1}, segment:{2}, birth_no:{3}, reg_no:{4}, tax_no:{5}'.format(
             name, status, segment, birth_no, reg_no, tax_no)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_customer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_customer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_status WHERE title = ?'
@@ -165,7 +165,7 @@ class DbHandler(object):
 
         self._client.exec_query(
             query, ['customer', id, 'create_customer', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'customer', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'customer', id),
                       self._mh.fromhere())
 
         return id
@@ -189,14 +189,14 @@ class DbHandler(object):
 
         msg = 'id:{0}, name:{1}, status:{2}, segment:{3}, birth_no:{4}, reg_no:{5}, tax_no:{6}'. format(
               id, name, status, segment, birth_no, reg_no, tax_no)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_customer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_customer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT COUNT(*) FROM customer WHERE id = ?'
         res, row = self._client.exec_query(query, [id], True)
 
         if (row[0] == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'customer', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'customer', id),
                           self._mh.fromhere())
             return False
 
@@ -229,7 +229,7 @@ class DbHandler(object):
 
         res, rows = self._client.exec_query(
             query, ('customer', id, 'change_customer', log))
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'customer', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'customer', id),
                       self._mh.fromhere())
 
         return res
@@ -246,7 +246,7 @@ class DbHandler(object):
         """
 
         msg = 'id:{0}'.format(id)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_Payer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_Payer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.id, a.name, b.title AS status, a.billcycle, a.bank_account, a.customer ' + \
@@ -254,13 +254,13 @@ class DbHandler(object):
         res, row = self._client.exec_query(query, [id], True)
 
         if (row == None):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'payer', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'payer', id),
                           self._mh.fromhere())
             return None
 
         payer = Payer(row['id'], row['name'], row['status'], row['billcycle'],
                       row['customer'], row['bank_account'])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'payer', payer),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'payer', payer),
                       self._mh.fromhere())
 
         return payer
@@ -282,7 +282,7 @@ class DbHandler(object):
 
         msg = 'name:{0}, status:{1}, billcycle:{2}, bank_account:{3}, customer:{4}'.format(
               name, status, billcycle, bank_account, customer)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_payer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_payer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_status WHERE title = ?'
@@ -304,7 +304,7 @@ class DbHandler(object):
               u'|bank_account:{0}|customer:{1}'.format(bank_account, customer)
 
         self._client.exec_query(query, ['payer', id, 'create_payer', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'payer', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'payer', id),
                       self._mh.fromhere())
 
         return id
@@ -327,14 +327,14 @@ class DbHandler(object):
 
         msg = 'id:{0}, name:{1}, status:{2}, billcycle:{3}, bank_account:{4}, customer:{5}'.format(
               id, name, status, billcycle, bank_account, customer)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_payer', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_payer', msg),
                       self._mh.fromhere())
 
         query = 'SELECT COUNT(*) FROM payer WHERE id = ?'
         res, row = self._client.exec_query(query, [id], True
                                            )
         if (row[0] == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'payer', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'payer', id),
                           self._mh.fromhere())
             return False
 
@@ -366,7 +366,7 @@ class DbHandler(object):
 
         res, rows = self._client.exec_query(
             query, ['payer', id, 'change_payer', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'payer', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'payer', id),
                       self._mh.fromhere())
 
         return res
@@ -383,7 +383,7 @@ class DbHandler(object):
         """
 
         msg = 'id:{0}'.format(id)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_subscriber', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_subscriber', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.id, a.name, a.msisdn, b.title AS status, a.market, a.tariff, a.customer, a.payer ' + \
@@ -391,13 +391,13 @@ class DbHandler(object):
         res, row = self._client.exec_query(query, [id], True)
 
         if (row == None):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'subscriber', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'subscriber', id),
                           self._mh.fromhere())
             return None
 
         subscriber = Subscriber(row['id'], row['name'], row['msisdn'], row['status'],
                                 row['market'], row['tariff'], row['customer'], row['payer'])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'subscriber', subscriber),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'subscriber', subscriber),
                       self._mh.fromhere())
 
         return subscriber
@@ -421,7 +421,7 @@ class DbHandler(object):
 
         msg = 'name:{0}, msisdn:{1}, status:{2}, market:{3}, tariff:{4}, customer:{5}, payer:{6}'.format(
               name, msisdn, status, market, tariff, customer, payer)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_subscriber', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_subscriber', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_status WHERE title = ?'
@@ -445,7 +445,7 @@ class DbHandler(object):
 
         self._client.exec_query(
             query, ['subscriber', id, 'create_subscriber', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'subscriber', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'subscriber', id),
                       self._mh.fromhere())
 
         return id
@@ -470,14 +470,14 @@ class DbHandler(object):
 
         msg = 'id:{0}, name:{1}, msisdn:{2}, status:{3}, market:{4}, tariff:{5}, customer:{6}, payer:{7}'.format(
               id, name, msisdn, status, market, tariff, customer, payer)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_subscriber', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_subscriber', msg),
                       self._mh.fromhere())
 
         query = 'SELECT COUNT(*) FROM subscriber WHERE id = ?'
         res, row = self._client.exec_query(query, [id], True)
 
         if (row[0] == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'subscriber', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'subscriber', id),
                           self._mh.fromhere())
             return False
 
@@ -512,7 +512,7 @@ class DbHandler(object):
 
         res, rows = self._client.exec_query(
             query, ['subscriber', id, 'change_subscriber', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'subscriber', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'subscriber', id),
                       self._mh.fromhere())
 
         return res
@@ -529,7 +529,7 @@ class DbHandler(object):
         """
 
         msg = 'id:{0}'.format(id)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_contact', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_contact', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.id, a.name, a.phone, a.email, ' + \
@@ -540,7 +540,7 @@ class DbHandler(object):
         res, rows = self._client.exec_query(query, [id])
 
         if (len(rows) == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'contact', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'contact', id),
                           self._mh.fromhere())
             return None
 
@@ -566,7 +566,7 @@ class DbHandler(object):
                                          row['payer'], row['subscriber']))
 
         contact = Contact(id, name, phone, email, roles)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'contact', contact),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'contact', contact),
                       self._mh.fromhere())
 
         return contact
@@ -585,7 +585,7 @@ class DbHandler(object):
         """
 
         msg = 'name:{0}, phone:{1}, email:{2}'.format(name, phone, email)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_contact', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_contact', msg),
                       self._mh.fromhere())
 
         query = 'INSERT INTO contact (name, phone, email, create_date) ' + \
@@ -602,7 +602,7 @@ class DbHandler(object):
             id, name, phone, email)
 
         self._client.exec_query(query, ['contact', id, 'create_contact', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'contact', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'contact', id),
                       self._mh.fromhere())
 
         return id
@@ -623,14 +623,14 @@ class DbHandler(object):
 
         msg = 'id:{0}, name:{1}, phone:{2}, email:{3}'.format(
             id, name, phone, email)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_contact', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_contact', msg),
                       self._mh.fromhere())
 
         query = 'SELECT COUNT(*) FROM contact WHERE id = ?'
         res, row = self._client.exec_query(query, [id], True)
 
         if (row[0] == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'contact', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'contact', id),
                           self._mh.fromhere())
             return False
 
@@ -650,7 +650,7 @@ class DbHandler(object):
 
         res, row = self._client.exec_query(
             query, ['contact', id, 'change_contact', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'contact', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'contact', id),
                       self._mh.fromhere())
 
         return res
@@ -672,7 +672,7 @@ class DbHandler(object):
 
         msg = 'id:{0}, role:{1}, customer:{2}, payer:{3}, subscriber:{4}'.format(
               id, role, customer, payer, subscriber)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'assign_contact_role', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'assign_contact_role', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_contact_role WHERE title = ?'
@@ -698,7 +698,7 @@ class DbHandler(object):
 
         res, row = self._client.exec_query(
             query, ['contact_role', rec_id, 'assign_contact_role', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_assigned', 'contact'),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_assigned', 'contact'),
                       self._mh.fromhere())
 
         return res
@@ -720,7 +720,7 @@ class DbHandler(object):
 
         msg = 'id:{0}, role:{1}, customer:{2}, payer:{3}, subscriber:{4}'.format(
               id, role, customer, payer, subscriber)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'revoke_contact_role', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'revoke_contact_role', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_contact_role WHERE title = ?'
@@ -743,7 +743,7 @@ class DbHandler(object):
 
         rec_id = row[0] if (row != None) else None
         if (rec_id == None):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                 'te_db_unknown_role'), self._mh.fromhere())
             return False
 
@@ -757,7 +757,7 @@ class DbHandler(object):
 
         res, row = self._client.exec_query(
             query, ['contact_role', rec_id, 'revoke_contact_role', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_revoke', 'contact'),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_revoke', 'contact'),
                       self._mh.fromhere())
 
         return res
@@ -774,7 +774,7 @@ class DbHandler(object):
         """
 
         msg = 'id:{0}'.format(id)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_address', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_address', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.id, a.street, a.street_no, a.city, a.zip, ' + \
@@ -785,7 +785,7 @@ class DbHandler(object):
         res, rows = self._client.exec_query(query, [id])
 
         if (len(rows) == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'address', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'address', id),
                           self._mh.fromhere())
             return None
 
@@ -813,7 +813,7 @@ class DbHandler(object):
                                          row['customer'], row['payer'], row['subscriber']))
 
         address = Address(id, street, street_no, city, zip, roles)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'address', address),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'address', address),
                       self._mh.fromhere())
 
         return address
@@ -834,7 +834,7 @@ class DbHandler(object):
 
         msg = 'street:{0}, street_no:{1}, city:{2}, zip:{3}'.format(
             street, street_no, city, zip)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_address', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_address', msg),
                       self._mh.fromhere())
 
         query = 'INSERT INTO address (street, street_no, city, zip, create_date) ' + \
@@ -851,7 +851,7 @@ class DbHandler(object):
               u'|zip:{0}'.format(zip)
 
         self._client.exec_query(query, ['address', id, 'create_address', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'address', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'address', id),
                       self._mh.fromhere())
 
         return id
@@ -873,14 +873,14 @@ class DbHandler(object):
 
         msg = 'id:{0}, street:{1}, street_no:{2}, city:{3}, zip:{4}'.format(
             id, street, street_no, city, zip)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_address', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_address', msg),
                       self._mh.fromhere())
 
         query = 'SELECT COUNT(*) FROM address WHERE id = ?'
         res, row = self._client.exec_query(query, [id], True)
 
         if (row[0] == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'address', id),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'address', id),
                           self._mh.fromhere())
             return False
 
@@ -903,7 +903,7 @@ class DbHandler(object):
 
         res, rows = self._client.exec_query(
             query, ['address', id, 'change_address', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'address', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'address', id),
                       self._mh.fromhere())
 
         return res
@@ -926,7 +926,7 @@ class DbHandler(object):
 
         msg = 'id:{0}, role:{1}, contact:{2}, customer:{3}, payer:{4}, subscriber:{5}'.format(
               id, role, contact, customer, payer, subscriber)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'assign_address_role', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'assign_address_role', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_address_role WHERE title = ?'
@@ -952,7 +952,7 @@ class DbHandler(object):
 
         res, row = self._client.exec_query(
             query, ['address_role', rec_id, 'assign_address_role', log])
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_assigned', 'address'),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_assigned', 'address'),
                       self._mh.fromhere())
 
         return res
@@ -975,7 +975,7 @@ class DbHandler(object):
 
         msg = 'id:{0}, role:{1}, contact:{2}, customer:{3}, payer:{4}, subscriber:{5}'.format(
               id, role, contact, customer, payer, subscriber)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'revoke_address_role', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'revoke_address_role', msg),
                       self._mh.fromhere())
 
         query = 'SELECT id FROM lov_address_role WHERE title = ?'
@@ -1001,7 +1001,7 @@ class DbHandler(object):
 
         rec_id = row[0] if (row != None) else None
         if (rec_id == None):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                 'te_db_unknown_role'), self._mh.fromhere())
             return False
 
@@ -1015,7 +1015,7 @@ class DbHandler(object):
 
         self._client.exec_query(
             query, ('address_role', rec_id, 'revoke_address_role', log))
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_revoked', 'address'),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_role_revoked', 'address'),
                       self._mh.fromhere())
 
         return res
@@ -1036,7 +1036,7 @@ class DbHandler(object):
 
         msg = 'customer:{0}, payer:{1}, subscriber:{2}, service:{3}'.format(
               customer, payer, subscriber, service)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_services', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'read_services', msg),
                       self._mh.fromhere())
 
         query = 'SELECT a.service, c.title, d.title AS status, b.param, b.value ' + \
@@ -1095,7 +1095,7 @@ class DbHandler(object):
                 services.append(Service(id, title, status, params))
 
             for service in services:
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'service', service),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_found', 'service', service),
                               self._mh.fromhere())
 
             return services
@@ -1121,56 +1121,56 @@ class DbHandler(object):
 
         msg = 'service:{0}, customer:{1}, payer:{2}, subscriber:{3}, status:{4}, params:{5}'.format(
               service, customer, payer, subscriber, status, params)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_service', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'create_service', msg),
                       self._mh.fromhere())
 
         query = 'SELECT customer, payer, subscriber FROM lov_service WHERE id = ?'
         res, row = self._client.exec_query(query, [service], True)
 
         if (len(row) == 0):
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', service),
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', service),
                           self._mh.fromhere())
             return False
 
         if (customer != None):
 
             if (row['customer'] != 1):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'customer'),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'customer'),
                               self._mh.fromhere())
                 return False
 
             query = 'SELECT id FROM service WHERE service = ? AND customer = ?'
             res, rows = self._client.exec_query(query, [service, customer])
             if (len(rows) > 0):
-                self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
+                self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
                               self._mh.fromhere())
                 return False
 
         elif (payer != None):
 
             if (row['payer'] != 1):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'payer'),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'payer'),
                               self._mh.fromhere())
                 return False
 
             query = 'SELECT id FROM service WHERE service = ? AND payer = ?'
             res, rows = self._client.exec_query(query, [service, payer])
             if (len(rows) > 0):
-                self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
+                self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
                               self._mh.fromhere())
                 return False
 
         elif (subscriber != None):
 
             if (row['subscriber'] != 1):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'subscriber'),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_srv_forbidden', service, 'subscriber'),
                               self._mh.fromhere())
                 return False
 
             query = 'SELECT id FROM service WHERE service = ? AND subscriber = ?'
             res, rows = self._client.exec_query(query, [service, subscriber])
             if (len(rows) > 0):
-                self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
+                self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_srv_assigned', service),
                               self._mh.fromhere())
                 return False
 
@@ -1198,11 +1198,11 @@ class DbHandler(object):
                 res, row = self._client.exec_query(query, [service, key], True)
 
                 if (len(row) == 0):
-                    self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_unknown_srv_param', service, key),
+                    self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_unknown_srv_param', service, key),
                                   self._mh.fromhere())
                     return False
                 elif (row['mandatory'] == 1 and value == None):
-                    self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_mandatory_param'), key,
+                    self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_mandatory_param'), key,
                                   self._mh.fromhere())
                     return False
                 elif (row['mandatory'] == 0 and value == None):
@@ -1223,7 +1223,7 @@ class DbHandler(object):
         res, row = self._client.exec_query(
             query, ['service', rec_id, 'create_service', log])
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'service', rec_id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_created', 'service', rec_id),
                       self._mh.fromhere())
 
         return res
@@ -1246,7 +1246,7 @@ class DbHandler(object):
 
         msg = 'service:{0}, customer:{1}, payer:{2}, subscriber:{3}, status:{4}, params:{5}'.format(
               service, customer, payer, subscriber, status, params)
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_service', msg),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_func', 'change_service', msg),
                       self._mh.fromhere())
 
         id = None
@@ -1258,7 +1258,7 @@ class DbHandler(object):
                 query, [service, customer], True)
 
             if (len(row) == 0):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
                               self._mh.fromhere())
                 return False
 
@@ -1268,7 +1268,7 @@ class DbHandler(object):
             res, row = self._client.exec_query(query, [service, payer])
 
             if (len(row) == 0):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
                               self._mh.fromhere())
                 return False
 
@@ -1279,7 +1279,7 @@ class DbHandler(object):
                 query, [service, subscriber], True)
 
             if (len(row) == 0):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_unknown_entity', 'service', id),
                               self._mh.fromhere())
                 return False
 
@@ -1306,11 +1306,11 @@ class DbHandler(object):
                 res, row = self._client.exec_query(query, [id, key], True)
 
                 if (len(row) == 0):
-                    self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_param_not_assigned', key),
+                    self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_param_not_assigned', key),
                                   self._mh.fromhere())
                     return False
                 elif (row['mandatory'] == 1 and value == None):
-                    self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg('te_db_mandatory_param', key),
+                    self._mh.demsg('htk_on_extension_error', self._mh._trn.msg('te_db_mandatory_param', key),
                                   self._mh.fromhere())
                     return False
                 else:
@@ -1323,7 +1323,7 @@ class DbHandler(object):
                 'VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?)'
         self._client.exec_query(query, ['service', id, 'change_service', log])
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'service', id),
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('te_db_entity_changed', 'service', id),
                       self._mh.fromhere())
 
         return True

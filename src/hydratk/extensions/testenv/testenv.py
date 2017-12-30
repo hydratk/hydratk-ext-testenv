@@ -53,7 +53,7 @@ class Extension(extension.Extension):
         self._ext_name = 'TestEnv'
         self._ext_version = '0.2.1'
         self._ext_author = 'Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>'
-        self._ext_year = '2015-2017'
+        self._ext_year = '2015-2018'
 
         if (not self._check_dependencies()):
             exit(0)
@@ -186,14 +186,14 @@ class Extension(extension.Extension):
         try:
 
             if (ext_call):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                     'te_received_cmd', 'te-install-db'), self._mh.fromhere())
 
             ext_dir = self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR)
             db_file = path.join(
                 ext_dir, self._mh.cfg['Extensions']['TestEnv']['db_file'])
             if (path.exists(db_file)):
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                     'te_delete_db', db_file), self._mh.fromhere())
                 remove(db_file)
 
@@ -203,22 +203,22 @@ class Extension(extension.Extension):
                 with open(install_file, 'r') as file:
                     script = file.read()
 
-                self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+                self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                     'te_create_db', db_file), self._mh.fromhere())
                 with connect(db_file) as conn:
-                    self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+                    self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                         'te_install_db', install_file), self._mh.fromhere())
                     cur = conn.cursor()
                     cur.executescript(script)
                     conn.commit()
-                    self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+                    self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
                         'te_db_installed'), self._mh.fromhere())
             else:
-                self._mh.dmsg('htk_on_extension_error', self._mh._trn.msg(
+                self._mh.demsg('htk_on_extension_error', self._mh._trn.msg(
                     'te_unknown_install'), self._mh.fromhere())
 
         except Error as ex:
-            self._mh.dmsg(
+            self._mh.demsg(
                 'htk_on_extension_error', 'error: {0}'.format(ex), self._mh.fromhere())
 
     def start_fc(self):
@@ -234,7 +234,7 @@ class Extension(extension.Extension):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg(
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg(
             'te_received_cmd', 'te-start'), self._mh.fromhere())
 
         db_file = path.join(self._mh.cfg['Extensions']['TestEnv']['ext_dir'].format(var_dir=syscfg.HTK_VAR_DIR),
