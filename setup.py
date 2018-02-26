@@ -112,7 +112,7 @@ entry_points = {
 
 st_setup(
     name='hydratk-ext-testenv',
-    version='0.2.3.dev0',
+    version='0.2.3',
     description='Test environment for test automation exercises',
     long_description=readme,
     author='Petr Rašek, HydraTK team',
