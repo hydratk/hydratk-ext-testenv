@@ -611,7 +611,7 @@ class GuiHandler(object):
         """
         
         if (data['customerId'] == ''):
-            self._customerError.set_value('ID is mandatory')
+            self._customerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         else:
             id = int(data['customerId'])
             db = self._get_db()
@@ -619,7 +619,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (customer == None):
-                self._customerError.set_value('Customer {0} unknown'.format(id))
+                self._customerError.set_value(self._mh._trn.msg('te_gui_unknown_entity', 'Customer', id))
             else:
                 self._customerId.set_value(customer.id)
                 self._customerName.set_value(customer.name)
@@ -642,7 +642,7 @@ class GuiHandler(object):
         """
         
         if (data['customerName'] == ''):
-            self._customerError.set_value('Name is mandatory')
+            self._customerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         else:
             name = data['customerName']
             status = self._translate_lov('status', int(data['customerStatus']))
@@ -656,7 +656,7 @@ class GuiHandler(object):
             db.disconnect()
             
             if (id == None):
-                self._customerError.set_value('Customer not created')
+                self._customerError.set_value(self._mh._trn.msg('te_gui_entity_not_created', 'Customer'))
             else:
                 self._customerId.set_value(id)
                 self._customerName.set_value(name)
@@ -679,9 +679,9 @@ class GuiHandler(object):
         """
         
         if (data['customerId'] == ''):
-            self._customerError.set_value('ID is mandatory')
+            self._customerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         elif (data['customerName'] == ''):
-            self._customerError.set_value('Name is mandatory')
+            self._customerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         else:
             id = int(data['customerId'])
             name = data['customerName']
@@ -696,7 +696,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._customerError.set_value('Customer not changed')
+                self._customerError.set_value(self._mh._trn.msg('te_gui_entity_not_changed', 'Customer'))
             else:
                 self._customerId.set_value(id)
                 self._customerName.set_value(name)
@@ -719,7 +719,7 @@ class GuiHandler(object):
         """
 
         if (data['payerId'] == ''):
-            self._payerError.set_value('ID is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         else:
             id = int(data['payerId'])
             db = self._get_db()
@@ -727,7 +727,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (payer == None):
-                self._payerError.set_value('Payer {0} unknown'.format(id))
+                self._payerError.set_value(self._mh._trn.msg('te_gui_unknown_entity', 'Payer', id))
             else:
                 self._payerId.set_value(payer.id)
                 self._payerName.set_value(payer.name)
@@ -749,9 +749,9 @@ class GuiHandler(object):
         """
 
         if (data['payerName'] == ''):
-            self._payerError.set_value('Name is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         elif (data['payerCustomer'] == ''):
-            self._payerError.set_value('Customer is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer'))
         else:
             name = data['payerName']
             status = self._translate_lov('status', int(data['payerStatus']))
@@ -764,7 +764,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (id == None):
-                self._payerError.set_value('Payer not created')
+                self._payerError.set_value(self._mh._trn.msg('te_gui_entity_not_created', 'Payer'))
             else:
                 self._payerId.set_value(id)
                 self._payerName.set_value(name)
@@ -786,11 +786,11 @@ class GuiHandler(object):
         """
 
         if (data['payerId'] == ''):
-            self._payerError.set_value('ID is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         elif (data['payerName'] == ''):
-            self._payerError.set_value('Name is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         elif (data['payerCustomer'] == ''):
-            self._payerError.set_value('Customer is mandatory')
+            self._payerError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer'))
         else:
             id = int(data['payerId'])
             name = data['payerName']
@@ -804,7 +804,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._payerError.set_value('Payer not changed')
+                self._payerError.set_value(self._mh._trn.msg('te_gui_entity_not_changed', 'Payer'))
             else:
                 self._payerId.set_value(id)
                 self._payerName.set_value(name)
@@ -826,7 +826,7 @@ class GuiHandler(object):
         """
 
         if (data['subscriberId'] == ''):
-            self._subscriberError.set_value('ID is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         else:
             id = int(data['subscriberId'])
             db = self._get_db()
@@ -834,7 +834,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (subscriber == None):
-                self._subscriberError.set_value('Subscriber {0} unknown'.format(id))
+                self._subscriberError.set_value(self._mh._trn.msg('te_gui_unknown_entity', 'Subscriber', id))
             else:
                 self._subscriberId.set_value(subscriber.id)
                 self._subscriberName.set_value(subscriber.name)
@@ -858,13 +858,13 @@ class GuiHandler(object):
         """
 
         if (data['subscriberName'] == ''):
-            self._subscriberError.set_value('Name is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         elif (data['subscriberMsisdn'] == ''):
-            self._subscriberError.set_value('MSISDN is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'MSISDN'))
         elif (data['subscriberCustomer'] == ''):
-            self._subscriberError.set_value('Customer is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer'))
         elif (data['subscriberPayer'] == ''):
-            self._subscriberError.set_value('Payer is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Payer'))
         else:
             name = data['subscriberName']
             msisdn = data['subscriberMsisdn']
@@ -879,7 +879,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (id == None):
-                self._subscriberError.set_value('Subscriber not created')
+                self._subscriberError.set_value(self._mh._trn.msg('te_gui_entity_not_created', 'Subscriber'))
             else:
                 self._subscriberId.set_value(id)
                 self._subscriberName.set_value(name)
@@ -903,15 +903,15 @@ class GuiHandler(object):
         """
 
         if (data['subscriberId'] == ''):
-            self._subscriberError.set_value('ID is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         elif (data['subscriberName'] == ''):
-            self._subscriberError.set_value('Name is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         elif (data['subscriberMsisdn'] == ''):
-            self._subscriberError.set_value('MSISDN is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'MSISDN'))
         elif (data['subscriberCustomer'] == ''):
-            self._subscriberError.set_value('Customer is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer'))
         elif (data['subscriberPayer'] == ''):
-            self._subscriberError.set_value('Payer is mandatory')
+            self._subscriberError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Payer'))
         else:
             id = int(data['subscriberId'])
             name = data['subscriberName']
@@ -927,7 +927,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._subscriberError.set_value('Subscriber not changed')
+                self._subscriberError.set_value(self._mh._trn.msg('te_gui_entity_not_changed', 'Subscriber'))
             else:
                 self._subscriberId.set_value(id)
                 self._subscriberName.set_value(name)
@@ -951,7 +951,7 @@ class GuiHandler(object):
         """
 
         if (data['contactId'] == ''):
-            self._contactError.set_value('ID is mandatory')
+            self._contactError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         else:
             id = int(data['contactId'])
             db = self._get_db()
@@ -959,7 +959,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (contact == None):
-                self._contactError.set_value('Contact {0} unknown'.format(id))
+                self._contactError.set_value(self._mh._trn.msg('te_gui_unknown_entity', 'Contact', id))
             else:
                 self._contactId.set_value(contact.id)
                 self._contactName.set_value(contact.name)
@@ -985,7 +985,7 @@ class GuiHandler(object):
         """
 
         if (data['contactName'] == ''):
-            self._contactError.set_value('Name is mandatory')
+            self._contactError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         else:
             name = data['contactName']
             phone = data['contactPhone']
@@ -996,7 +996,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (id == None):
-                self._contactError.set_value('Contact not created')
+                self._contactError.set_value(self._mh._trn.msg('te_gui_entity_not_created', 'Contact'))
             else:
                 self._contactId.set_value(id)
                 self._contactName.set_value(name)
@@ -1016,9 +1016,9 @@ class GuiHandler(object):
         """
 
         if (data['contactId'] == ''):
-            self._contactError.set_value('ID is mandatory')
+            self._contactError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         elif (data['contactName'] == ''):
-            self._contactError.set_value('Name is mandatory')
+            self._contactError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Name'))
         else:
             id = int(data['contactId'])
             name = data['contactName']
@@ -1030,7 +1030,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._contactError.set_value('Contact not changed')
+                self._contactError.set_value(self._mh._trn.msg('te_gui_entity_not_changed', 'Contact'))
             else:
                 self._contactId.set_value(id)
                 self._contactName.set_value(name)
@@ -1050,9 +1050,9 @@ class GuiHandler(object):
         """
 
         if (data['contactId'] == ''):
-            self._contactRoleError.set_value('Contact is mandatory')
+            self._contactRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Contact'))
         elif (data['contactRoleCustomer'] == '' and data['contactRolePayer'] == '' and data['contactRoleSubscriber'] == ''):
-            self._contactRoleError.set_value('Customer or payer or subscriber is mandatory')
+            self._contactRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer|Payer|Subscriber'))
         else:
             id = int(data['contactId'])
             role = self._translate_lov('contact_role', int(data['contactRoleTitle']))
@@ -1065,7 +1065,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._contactRoleError.set_value('Contact role not assigned')
+                self._contactRoleError.set_value(self._mh._trn.msg('te_gui_role_not_assigned', 'Contact'))
             else:
                 self._contactId.set_value(id)
                 self._contactRoleTitle.set_value(int(data['contactRoleTitle']))
@@ -1088,9 +1088,9 @@ class GuiHandler(object):
         """
 
         if (data['contactId'] == ''):
-            self._contactRoleError.set_value('Contact is mandatory')
+            self._contactRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Contact'))
         elif (data['contactRoleCustomer'] == '' and data['contactRolePayer'] == '' and data['contactRoleSubscriber'] == ''):
-            self._contactRoleError.set_value('Customer or payer or subscriber is mandatory')
+            self._contactRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Customer|Payer|Subscriber'))
         else:
             id = int(data['contactId'])
             role = self._translate_lov('contact_role', int(data['contactRoleTitle']))
@@ -1103,7 +1103,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._contactRoleError.set_value('Contact role not revoked')
+                self._contactRoleError.set_value(self._mh._trn.msg('te_gui_role_not_revoked', 'Contact'))
             else:
                 self._contactId.set_value(id)
                 self._contactRoleTitle.set_value(int(data['contactRoleTitle']))
@@ -1134,7 +1134,7 @@ class GuiHandler(object):
         """
 
         if (data['addressId'] == ''):
-            self._addressError.set_value('ID is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
         else:
             id = int(data['addressId'])
             db = self._get_db()
@@ -1142,7 +1142,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (address == None):
-                self._addressError.set_value('Address {0} unknown'.format(id))
+                self._addressError.set_value(self._mh._trn.msg('te_gui_unknown_entity', 'Address', id))
             else:
                 self._addressId.set_value(address.id)
                 self._addressStreet.set_value(address.street)
@@ -1169,13 +1169,13 @@ class GuiHandler(object):
         """
 
         if (data['addressStreet'] == ''):
-            self._addressError.set_value('Street is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Street'))
         elif (data['addressStreetNumber'] == ''):
-            self._addressError.set_value('Street number is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Street number'))
         elif (data['addressCity'] == ''):
-            self._addressError.set_value('City is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'City'))
         elif (data['addressZip'] == ''):
-            self._addressError.set_value('ZIP is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ZIP'))
         else:
             street = data['addressStreet']
             street_no = data['addressStreetNumber']
@@ -1187,7 +1187,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (id == None):
-                self._addressError.set_value('Address not created')
+                self._addressError.set_value(self._mh._trn.msg('te_gui_entity_not_created', 'Address'))
             else:
                 self._addressId.set_value(id)
                 self._addressStreet.set_value(street)
@@ -1208,13 +1208,15 @@ class GuiHandler(object):
         """
 
         if (data['addressId'] == ''):
-            self._addressError.set_value('ID is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ID'))
+        elif (data['addressStreet'] == ''):
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Street'))
         elif (data['addressStreetNumber'] == ''):
-            self._addressError.set_value('Street number is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Street number'))
         elif (data['addressCity'] == ''):
-            self._addressError.set_value('City is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'City'))
         elif (data['addressZip'] == ''):
-            self._addressError.set_value('ZIP is mandatory')
+            self._addressError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'ZIP'))
         else:
             id = int(data['addressId'])
             street = data['addressStreet']
@@ -1227,7 +1229,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._addressError.set_value('Address not changed')
+                self._addressError.set_value(self._mh._trn.msg('te_gui_entity_not_changed', 'Address'))
             else:
                 self._addressId.set_value(id)
                 self._addressStreet.set_value(street)
@@ -1248,10 +1250,10 @@ class GuiHandler(object):
         """
 
         if (data['addressId'] == ''):
-            self._addressRoleError.set_value('Address is mandatory')
+            self._addressRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'IAddressD'))
         elif (data['addressRoleContact'] == '' and data['addressRoleCustomer'] == ''
               and data['addressRolePayer'] == '' and data['addressRoleSubscriber'] == ''):
-            self._contactRoleError.set_value('Contact or customer or payer or subscriber is mandatory')
+            self._contactRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Contact|Customer|Payer|Subscriber'))
         else:
             id = int(data['addressId'])
             role = self._translate_lov('address_role', int(data['addressRoleTitle']))
@@ -1265,7 +1267,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._addressRoleError.set_value('Address role not assigned')
+                self._addressRoleError.set_value(self._mh._trn.msg('te_gui_role_not_assigned', 'Address'))
             else:
                 self._addressId.set_value(id)
                 self._addressRoleTitle.set_value(int(data['addressRoleTitle']))
@@ -1289,10 +1291,10 @@ class GuiHandler(object):
         """
 
         if (data['addressId'] == ''):
-            self._addressRoleError.set_value('Address is mandatory')
+            self._addressRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Address'))
         elif (data['addressRoleContact'] == '' and data['addressRoleCustomer'] == '' and
               data['addressRolePayer'] == '' and data['addressRoleSubscriber'] == ''):
-            self._addressRoleError.set_value('Contact or customer or payer or subscriber is mandatory')
+            self._addressRoleError.set_value(self._mh._trn.msg('te_gui_mandatory_param', 'Contact|Customer|Payer|Subscriber'))
         else:
             id = int(data['addressId'])
             role = self._translate_lov('address_role', int(data['addressRoleTitle']))
@@ -1306,7 +1308,7 @@ class GuiHandler(object):
             db.disconnect()
 
             if (not res):
-                self._addressRoleError.set_value('Address role not revoked')
+                self._addressRoleError.set_value(self._mh._trn.msg('te_gui_role_not_revoked', 'Address'))
             else:
                 self._addressId.set_value(id)
                 self._addressRoleTitle.set_value(int(data['addressRoleTitle']))

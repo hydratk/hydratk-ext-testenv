@@ -115,7 +115,7 @@ class SoapHandler(object):
             el_action = self._ns1 + action
 
             if (action == None):
-                return self._fault('Missing SOAPAction')
+                return self._fault(self._mh._trn.msg('te_soap_missing_soapaction'))
             elif (action == 'read_customer'):
                 return self.read_customer(doc.Body[el_action])
             elif (action == 'create_customer'):
@@ -161,12 +161,12 @@ class SoapHandler(object):
             elif (action == 'change_service'):
                 return self.change_service(doc.Body[el_action])
             else:
-                return self._fault('Invalid SOAPAction {0}'.format(action))
+                return self._fault(self._mh._trn.msg('te_soap_invalid_soapction', action))
 
         except XMLSyntaxError as ex:
             self._mh.demsg(
                 'htk_on_extension_error', 'XML error: {0}'.format(ex), self._mh.fromhere())
-            return self._fault('Invalid XML - ' + ex)
+            return self._fault(self._mh._trn.msg('te_soap_invalid_xml', ex))
 
     def read_customer(self, doc):
         """Method handles read_customer request         
@@ -212,7 +212,7 @@ class SoapHandler(object):
         if (customer != None):
             return self._response('read_customer', customer.toxml())
         else:
-            return self._fault('Customer {0} not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'customer', id))
 
     def create_customer(self, doc):
         """Method handles create_customer request         
@@ -263,7 +263,7 @@ class SoapHandler(object):
             elem.text = str(id)
             return self._response('create_customer', elem)
         else:
-            return self._fault('Customer not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'customer'))
 
     def change_customer(self, doc):
         """Method handles change_customer request         
@@ -316,7 +316,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_customer', elem)
         else:
-            return self._fault('Customer not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'customer'))
 
     def read_payer(self, doc):
         """Method handles read_payer request         
@@ -361,7 +361,7 @@ class SoapHandler(object):
         if (payer != None):
             return self._response('read_payer', payer.toxml())
         else:
-            return self._fault('Payer {0} not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'payer', id))
 
     def create_payer(self, doc):
         """Method handles create_payer request         
@@ -411,7 +411,7 @@ class SoapHandler(object):
             elem.text = str(id)
             return self._response('create_payer', elem)
         else:
-            return self._fault('Payer not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'payer'))
 
     def change_payer(self, doc):
         """Method handles change_payer request         
@@ -464,7 +464,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_payer', elem)
         else:
-            return self._fault('Payer not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'payer'))
 
     def read_subscriber(self, doc):
         """Method handles read_csubscriber request         
@@ -511,7 +511,7 @@ class SoapHandler(object):
         if (subscriber != None):
             return self._response('read_subscriber', subscriber.toxml())
         else:
-            return self._fault('Subscriber {0} not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'subscriber', id))
 
     def create_subscriber(self, doc):
         """Method handles create_subscriber request         
@@ -564,7 +564,7 @@ class SoapHandler(object):
             elem.text = str(id)
             return self._response('create_subscriber', elem)
         else:
-            return self._fault('Subscriber not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'subscriber'))
 
     def change_subscriber(self, doc):
         """Method handles change_subscriber request         
@@ -619,7 +619,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_subscriber', elem)
         else:
-            return self._fault('Subscriber not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'subscriber'))
 
     def read_contact(self, doc):
         """Method handles read_contact request         
@@ -671,7 +671,7 @@ class SoapHandler(object):
         if (contact != None):
             return self._response('read_contact', contact.toxml())
         else:
-            return self._fault('Contact {0} not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'contact', id))
 
     def create_contact(self, doc):
         """Method handles create_contact request         
@@ -715,7 +715,7 @@ class SoapHandler(object):
             elem.text = str(id)
             return self._response('create_contact', elem)
         else:
-            return self._fault('Contact not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'contact'))
 
     def change_contact(self, doc):
         """Method handles change_contact request         
@@ -761,7 +761,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_contact', elem)
         else:
-            return self._fault('Contact not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'contact'))
 
     def assign_contact_role(self, doc):
         """Method handles assign_contact_role request         
@@ -810,7 +810,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('assign_contact_role', elem)
         else:
-            return self._fault('Contact role not assigned')
+            return self._fault(self._mh._trn.msg('te_soap_role_not_assigned', 'contact'))
 
     def revoke_contact_role(self, doc):
         """Method handles revoke_contact_role request         
@@ -859,7 +859,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('revoke_contact_role', elem)
         else:
-            return self._fault('Contact role not revoked')
+            return self._fault(self._mh._trn.msg('te_soap_role_not_revoked', 'contact'))
 
     def read_address(self, doc):
         """Method handles read_address request         
@@ -913,7 +913,7 @@ class SoapHandler(object):
         if (address != None):
             return self._response('read_address', address.toxml())
         else:
-            return self._fault('Address {0} not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'address', id))
 
     def create_address(self, doc):
         """Method handles create_address request         
@@ -960,7 +960,7 @@ class SoapHandler(object):
             elem.text = str(id)
             return self._response('create_address', elem)
         else:
-            return self._fault('Address not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'address'))
 
     def change_address(self, doc):
         """Method handles change_address request         
@@ -1009,7 +1009,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_address', elem)
         else:
-            return self._fault('Address not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'address'))
 
     def assign_address_role(self, doc):
         """Method handles assign_address_role request         
@@ -1061,7 +1061,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('assign_address_role', elem)
         else:
-            return self._fault('Address role not assigned')
+            return self._fault(self._mh._trn.msg('te_soap_role_not_assigned', 'address'))
 
     def revoke_address_role(self, doc):
         """Method handles revoke_address_role request         
@@ -1113,7 +1113,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('revoke_address_role', elem)
         else:
-            return self._fault('Address role not revoked')
+            return self._fault(self._mh._trn.msg('te_soap_role_not_revoked', 'address'))
 
     def read_services(self, doc):
         """Method handles read_services request         
@@ -1175,7 +1175,7 @@ class SoapHandler(object):
 
             return self._response('read_services', elem)
         else:
-            return self._fault('Service not found'.format(id))
+            return self._fault(self._mh._trn.msg('te_soap_unknown_entity', 'service', id))
 
     def create_service(self, doc):
         """Method handles create_service request         
@@ -1236,7 +1236,7 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('create_service', elem)
         else:
-            return self._fault('Service not created')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_created', 'service'))
 
     def change_service(self, doc):
         """Method handles change_service request         
@@ -1297,4 +1297,4 @@ class SoapHandler(object):
             elem.text = 'true'
             return self._response('change_service', elem)
         else:
-            return self._fault('Service not changed')
+            return self._fault(self._mh._trn.msg('te_soap_entity_not_changed', 'service'))

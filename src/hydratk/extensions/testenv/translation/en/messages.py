@@ -49,7 +49,20 @@ msg = {
     'te_soap_unknown_entity': ["Unknown entity: '{0}' with ID: '{1}'"],
     'te_soap_entity_found': ["Found entity: '{0}' with params: '{1}'"],
     'te_soap_entity_created': ["Created entity: '{0}' with ID: '{1}'"],
+    'te_soap_entity_not_created': ["Entity {0} not created"],
     'te_soap_entity_changed': ["Changed entity: '{0}' with ID: '{1}'"],
+    'te_soap_entity_not_changed': ["Entity {0} not changed"],
     'te_soap_role_assigned': ["Role assigned to entity: '{0}'"],
-    'te_soap_role_revoked': ["Role revoked from entity: '{0}'"]
+    'te_soap_role_not_assigned': ["Role not assigned to entity {0}"],
+    'te_soap_role_revoked': ["Role revoked from entity: '{0}'"],
+    'te_soap_role_not_revoked': ["Role not revoked from entity {0}"],
+    'te_soap_invalid_xml': ["Invalid XML - {0}"],
+    'te_soap_missing_soapaction': ["Missing SOAPAction"],
+    'te_soap_invalid_soapaction': ["Invalid SOAPAction {0}"],
+    'te_gui_mandatory_param': ["Parameter {0} is mandatory"],
+    'te_gui_unknown_entity': ["Unknown entity {0} with ID {1}"],
+    'te_gui_entity_not_created': ["Entity {0} not created"],
+    'te_gui_entity_not_changed': ["Entity {0} not changed"],
+    'te_gui_role_not_assigned': ["Role not assigned to entity {0}"],
+    'te_gui_role_not_revoked': ["Role not revoked from entity {0}"]
 }

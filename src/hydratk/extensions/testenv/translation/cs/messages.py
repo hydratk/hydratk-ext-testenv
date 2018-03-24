@@ -49,7 +49,20 @@ msg = {
     'te_soap_unknown_entity': ["Neznámá entita: '{0}' s ID: '{1}'"],
     'te_soap_entity_found': ["Nalezena entita: '{0}' s parametry: '{1}'"],
     'te_soap_entity_created': ["Vytvořena entita: '{0}' s ID: '{1}'"],
+    'te_soap_entity_not_created': ["Entita {0} nebyla vytvořena"],
     'te_soap_entity_changed': ["Změněna entita: '{0}' s ID: '{1}'"],
-    'te_soap_role_assigned': ["Přidělěna role k entitě: '{0}'"],
-    'te_soap_role_revoked': ["Odebrána rola z entity: '{0}'"]
+    'te_soap_entity_not_changed': ["Entita {0} nebyla změněna"],
+    'te_soap_role_assigned': ["Přidělena role k entitě: '{0}'"],
+    'te_soap_role_not_assigned': ["Role nebyla přidělena k entitě {0}"],
+    'te_soap_role_revoked': ["Odebrána rola z entity: '{0}'"],
+    'te_soap_role_not_revoked': ["Role nebyla odebrána z entity {0}"],
+    'te_soap_invalid_xml': ["Neplatné XML - {0}"],
+    'te_soap_missing_soapaction': ["Chybí SOAPAction"],
+    'te_soap_invalid_soapaction': ["Neplatná SOAPAction {0}"],
+    'te_gui_mandatory_param': ["Parametr {0} je povinný"],
+    'te_gui_unknown_entity': ["Neznámá entita {0} s ID {1}"],
+    'te_gui_entity_not_created': ["Entita {0} nebyla vytvořena"],
+    'te_gui_entity_not_changed': ["Entita {0} nebyla změněna"],
+    'te_gui_role_not_assigned': ["Role nebyla přidělena k entitě {0}"],
+    'te_gui_role_not_revoked': ["Role nebyla odebrána z entity {0}"]
 }
