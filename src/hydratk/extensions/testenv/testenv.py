@@ -83,7 +83,7 @@ class Extension(extension.Extension):
         """
 
         files = [
-            '/usr/share/man/man1/testenv.1',
+            '{0}/share/man/man1/testenv.1'.format(syscfg.HTK_USR_DIR),
             '{0}/hydratk/conf.d/hydratk-ext-testenv.conf'.format(syscfg.HTK_ETC_DIR),
             '{0}/hydratk/testenv'.format(syscfg.HTK_VAR_DIR)
         ]
